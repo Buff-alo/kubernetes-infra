@@ -1,0 +1,17 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nginx-ingress
+  namespace: default
+spec:
+  entryPoints:
+     - web
+     - websecure
+  routes:
+    - match: Host(`ng.kwadwolabs.cloud`)
+      kind: Rule
+      services:
+        - name: nginx-service
+          port: 80
+  tls:
+    certResolver: myresolver

@@ -1,0 +1,45 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: traefik-public-role
+rules:
+  # Core K8s resources
+  - apiGroups: [""]
+    resources:
+      - services
+      - endpoints
+      - secrets
+    verbs: ["get", "list", "watch"]
+
+  - apiGroups: ["discovery.k8s.io"]
+    resources:
+      - endpointslices
+    verbs: ["get", "list", "watch"]
+
+  # Traefik CRDs
+  - apiGroups: ["traefik.containo.us", "traefik.io"]
+    resources:
+      - ingressroutes
+      - ingressroutetcps
+      - ingressrouteudps
+      - middlewares
+      - middlewaretcps
+      - tlsoptions
+      - tlsstores
+      - traefikservices
+      - serverstransports
+    verbs: ["get", "list", "watch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: traefik-public-binding
+subjects:
+  - kind: ServiceAccount
+    name: traefik-public
+    namespace: traefik-public
+roleRef:
+  kind: ClusterRole
+  name: traefik-public-role
+  apiGroup: rbac.authorization.k8s.io

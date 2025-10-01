@@ -1,93 +1,262 @@
 # Kubernetes-infra
+# 🌐 Multicloud K3s Cluster — AWS Control Plane + GCP Worker (Tailscale Network)
+
+This document outlines the steps and prerequisites for setting up a **multicloud Kubernetes (K3s)** cluster with:
+
+* 🟡 **AWS** (Control Plane)
+* 🔵 **GCP** (Worker Node)
+* 🧠 **K3s** for lightweight Kubernetes
+* 🌍 **Tailscale** for secure cross-cloud networking
+
+> ⚠️ This setup is meant for **personal labs** and **free-tier resources**. It is **not production-grade**.
+
+---
+
+## 📝 Prerequisites
+
+* ✅ AWS account (Free Tier enabled)
+* ✅ GCP account (Free Tier enabled)
+* ✅ Basic Linux command-line experience
+* ✅ Tailscale account (Free or Personal Plan)
+* 🧠 SSH access to both instances
+* ⚡ Stable Internet connection
+
+---
+
+## 🧱 Infrastructure Overview
+
+| Role           | Provider | Instance Type | OS     | Network       |
+| -------------- | -------- | ------------- | ------ | ------------- |
+| Control Plane  | AWS      | t3.micro      | Ubuntu | Tailscale VPN |
+| Worker Node #1 | GCP      | e2-micro      | Ubuntu | Tailscale VPN |
+
+* K3s is installed on both nodes.
+* Tailscale provides the secure private network between clouds.
+* Worker nodes join the control plane using the **Tailscale IP**.
+
+---
+
+## ⚙️ 1. Provision the Instances
+
+### AWS — Control Plane
+
+* Launch a **t3.micro** Ubuntu instance.
+* Allow inbound SSH (port 22) from your IP.
+* Update system:
+
+  ```bash
+  sudo apt update && sudo apt upgrade -y
+  ```
+
+### GCP — Worker Node
+
+* Launch an **e2-micro** Ubuntu instance.
+* Allow inbound SSH.
+* Update system:
+
+  ```bash
+  sudo apt update && sudo apt upgrade -y
+  ```
+
+---
+
+## 🔐 2. Install and Configure Tailscale
+
+Install Tailscale on **both nodes**:
+
+```bash
+curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale up --authkey=<YOUR_TAILSCALE_AUTH_KEY> --hostname=<HOSTNAME>
+```
+
+* Example:
+
+  * Control plane → `kls-controlplane-01`
+  * Worker node → `kls-worker-01`
+
+Verify connectivity:
+
+```bash
+tailscale ip -4
+ping <tailscale-ip-of-other-node>
+```
+
+---
+
+## 🧠 3. Install K3s (Control Plane)
+
+Run the following on the **AWS control plane**:
+
+```bash
+curl -sfL https://get.k3s.io | sh -
+```
+
+Check status:
+
+```bash
+sudo k3s kubectl get nodes
+```
+
+Retrieve the join token:
+
+```bash
+sudo cat /var/lib/rancher/k3s/server/node-token
+```
+
+Get the **Tailscale IP** of the control plane (e.g., `100.x.x.x`):
+
+```bash
+tailscale ip -4
+```
+
+---
+
+## 🧠 4. Install K3s (Worker Node)
+
+### Control Plane (AWS)
+
+1. Create `/etc/rancher/k3s/config.yaml` file for K3s server configuration.
+2. Include relevant configurations such as:
+
+   ```yaml
+   # /etc/rancher/k3s/config.yaml
+    write-kubeconfig-mode: "0644"
+    node-name: kls-controlplane-01
+    node-ip: 100.x.y.z           # Tailscale IP of control plane
+    advertise-address: 100.x.y.z # Tailscale IP for other nodes to connect
+    bind-address: 0.0.0.0
+    cluster-cidr: 10.42.0.0/16
+    service-cidr: 10.43.0.0/16
+    disable-cloud-controller: true
+    flannel-iface: tailscale0           # Flannel to tailscale interface                     # if you're running Traefik separately as a Docker container
+    tls-san:
+    - 100.x.y.z                # Tailscale IP
+    - kls-controlplane-01
+   ```
+3. Install K3s using:
+
+   ```bash
+   curl -sfL https://get.k3s.io | sh -
+   ```
+4. Verify K3s server is running:
+
+   ```bash
+   sudo systemctl status k3s
+   kubectl get nodes
+   ```
+
+### Worker Node (GCP)
+
+1. Create `/etc/rancher/k3s/config.yaml` file for K3s agent configuration.
+2. Include server URL and token:
+
+   ```yaml
+   # Example config
+   # /etc/rancher/k3s/config.yaml
+    server: https://100.x.y.z:6443   # Tailscale IP of control plane
+    token: YOUR_CLUSTER_TOKEN           # from /var/lib/rancher/k3s/server/node-token on control plane
+    node-name: kls-worker-01.us-west1-c.c.kwadwolabs.internal
+    node-ip: 100.x.y.z              # Tailscale IP of this worker
+    flannel-iface: tailscale0           # Flannel to tailscale interface
+    ```
+3. Install K3s agent using:
+
+   ```bash
+   curl -sfL https://get.k3s.io | K3S_URL=https://<control-plane-tailscale-ip>:6443 K3S_TOKEN=<node-token> sh -
+   ```
+4. Verify node has joined the cluster:
+
+   ```bash
+   kubectl get nodes
 
 
+## 📦 5. Deploy a Test Application
 
-## Getting started
+On the **control plane**, deploy Nginx:
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+```bash
+kubectl create deployment nginx --image=nginx
+kubectl expose deployment nginx --port=80 --type=NodePort
+kubectl get pods -o wide
+```
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+Find the **worker node** Tailscale IP and the **NodePort** assigned (e.g., `30080`):
 
-## Add your files
+```bash
+kubectl get svc
+```
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+Access it from your local machine via:
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/devops-group3582720/kubernetes-infra.git
-git branch -M main
-git push -uf origin main
+http://<worker-tailscale-ip>:<nodeport>
 ```
 
-## Integrate with your tools
+---
 
-- [ ] [Set up project integrations](https://gitlab.com/devops-group3582720/kubernetes-infra/-/settings/integrations)
+## 🗃 6. Persistence Pattern (To Implement Later)
 
-## Collaborate with your team
+Two main approaches for persistent storage in a multicloud lab:
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+1. **External Managed DB (Recommended)**
 
-## Test and Deploy
+   * Use AWS RDS, GCP Cloud SQL, or similar free-tier managed database.
+   * Configure your apps to connect to it via private/public endpoint.
 
-Use the built-in continuous integration in GitLab.
+2. **PV-backed In-Cluster Database** *(Advanced)*
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+   * Deploy PostgreSQL/MySQL inside the cluster.
+   * Use cloud-specific storage backends for PVs:
 
-***
+     * AWS → EBS
+     * GCP → Persistent Disk
+   * Or use a portable storage solution like **NFS**, **Longhorn**, or **Rook/Ceph** across nodes.
 
-# Editing this README
+> For now, this setup only documents the pattern; storage classes and PV provisioning are not implemented yet.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+---
 
-## Suggestions for a good README
+## 🧹 Cleanup
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+To tear down:
 
-## Name
-Choose a self-explaining name for your project.
+```bash
+# On worker
+sudo k3s-killall.sh
+sudo k3s-uninstall.sh
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+# On control plane
+sudo k3s-killall.sh
+sudo k3s-uninstall.sh
+```
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+Delete your instances from AWS & GCP to avoid charges.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+---
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+## 🧠 Notes & Tips
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+* Both nodes are **tiny** (1 vCPU / ~1 GB RAM), so keep workloads minimal.
+* Tailscale allows cross-cloud communication without exposing control plane to the public Internet.
+* If control plane goes offline, the cluster becomes **unmanageable**, even if worker pods keep running.
+* Adding more worker nodes is as simple as repeating the **join command** on additional instances.
+* This setup uses a stretched cluster across different cloud providers.
+* K3s configuration is centralized in `/etc/rancher/k3s/config.yaml`.
+* Tailscale provides secure networking between nodes.
+* This documentation serves as a reference pattern for multicloud Kubernetes deployment.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+---
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+## 🧭 Next Steps
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+* ✅ Add more worker nodes (e.g., Azure, local laptop, Oracle free tier)
+* ✅ Set up a **LoadBalancer** alternative (e.g., MetalLB) for multi-node service access
+* ✅ Configure **Persistent Volumes**
+* ✅ Add **Ingress Controller** (Traefik / NGINX) for better routing
+* ✅ Automate provisioning with Terraform & Ansible
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+---
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+**Author:** Kwadwo Ofosu Boakye
+**Use Case:** Personal Multicloud Kubernetes Lab 🧪
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.

@@ -233,6 +233,7 @@ Delete your instances from AWS & GCP to avoid charges.
 - This setup uses a stretched cluster across different cloud providers.
 - K3s configuration is centralized in `/etc/rancher/k3s/config.yaml`.
 - Tailscale provides secure networking between nodes.
+- Don't forget to configure cni's to use taiscale interface (check kube-flannel)
 - This documentation serves as a reference pattern for multicloud Kubernetes deployment.
 
 ---

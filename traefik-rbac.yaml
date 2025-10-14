@@ -9,6 +9,8 @@ rules:
       - services
       - endpoints
       - secrets
+      - nodes
+      - configmaps
     verbs: ["get", "list", "watch"]
 
   - apiGroups: ["discovery.k8s.io"]
@@ -28,6 +30,7 @@ rules:
       - tlsstores
       - traefikservices
       - serverstransports
+      - serverstransporttcps
     verbs: ["get", "list", "watch"]
 
 ---

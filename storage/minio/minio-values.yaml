@@ -1,0 +1,25 @@
+# minio-values.yaml
+accessKey: "minioadmin"
+secretKey: "minioadmin123"
+persistence:
+  enabled: true
+  existingClaim: ""        # leave empty to let Helm create PVCs
+  storageClass: "longhorn"
+  size: 10Gi
+replicas: 1
+resources:
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: 1
+    memory: 1Gi
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: storage
+          operator: In
+          values:
+          - worker-storage

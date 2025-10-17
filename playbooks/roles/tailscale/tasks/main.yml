@@ -1,0 +1,136 @@
+---
+# 1. Ensure dependencies are installed (for adding repos and HTTPS)
+- name: Install repository dependencies
+  ansible.builtin.package:
+    name:
+      - apt-transport-https
+      - gnupg
+      - curl
+      - ca-certificates
+    state: present
+  when: ansible_os_family == "Debian"
+
+# 2. Add Tailscale’s GPG key (noarmor format)
+- name: Add Tailscale GPG key
+  ansible.builtin.get_url:
+    url: "https://pkgs.tailscale.com/stable/ubuntu/{{ ansible_distribution_release }}.noarmor.gpg"
+    dest: /usr/share/keyrings/tailscale-archive-keyring.gpg
+    mode: "0644"
+    owner: root
+    group: root
+    force: true
+  when: ansible_os_family == "Debian"
+
+# 3. Add the Tailscale stable repository
+- name: Add Tailscale apt repository
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/tailscale.list
+    content: |
+      deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/ubuntu {{ ansible_distribution_release }} main
+    owner: root
+    group: root
+    mode: "0644"
+  when: ansible_os_family == "Debian"
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+  when: ansible_os_family == "Debian"
+
+# 4. Install Tailscale
+- name: Install tailscale
+  ansible.builtin.package:
+    name: tailscale
+    state: present
+
+# 5. Enable and start tailscaled
+- name: Enable and start tailscaled service
+  ansible.builtin.systemd:
+    name: tailscaled
+    state: started
+    enabled: true
+
+- name: Remove existing Tailscale state file
+  ansible.builtin.file:
+    path: /var/lib/tailscale/tailscaled.state
+    state: absent
+  when:
+    - tailscale_auth_key is defined
+    - tailscale_auth_key | length > 0
+
+- name: Connect node to Tailscale network
+  ansible.builtin.command: >
+    tailscale up
+    --auth-key={{ tailscale_auth_key }}
+    {% if tailscale_enable_ssh | default(true) %}--ssh{% endif %}
+    --hostname={{ inventory_hostname }}
+  register: tailscale_up_result
+  when:
+    - tailscale_auth_key is defined
+    - tailscale_auth_key | length > 0
+  failed_when: tailscale_up_result.rc != 0
+  changed_when: tailscale_up_result.rc == 0
+
+- name: Debug tailscale up failure
+  ansible.builtin.debug:
+    msg: "tailscale up failed: {{ tailscale_up_result.stderr }}"
+  when: tailscale_up_result.rc != 0
+
+- name: Retrieve Tailscale IPv4
+  ansible.builtin.command: tailscale ip -4
+  register: tailscale_ip_result
+  until: tailscale_ip_result.rc == 0
+  retries: 5
+  delay: 3
+  changed_when: false
+  when:
+    - tailscale_auth_key is defined
+    - tailscale_auth_key | length > 0
+
+# 8. Save Tailscale IP as host fact
+- name: Set Tailscale IP fact
+  ansible.builtin.set_fact:
+    tailscale_ip: "{{ tailscale_ip_result.stdout | trim }}"
+    cacheable: true
+  when:
+    - tailscale_ip_result.stdout is defined
+    - tailscale_ip_result.stdout | length > 0
+
+# 9. Save Tailscale IPs to a file
+- name: Save Tailscale IPs to a file
+  ansible.builtin.copy:
+    # --- Start of content modification ---
+    content: |
+      {% set tailscale_map = {} %}
+      {% for host in groups['all'] %}
+      {% set ts_ip = hostvars[host]['ansible_facts']['tailscale0']['ipv4']['address'] | default(omit) %}
+      {% if ts_ip is defined %}
+      {% set _ = tailscale_map.update({hostvars[host]['inventory_hostname']: ts_ip}) %}
+      {% endif %}
+      {% endfor %}
+      # The file content must be a single YAML dictionary (map)
+      tailscale_ips: {{ tailscale_map | to_json }}
+    # --- End of content modification ---
+    dest: /tmp/tailscale_ips.yml
+    mode: '0644'
+  delegate_to: localhost
+  run_once: true
+  become: false
+
+
+- name: Collect and write Tailscale IPs to file
+  ansible.builtin.copy:
+    dest: /tmp/tailscale_ips.yml
+    mode: "0644"
+    content: "{{ dict(groups['all'] | zip(groups['all'] | map('extract', hostvars, 'tailscale_ip'))) | to_nice_yaml }}"
+
+# 10. Optionally rewrite /etc/hosts to reflect mesh
+- name: Update /etc/hosts with Tailscale mesh entries
+  ansible.builtin.blockinfile:
+    path: /etc/hosts
+    marker: "# {mark} ANSIBLE MANAGED (TAILSCALE)"
+    block: |
+      {% for host in groups['all'] %}
+      {{ hostvars[host].tailscale_ip | default('') }} {{ host }}
+      {% endfor %}
+  when: tailscale_ip is defined

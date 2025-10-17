@@ -2,5 +2,6 @@
     "yaml.schemas": {
         "url": "globPattern",
         "Kubernetes": "globPattern"
-    }
+    },
+    "ansible.python.interpreterPath": "/usr/bin/python"
 }

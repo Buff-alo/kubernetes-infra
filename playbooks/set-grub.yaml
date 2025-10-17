@@ -1,0 +1,55 @@
+---
+- name: Install generic kernel and configure GRUB
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+
+    - name: Install latest generic kernel
+      package:
+        name: 
+          - linux-generic
+          - linux-image-generic
+        state: present
+
+    - name: Reboot to activate new kernel
+      reboot:
+        msg: "Rebooting to activate generic kernel"
+        connect_timeout: 5
+        reboot_timeout: 300
+        pre_reboot_delay: 5
+        post_reboot_delay: 30
+
+    - name: Wait for system to become ready
+      wait_for_connection:
+        connect_timeout: 20
+        sleep: 5
+        delay: 5
+        timeout: 300
+
+    - name: Set GRUB to use generic kernel by finding latest one
+      shell: |
+        # Find the newest generic kernel in GRUB
+        grep "menuentry '" /boot/grub/grub.cfg | \
+        grep "generic" | \
+        grep -v "recovery mode" | \
+        tail -1 | \
+        sed "s/.*menuentry '\([^']*\)'.*/\1/"
+      register: latest_generic
+
+    - name: Configure GRUB to use generic kernel
+      lineinfile:
+        path: /etc/default/grub
+        regexp: "^GRUB_DEFAULT=.*"
+        line: 'GRUB_DEFAULT="Advanced options for Ubuntu>{{ latest_generic.stdout }}"'
+        backup: yes
+
+    - name: Update GRUB
+      command: update-grub
+
+    - name: Display result
+      debug:
+        msg: "Generic kernel installed and configured: {{ latest_generic.stdout }}"

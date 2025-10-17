@@ -1,0 +1,20 @@
+---
+- name: Update grub
+  ansible.builtin.command: update-grub
+  changed_when: true
+
+- name: Set grub boot to linux-generic
+  ansible.builtin.command: grub-reboot "Advanced options for Ubuntu>Ubuntu, with Linux 6.8.0-85-generic"
+  changed_when: true
+  when: ansible_architecture == 'aarch64'
+
+- name: Reboot host
+  ansible.builtin.reboot:
+    reboot_timeout: 300
+  when: kernel_install.changed or 'generic' not in current_kernel.stdout
+
+- name: Reload systemd-zram
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: systemd-zram-setup@zram0
+    state: restarted

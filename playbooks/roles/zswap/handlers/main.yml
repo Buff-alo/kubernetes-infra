@@ -1,0 +1,12 @@
+---
+# handlers/main.yml for zswap_config
+- name: Update grub
+  ansible.builtin.command: grub2-mkconfig -o /boot/grub2/grub.cfg
+  args:
+    creates: /boot/grub2/grub.cfg
+
+- name: Update grub (debian/ubuntu)
+  ansible.builtin.command: update-grub
+  args:
+    creates: /boot/grub/grub.cfg
+  when: ansible_os_family == "Debian"

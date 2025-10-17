@@ -142,7 +142,7 @@ tailscale ip -4
    # /etc/rancher/k3s/config.yaml
    server: https://100.x.y.z:6443 # Tailscale IP of control plane
    token: YOUR_CLUSTER_TOKEN # from /var/lib/rancher/k3s/server/node-token on control plane
-   node-name: kls-worker-01.us-west1-c.c.kwadwolabs.internal
+   node-name: YOUR_WORKER_NODE_NAME
    node-ip: 100.x.y.z # Tailscale IP of this worker
    flannel-iface: tailscale0 # Flannel to tailscale interface
    ```

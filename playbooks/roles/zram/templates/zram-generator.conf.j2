@@ -1,0 +1,4 @@
+[zram0]
+zram-size = ram * {{ zram_fraction | default('0.5') }}
+compression-algorithm = {{ zram_algorithm | default('lz4') }}
+swap-priority = {{ zram_priority | default(100) }}

@@ -1,0 +1,80 @@
+---
+- name: Install linux-generic kernel for zram support on arm64
+  ansible.builtin.package:
+    name: linux-generic
+    state: present
+  when: zram_enabled and ansible_architecture == 'aarch64'
+  register: kernel_install
+
+- name: Update GRUB configuration
+  ansible.builtin.copy:
+    content: |
+      GRUB_DEFAULT="Advanced options for Ubuntu>Ubuntu, with Linux 6.8.0-85-generic"
+      GRUB_TIMEOUT_STYLE=menu
+      GRUB_TIMEOUT=5
+      GRUB_DISTRIBUTOR=`( . /etc/os-release; echo ${NAME:-Ubuntu} ) 2>/dev/null || echo Ubuntu`
+      GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+      GRUB_CMDLINE_LINUX=""
+    dest: /etc/default/grub
+    mode: "0644"
+  when: zram_enabled and ansible_architecture == 'aarch64'
+  notify: Update grub
+
+- name: Set one-time boot to linux-generic kernel
+  ansible.builtin.command: grub-reboot "Advanced options for Ubuntu>Ubuntu, with Linux 6.8.0-85-generic"
+  changed_when: true
+  when: zram_enabled and ansible_architecture == 'aarch64'
+  notify: Reboot host
+
+- name: Check current kernel version
+  ansible.builtin.command: uname -r
+  register: zram_current_kernel
+  changed_when: false
+  when: zram_enabled and ansible_architecture == 'aarch64'
+
+- name: Reboot if kernel is not linux-generic
+  ansible.builtin.reboot:
+    reboot_timeout: 300
+  when:
+    - zram_enabled
+    - ansible_architecture == 'aarch64'
+    - kernel_install.changed or 'generic' not in zram_current_kernel.stdout
+  notify: Reload systemd-zram
+
+- name: Verify kernel is linux-generic with retries
+  ansible.builtin.command: uname -r
+  register: zram_kernel_check
+  until: '"generic" in zram_kernel_check.stdout'
+  retries: 3
+  delay: 60
+  when: zram_enabled and ansible_architecture == 'aarch64'
+  failed_when: '"generic" not in zram_kernel_check.stdout'
+  changed_when: false
+
+- name: Remove outdated zram-tools
+  ansible.builtin.package:
+    name: zram-tools
+    state: absent
+  when: zram_enabled
+
+- name: Install systemd-zram-generator
+  ansible.builtin.package:
+    name: systemd-zram-generator
+    state: present
+  when: zram_enabled
+
+- name: Configure /etc/systemd/zram-generator.conf
+  ansible.builtin.template:
+    src: zram-generator.conf.j2
+    dest: /etc/systemd/zram-generator.conf
+    mode: "0644"
+  when: zram_enabled
+  notify: Reload systemd-zram
+
+- name: Reload systemd daemon and start zram
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: systemd-zram-setup@zram0
+    enabled: "{{ zram_enabled }}"
+    state: "{{ 'started' if zram_enabled else 'stopped' }}"
+  when: zram_enabled

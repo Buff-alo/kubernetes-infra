@@ -1,0 +1,7 @@
+---
+# vars file for tailscale
+# IMPORTANT: This key should be secured using Ansible Vault in a production environment.
+tailscale_auth_key: "tskey-auth-k6jZETomL921CNTRL-Uom9v29GiuagiLD1hFBSuatU7GkVCpiTc"
+
+# Set to true to enable Tailscale SSH access during the 'up' command.
+tailscale_enable_ssh: true

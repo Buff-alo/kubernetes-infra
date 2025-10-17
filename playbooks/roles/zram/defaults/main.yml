@@ -1,0 +1,5 @@
+---
+zram_enabled: true
+zram_algorithm: "{{ 'lz4' if ansible_architecture == 'aarch64' else 'zstd' }}" # lz4 for arm64 (fast), zstd for amd64 (better compression)
+zram_fraction: 0.8 # Fraction of RAM (0.5 = 50%)
+zram_priority: 100 # Swap priority

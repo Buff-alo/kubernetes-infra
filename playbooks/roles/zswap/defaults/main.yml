@@ -1,0 +1,7 @@
+---
+# defaults file for zswap
+# Recommended Zswap settings
+zswap_enabled: "1"
+zswap_compressor: "zstd" # Use lz4 or zstd for better performance
+zswap_zpool: "zbud" # zbud (default) or zsmalloc
+zswap_max_pool_percent: "80" # Max 80% of system RAM for the compressed cache

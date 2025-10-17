@@ -1,0 +1,41 @@
+---
+# tasks/main.yml for zswap_config
+
+- name: Ensure kernel supports zswap (optional check)
+  # Zswap is usually built into modern Linux kernels (v3.11+)
+  # This task just checks for the kernel config file, which may not exist
+  # depending on the distribution.
+  ansible.builtin.stat:
+    path: /boot/config-{{ ansible_kernel }}
+  register: kernel_config_stat
+
+- name: Check if zswap is explicitly enabled in kernel config
+  ansible.builtin.shell: "grep CONFIG_ZSWAP=y {{ kernel_config_stat.stat.path }}"
+  when: kernel_config_stat.stat.exists
+  register: zswap_kernel_status
+  failed_when: zswap_kernel_status.rc not in [0, 1]
+  changed_when: false
+  ignore_errors: true
+  tags: check
+
+- name: Configure Zswap via GRUB kernel parameters
+  # This is the most reliable way to persistently enable zswap and set the compressor/zpool
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    # Matches GRUB_CMDLINE_LINUX="... anything ..."
+    regexp: '^(GRUB_CMDLINE_LINUX=".*)(")$'
+    # Appends zswap parameters before the closing double quote (")
+    # Note: Use '.*' to ensure idempotency and prevent multiple insertions.
+    line: '\1 zswap.enabled={{ zswap_enabled }} zswap.compressor={{ zswap_compressor }} zswap.zpool={{ zswap_zpool }}\2'
+    backrefs: true
+    state: present
+  notify: update grub
+
+- name: Configure Zswap maximum pool size at runtime
+  # This parameter controls the max RAM usage for the compressed cache.
+  # It's better controlled via sysctl for runtime adjustments.
+  ansible.posix.sysctl:
+    name: vm.zswap_max_pool_percent
+    value: "{{ zswap_max_pool_percent }}"
+    state: present
+    reload: true

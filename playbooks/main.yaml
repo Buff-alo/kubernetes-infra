@@ -1,0 +1,172 @@
+---
+- name: Update and Prepare All Nodes
+  hosts: all
+  become: true
+  gather_facts: true
+
+  pre_tasks:
+    - name: Ensure APT lock is not held
+      ansible.builtin.shell: |
+        while fuser /var/lib/dpkg/lock >/dev/null 2>&1 || \
+              fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+          echo "Waiting for apt lock..."
+          sleep 10
+        done
+      changed_when: false
+
+  tasks:
+    - name: Set hostname to match inventory name
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname }}"
+
+    - name: Update system packages
+      ansible.builtin.apt:
+        update_cache: true
+        upgrade: dist
+        cache_valid_time: 3600
+
+    - name: Install dependencies
+      ansible.builtin.apt:
+        name:
+          - git
+          - curl
+          - apt-transport-https
+          - ca-certificates
+          - software-properties-common
+        state: present
+
+- name: Install Docker
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install Docker dependencies
+      ansible.builtin.package:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+
+    - name: Create Docker GPG key directory
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: "0755"
+
+    - name: Download Docker's official GPG key
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/docker.asc
+        mode: "0644"
+
+    - name: Set Docker architecture
+      ansible.builtin.set_fact:
+        docker_architecture: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
+
+    - name: Set Docker repository release
+      ansible.builtin.set_fact:
+        docker_release: "{{ 'jammy' if ansible_architecture == 'x86_64' else ansible_distribution_release }}"
+
+    - name: Debug system architecture and release
+      ansible.builtin.debug:
+        msg: "Ansible Architecture: {{ ansible_architecture }}, Docker Architecture: {{ docker_architecture }}, Release: {{ docker_release }}"
+
+    - name: Add Docker repository to Apt sources
+      ansible.builtin.apt_repository:
+        repo: >
+          deb [arch={{ docker_architecture }} signed-by=/etc/apt/keyrings/docker.asc]
+          https://download.docker.com/linux/ubuntu
+          {{ docker_release }} stable
+        state: present
+        filename: docker
+
+    - name: Update apt cache after adding Docker repository
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+      retries: 3
+      delay: 5
+      register: apt_update
+      until: apt_update is success
+
+    - name: Install Docker from Ubuntu repository
+      ansible.builtin.package:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+      register: docker_package_install
+      ignore_errors: true
+
+    - name: Download Docker convenience script
+      ansible.builtin.get_url:
+        url: https://get.docker.com
+        dest: /tmp/get-docker.sh
+        mode: "0755"
+        force: true
+      when: docker_package_install.failed
+
+    - name: Run Docker convenience script
+      ansible.builtin.command:
+        cmd: /bin/sh /tmp/get-docker.sh
+      when: docker_package_install.failed
+      register: docker_install
+      changed_when: docker_install.rc == 0
+
+    - name: Enable and start Docker service
+      ansible.builtin.systemd:
+        name: docker
+        enabled: true
+        state: started
+
+    - name: Add ubuntu user to docker group
+      ansible.builtin.user:
+        name: ubuntu
+        groups: docker
+        append: true
+
+- name: Propagate /etc/hosts across all nodes
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Generate /etc/hosts content with all node hostnames and IPs
+      ansible.builtin.blockinfile:
+        path: /etc/hosts
+        block: |
+          # ---- Managed by Ansible ----
+          {% for host in groups['all'] %}
+          {{ hostvars[host]['ansible_host'] }} {{ host }}
+          {% endfor %}
+        marker: "# {mark} ANSIBLE MANAGED HOSTS"
+
+- name: Install and configure Zram
+  hosts: all
+  become: true
+  roles:
+    - role: zram
+      zram_percent: "{{ (ansible_memtotal_mb * 0.75 / ansible_memtotal_mb * 100) | int }}" # 75% of RAM
+      zram_algorithm: "zstd"
+
+- name: Install and Configure Tailscale
+  hosts: all
+  become: true
+  roles:
+    - tailscale
+  tasks:
+    - name: Print Tailscale IP
+      ansible.builtin.debug:
+        msg: "Host {{ inventory_hostname }} has Tailscale IP {{ hostvars[inventory_hostname].tailscale_ip }}"
+
+- name: Deploy Lightweight K3s Cluster
+  hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - k3s

@@ -28,7 +28,7 @@
 
 - name: Check current kernel version
   ansible.builtin.command: uname -r
-  register: zram_current_kernel
+  register: current_kernel
   changed_when: false
   when: zram_enabled and ansible_architecture == 'aarch64'
 
@@ -38,7 +38,7 @@
   when:
     - zram_enabled
     - ansible_architecture == 'aarch64'
-    - kernel_install.changed or 'generic' not in zram_current_kernel.stdout
+    - kernel_install.changed or 'generic' not in current_kernel.stdout
   notify: Reload systemd-zram
 
 - name: Verify kernel is linux-generic with retries

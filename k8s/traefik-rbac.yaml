@@ -43,7 +43,21 @@ rules:
       - traefikservices
       - serverstransports
       - serverstransporttcps
-    verbs: ["get", "list", "watch"]
+    verbs: ["get", "list", "watch","update"]
+   
+  - apiGroups: ["traefik.io"]
+    resources:
+      - ingressroutes/status    
+      - ingressroutetcps/status
+      - ingressrouteudps/status
+      - middlewares/status
+      - middlewaretcps/status
+      - tlsoptions/status
+      - tlsstores/status
+      - traefikservices/status
+      - serverstransports/status
+      - serverstransporttcps/status
+    verbs: ["update"] 
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1

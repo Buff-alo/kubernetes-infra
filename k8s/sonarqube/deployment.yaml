@@ -13,6 +13,8 @@ spec:
       labels:
         app: sonarqube
     spec:
+      securityContext:
+          fsGroup: 1000
       containers:
         - name: sonarqube
           image: sonarqube:10.5.1-community

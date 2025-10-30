@@ -18,7 +18,7 @@ spec:
       serviceAccountName: trivy-operator
       containers:
         - name: trivy-operator
-          image: ghcr.io/aquasecurity/trivy-operator:0.22.0
+          image: ghcr.io/aquasecurity/trivy-operator:0.31.0
           imagePullPolicy: IfNotPresent
           env:
             - name: OPERATOR_NAMESPACE
@@ -44,6 +44,7 @@ spec:
             requests:
               cpu: "200m"
               memory: "256Mi"
+              ephemeral-storage: "1Gi"
             limits:
               cpu: "500m"
               memory: "512Mi"

@@ -12,6 +12,8 @@ rules:
       - serviceaccounts
       - configmaps
       - secrets
+      - limitranges
+      - resourcequotas
     verbs: ["get", "list", "watch"]
   - apiGroups: ["apps"]
     resources:

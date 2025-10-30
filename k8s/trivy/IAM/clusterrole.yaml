@@ -3,23 +3,43 @@ kind: ClusterRole
 metadata:
   name: trivy-operator-role
 rules:
-  - apiGroups: [""] # Core
-    resources: ["pods", "nodes", "services", "namespaces", "resourcequotas", "limitranges"]
+  - apiGroups: [""]
+    resources:
+      - pods
+      - nodes
+      - services
+      - namespaces
+      - serviceaccounts
+      - configmaps
+      - secrets
     verbs: ["get", "list", "watch"]
   - apiGroups: ["apps"]
-    resources: ["deployments", "replicasets", "statefulsets", "daemonsets"]
+    resources:
+      - deployments
+      - replicasets
+      - statefulsets
+      - daemonsets
     verbs: ["get", "list", "watch"]
   - apiGroups: ["batch"]
-    resources: ["jobs", "cronjobs"]
-    verbs: ["get", "list", "watch"]
+    resources:
+      - jobs
+      - cronjobs
+    verbs: ["get", "list", "watch", "create", "delete"]
   - apiGroups: ["networking.k8s.io"]
-    resources: ["ingresses", "networkpolicies"]
+    resources:
+      - ingresses
+      - networkpolicies
     verbs: ["get", "list", "watch"]
   - apiGroups: ["rbac.authorization.k8s.io"]
-    resources: ["roles", "rolebindings", "clusterroles", "clusterrolebindings"]
+    resources:
+      - roles
+      - rolebindings
+      - clusterroles
+      - clusterrolebindings
     verbs: ["get", "list", "watch"]
   - apiGroups: ["apiextensions.k8s.io"]
-    resources: ["customresourcedefinitions"]
+    resources:
+      - customresourcedefinitions
     verbs: ["get", "list", "watch"]
   - apiGroups: ["trivy-operator.aquasecurity.github.io"]
     resources: ["*"]

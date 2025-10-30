@@ -14,6 +14,7 @@ rules:
       - secrets
       - limitranges
       - resourcequotas
+      - pods/log
     verbs: ["get", "list", "watch"]
   - apiGroups: ["apps"]
     resources:

@@ -21,21 +21,21 @@ spec:
           ports:
             - containerPort: 9000
           env:
-            - name: SONAR_JDBC_URL
+            - name: SONARQUBE_JDBC_URL
               valueFrom:
                 configMapKeyRef:
                   name: sonarqube-config
-                  key: SONAR_JDBC_URL
-            - name: SONAR_JDBC_USERNAME
+                  key: SONARQUBE_JDBC_URL
+            - name: SONARQUBE_JDBC_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: sonarqube-secrets
-                  key: SONAR_JDBC_USERNAME
-            - name: SONAR_JDBC_PASSWORD
+                  key: SONARQUBE_JDBC_USERNAME
+            - name: SONARQUBE_JDBC_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: sonarqube-secrets
-                  key: SONAR_JDBC_PASSWORD
+                  key: SONARQUBE_JDBC_PASSWORD
           volumeMounts:
             - name: sonarqube-data
               mountPath: /opt/sonarqube/data

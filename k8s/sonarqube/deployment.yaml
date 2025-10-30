@@ -23,6 +23,17 @@ spec:
           envFrom:
             - configMapRef:
                 name: sonarqube-config
+          env:
+            - name: SONARQUBE_JDBC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: sonarqube-secrets
+                  key: SONARQUBE_JDBC_USERNAME
+            - name: SONARQUBE_JDBC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sonarqube-secrets
+                  key: SONARQUBE_JDBC_PASSWORD
           volumeMounts:
             - name: sonarqube-data
               mountPath: /opt/sonarqube/data

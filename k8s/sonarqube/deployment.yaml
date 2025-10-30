@@ -20,10 +20,12 @@ spec:
           image: sonarqube:latest
           ports:
             - containerPort: 9000
-          envFrom:
-            - configMapRef:
-                name: sonarqube-config
           env:
+            - name: SONARQUBE_JDBC_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: sonarqube-config
+                  key: SONARQUBE_JDBC_URL
             - name: SONARQUBE_JDBC_USERNAME
               valueFrom:
                 secretKeyRef:

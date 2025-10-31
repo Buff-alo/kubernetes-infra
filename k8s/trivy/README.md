@@ -8,7 +8,8 @@ helm repo update
 helm install trivy-operator oci://ghcr.io/aquasecurity/helm-charts/trivy-operator \
      --namespace trivy-system \
      --create-namespace \
-     --version 0.31.0
+     --version 0.31.0 \
+     --values ./values.yaml 
 
 Inspect created VulnerabilityReports by:
 

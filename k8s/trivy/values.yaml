@@ -1,3 +1,7 @@
+image:
+  registry: mirror.gcr.io
+  repository: aquasec/trivy-operator
+  tag: 0.31.0
 trivy:
   severity:
     - CRITICAL

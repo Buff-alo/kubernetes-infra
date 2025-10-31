@@ -3,7 +3,21 @@
 ## Installation
 
 ```bash
-kubectl apply -f k8s/trivy/IAM/
-kubectl apply -f k8s/trivy/crds/
-kubectl apply -f k8s/trivy/configmap.yaml
-kubectl apply -f k8s/trivy/deployment.yaml
+helm repo add aqua https://aquasecurity.github.io/helm-charts/
+helm repo update
+helm install trivy-operator oci://ghcr.io/aquasecurity/helm-charts/trivy-operator \
+     --namespace trivy-system \
+     --create-namespace \
+     --version 0.31.0
+
+Inspect created VulnerabilityReports by:
+
+    kubectl get vulnerabilityreports --all-namespaces -o wide
+
+Inspect created ConfigAuditReports by:
+
+    kubectl get configauditreports --all-namespaces -o wide
+
+Inspect the work log of trivy-operator by:
+
+    kubectl logs -n trivy-system deployment/trivy-operator

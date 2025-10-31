@@ -1,9 +1,0 @@
-apiVersion: v1
-data:
-  .dockerconfigjson: eyJhdXRocyI6eyJkb2NrZXIuaW8iOnsidXNlcm5hbWUiOiJidWZmYWxvMTQ3IiwicGFzc3dvcmQiOiJkY2tyX3BhdF92MFVnMWFpLThDeGFOVXRhMk9sM0tNSF9obVkiLCJhdXRoIjoiWW5WbVptRnNiekUwTnpwa1kydHlYM0JoZEY5Mk1GVm5NV0ZwTFRoRGVHRk9WWFJoTWs5c00wdE5TRjlvYlZrPSJ9fX0=
-kind: Secret
-metadata:
-  creationTimestamp: null
-  name: regcred
-  namespace: trivy-system
-type: kubernetes.io/dockerconfigjson

@@ -1,0 +1,8 @@
+image:
+  tag: 0.31.0
+trivy:
+  severity:
+    - CRITICAL
+    - HIGH
+  ignoreUnfixed: true
+  timeout: 5m

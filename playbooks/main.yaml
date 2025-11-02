@@ -33,6 +33,7 @@
           - apt-transport-https
           - ca-certificates
           - software-properties-common
+          - neofetch
         state: present
 
 - name: Install Docker
@@ -40,14 +41,6 @@
   become: true
 
   tasks:
-    - name: Install Docker dependencies
-      ansible.builtin.package:
-        name:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - software-properties-common
-        state: present
 
     - name: Create Docker GPG key directory
       ansible.builtin.file:

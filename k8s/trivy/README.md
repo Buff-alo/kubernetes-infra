@@ -3,22 +3,27 @@
 ## Installation
 
 ```bash
-helm repo add aqua https://aquasecurity.github.io/helm-charts/
-helm repo update
-helm install trivy-operator oci://ghcr.io/aquasecurity/helm-charts/trivy-operator \
-     --namespace trivy-system \
-     --create-namespace \
-     --version 0.31.0 \
-     --values ./values.yaml 
+    kubectl apply -f https://raw.githubusercontent.com/aquasecurity/trivy-operator/v0.29.0/deploy/static/trivy-operator.yaml
 
-Inspect created VulnerabilityReports by:
+```
+## Configuration for smooth deployment
+```bash
+    kubectl -n trivy-system patch deploy trivy-operator --type='json' -p='[
+  {
+    "op": "add",
+    "path": "/spec/template/spec/hostNetwork",
+    "value": true
+  },
+  {
+    "op": "add",
+    "path": "/spec/template/spec/dnsPolicy",
+    "value": "ClusterFirstWithHostNet"
+  },
+  {
+    "op": "add",
+    "path": "/spec/template/spec/containers/0/env/-",
+    "value": {"name": "GODEBUG", "value": "netdns=go"}
+  }
+]'
 
-    kubectl get vulnerabilityreports --all-namespaces -o wide
-
-Inspect created ConfigAuditReports by:
-
-    kubectl get configauditreports --all-namespaces -o wide
-
-Inspect the work log of trivy-operator by:
-
-    kubectl logs -n trivy-system deployment/trivy-operator
+```

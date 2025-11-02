@@ -14,5 +14,5 @@
 
 ## Username Retrieval
 ```bash
-    kubectl get secret elasticsearch -n logging -o jsonpath="{.data.elasticsearch-password}" | base64 --decode
+    kubectl get secrets --namespace=logging elasticsearch-master-credentials -ojsonpath='{.data.password}' | base64 -d
 ```

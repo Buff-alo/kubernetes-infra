@@ -40,7 +40,7 @@ esJavaOpts: "-Xmx768m -Xms768m"
 # Persistence (optional)
 volumeClaimTemplate:
   accessModes: ["ReadWriteOnce"]
-  storageClassName: "oci" # or "oci-bv" if available
+  storageClassName: "longhorn" # or "oci-bv" if available
   resources:
     requests:
       storage: 10Gi

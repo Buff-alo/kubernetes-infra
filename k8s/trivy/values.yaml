@@ -1,10 +1,25 @@
+# values.yaml
 image:
-  registry: mirror.gcr.io
-  repository: aquasec/trivy-operator
-  tag: 0.31.0
+  registry: "mirror.gcr.io"
+  repository: "aquasec/trivy-operator"
+  tag: "0.29.0"
+  pullPolicy: "IfNotPresent"
+
+# Also override the scanner (Trivy CLI) — same mirror issue
 trivy:
-  severity:
-    - CRITICAL
-    - HIGH
+  image:
+    registry: "mirror.gcr.io"
+    repository: "aquasec/trivy"
+    tag: "0.67.0"
+
+  severity: "CRITICAL,HIGH"
   ignoreUnfixed: true
-  timeout: 5m
+  timeout: "5m"
+  
+  resources:
+    requests:
+      memory: "100Mi"
+      cpu: "100m"
+    limits:
+      memory: "500Mi"
+      cpu: "500m"

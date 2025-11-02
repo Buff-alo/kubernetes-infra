@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pull
+  namespace: trivy-system
+spec:
+  containers:
+    - name: test
+      image: buffalo147/dev-apps:ticket-frontend-4c3a447b
+      imagePullPolicy: Always
+  imagePullSecrets:
+    - name: regcred
+  restartPolicy: Never

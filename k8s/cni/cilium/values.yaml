@@ -20,8 +20,6 @@ cni:
   exclusive: false
 
 kubeProxyReplacement: true       # Cilium replaces kube-proxy (eBPF)
-kubeProxy:
-  replacement: strict
 
 # ────────────────────────────────────────────────────────────────
 # KUBE-API ACCESS (via Tailscale)

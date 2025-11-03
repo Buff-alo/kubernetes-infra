@@ -44,15 +44,18 @@ k8s:
 devices: "tailscale0"
 
 enable-bpf-masquerade:  false
+
 auto-direct-node-routes: false
+
 routing-mode: "native"
 
+tunnel-protocol: "vxlan"
 # ────────────────────────────────────────────────────────────────
 # ENCRYPTION: Double encryption optional
 # ────────────────────────────────────────────────────────────────
 encryption:
-  enabled: false                   # ← Tailscale already encrypts
-  # type: wireguard               # ← Only if you want Cilium-level encryption
+  enabled: false             # ← Tailscale already encrypts
+  # type: wireguard          # ← Only if you want Cilium-level encryption
   # nodeEncryption: true
 
 # ────────────────────────────────────────────────────────────────

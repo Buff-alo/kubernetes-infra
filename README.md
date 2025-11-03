@@ -1,6 +1,6 @@
 # Kubernetes-infra
 
-# 🌐 Multicloud K3s Cluster — AWS Control Plane + GCP Worker (Tailscale Network)
+# 🌐 Multicloud K3s Cluster — OCI Control Plane + GCP Worker, Aws Worker (Tailscale Network)
 
 This document outlines the steps and prerequisites for setting up a **multicloud Kubernetes (K3s)** cluster with:
 
@@ -116,7 +116,7 @@ tailscale ip -4
 4. Install K3s using:
 
    ```bash
-   curl -sfL https://get.k3s.io | sh -
+   curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--flannel-backend=none --disable-network-policy' sh -
    ```
 
 5. Verify K3s server is running:
@@ -150,7 +150,7 @@ tailscale ip -4
 3. Install K3s agent using:
 
    ```bash
-   curl -sfL https://get.k3s.io | K3S_URL=https://<control-plane-tailscale-ip>:6443 K3S_TOKEN=<node-token> sh -
+   curl -sfL https://get.k3s.io | K3S_URL=https://<control-plane-tailscale-ip>:6443 K3S_TOKEN=<node-token> INSTALL_K3S_EXEC='--flannel-backend=none --disable-network-policy' sh -
    ```
 
 4. Verify node has joined the cluster:

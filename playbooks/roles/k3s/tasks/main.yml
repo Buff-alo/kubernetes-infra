@@ -89,7 +89,7 @@
       ansible.builtin.get_url:
         url: https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
         dest: /tmp/get_helm.sh
-        mode: '0755'
+        mode: "0755"
 
     - name: Run Helm installation script
       ansible.builtin.command: /tmp/get_helm.sh
@@ -101,7 +101,7 @@
     - name: Add /usr/local/bin to PATH
       ansible.builtin.lineinfile:
         path: ~/.bashrc
-        line: 'export PATH=$PATH:/usr/local/bin'
+        line: "export PATH=$PATH:/usr/local/bin"
       when: helm_install_result.rc == 0
 
     - name: Set permissions and group for K3s server config
@@ -118,7 +118,7 @@
         creates: /usr/local/bin/k3s
       environment:
         INSTALL_K3S_VERSION: "{{ k3s_version | default('v1.30.2+k3s1') }}"
-        INSTALL_K3S_EXEC: "--config /etc/rancher/k3s/config.yaml"
+        INSTALL_K3S_EXEC: "--config /etc/rancher/k3s/config.yaml --flannel-backend=none --disable-network-policy"
 
     - name: Wait for K3s server to be ready and grab the token
       ansible.builtin.wait_for:
@@ -232,4 +232,4 @@
         creates: /usr/local/bin/k3s
       environment:
         INSTALL_K3S_VERSION: "{{ k3s_version | default('v1.30.2+k3s1') }}"
-        INSTALL_K3S_EXEC: "agent --config /etc/rancher/k3s/config.yaml"
+        INSTALL_K3S_EXEC: "agent --config /etc/rancher/k3s/config.yaml --flannel-backend=none --disable-network-policy"

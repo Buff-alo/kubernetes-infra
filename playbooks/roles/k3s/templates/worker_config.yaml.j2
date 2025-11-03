@@ -2,3 +2,5 @@ server: https://{{ server_ip }}:6443
 token: {{ k3s_node_token }}
 node-name: {{ worker_hostname }}
 node-ip: {{ worker_ip }}
+flannel-backend: none
+disable-network-policy: true

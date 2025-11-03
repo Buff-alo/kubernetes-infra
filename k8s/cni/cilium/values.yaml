@@ -11,6 +11,10 @@ global:
   image:
     registry: "quay.io/cilium"      # ← Quay is faster & more reliable than Docker Hub
     tag: "v1.16.3"                  # ← Latest stable as of Nov 2025 (LTS)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 850273b45febc627956e44335bc32b118a96b3d2
 clusterMesh:
   enabled: false
 # ────────────────────────────────────────────────────────────────
@@ -36,14 +40,15 @@ autoDirectNodeRoutes: true         # Adds host routes for pod CIDRs
 endpointRoutes:
   enabled: true
 
+k8s:
+  requireIPv4PodCIDR: "true"
+
 # Use Tailscale interface for pod traffic
 devices: "tailscale0"
 
-# Optional: MTU fix (Tailscale defaults to 1280)
-bpf:
-  masquerade: true
-  mtu: 1280
-  hostRouting: true
+enable-bpf-masquerade:  "false"
+auto-direct-node-routes: "false"
+tunnel: vxlan
 
 # ────────────────────────────────────────────────────────────────
 # ENCRYPTION: Double encryption optional
@@ -58,6 +63,9 @@ encryption:
 # ────────────────────────────────────────────────────────────────
 ipam:
   mode: kubernetes                 # K3s manages pod IPs
+
+ipv4:
+  enabled: true
 
 cluster:
   pool:

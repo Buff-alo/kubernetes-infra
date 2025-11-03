@@ -34,6 +34,8 @@
           - ca-certificates
           - software-properties-common
           - neofetch
+          - net-tools
+          - jq
         state: present
 
 - name: Install Docker

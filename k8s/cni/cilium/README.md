@@ -7,7 +7,7 @@
 
     helm upgrade -i cilium cilium/cilium \
      --namespace kube-system \
-     -f cilium-values.yaml \
+     -f values.yaml \
      --version 1.16.3
 ```
 

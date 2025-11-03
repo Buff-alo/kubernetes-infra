@@ -11,7 +11,8 @@ global:
   image:
     registry: "quay.io/cilium"      # ← Quay is faster & more reliable than Docker Hub
     tag: "v1.16.3"                  # ← Latest stable as of Nov 2025 (LTS)
-
+clusterMesh:
+  enabled: false
 # ────────────────────────────────────────────────────────────────
 # CNI & KUBE-PROXY
 # ────────────────────────────────────────────────────────────────

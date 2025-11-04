@@ -36,7 +36,7 @@ k8sServicePort: 6443
 endpointRoutes:
   enabled: true
 
-MTU: 1280
+MTU: 9000
 
 k8s:
   requireIPv4PodCIDR: true

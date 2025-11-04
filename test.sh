@@ -1,0 +1,1 @@
+for pod in $(kubectl get pod | grep node ); do echo "Deleting node-debugger pods"; kubectl delete $pod; done

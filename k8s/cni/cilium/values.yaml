@@ -46,7 +46,7 @@ devices: "tailscale0" # Tailscale interface for native routing or none for vxlan
 ipv4NativeRoutingCIDR: "10.42.0.0/16" # Your pod CIDR for native routing
 
 enable-bpf-masquerade: false # True for native routing, false for vxlan
-auto-direct-node-routes: false # True for native routing, false for vxlan
+autoDirectNodeRoutes: false # True for native routing, false for vxlan
 
 # ────────────────────────────────────────────────────────────────
 # ENCRYPTION: Double encryption optional

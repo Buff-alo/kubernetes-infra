@@ -18,9 +18,11 @@ clusterMesh:
 # ────────────────────────────────────────────────────────────────
 cni:
   chainingMode: none # Required: K3s has no prior CNI
-  exclusive: false
+  exclusive: true   # Cilium is the only CNI
+  customConf: true
 
 kubeProxyReplacement: true # Cilium replaces kube-proxy (eBPF)
+enableIPv4Masquerade: true
 
 # ────────────────────────────────────────────────────────────────
 # KUBE-API ACCESS (via Tailscale)
@@ -34,7 +36,7 @@ k8sServicePort: 6443
 endpointRoutes:
   enabled: true
 
-MTU: 1500
+MTU: 1300
 
 k8s:
   requireIPv4PodCIDR: true

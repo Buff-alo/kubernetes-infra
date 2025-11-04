@@ -33,14 +33,11 @@ k8sServicePort: 6443
 # ────────────────────────────────────────────────────────────────
 # NETWORKING: Tailscale-native (no tunnel)
 # ────────────────────────────────────────────────────────────────
-<<<<<<< HEAD
 endpointRoutes:
   enabled: true
 
-MTU: 9000
-=======
 MTU: 1500
->>>>>>> 0ca9ce285d7e3415f9efb168a216cebea12a8dd1
+
 
 k8s:
   requireIPv4PodCIDR: true
@@ -69,7 +66,8 @@ encryption:
 # ────────────────────────────────────────────────────────────────
 # IPAM & POD NETWORK
 # ────────────────────────────────────────────────────────────────
-ipam: kubernetes                 # K3s manages pod IPs
+ipam:
+  mode: "kubernetes"                 # K3s manages pod IPs
 
 ipv4:
   enabled: true
@@ -92,7 +90,7 @@ accessLog:
   enabled: false   
 
 bpf:
-  mapDynamicSizeRatio: "0.0025"
+  mapDynamicSizeRatio: 0.0025
 
 monitor:
   queueSize: 32768

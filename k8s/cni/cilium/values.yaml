@@ -36,12 +36,8 @@ endpointRoutes:
 
 MTU: 1500
 
-
 k8s:
   requireIPv4PodCIDR: true
-
-endpointRoutes:
-  enabled: true
 
 # Use Tailscale interface for pod traffic
 routing-mode: "tunnel" # 'native' routing via Tailscale

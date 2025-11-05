@@ -86,6 +86,7 @@ accessLog:
 
 bpf:
   mapDynamicSizeRatio: 0.0025
+  masquerade: true
 
 monitor:
   queueSize: 32768

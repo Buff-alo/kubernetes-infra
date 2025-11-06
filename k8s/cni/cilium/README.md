@@ -10,4 +10,3 @@
      -f values.yaml \
      --version 1.16.3
 ```
-

@@ -17,12 +17,13 @@ clusterMesh:
 # CNI & KUBE-PROXY
 # ────────────────────────────────────────────────────────────────
 cni:
-  chainingMode: none # Required: K3s has no prior CNI
+  chainingMode: "nil" # Required: K3s has no prior CNI
   exclusive: true   # Cilium is the only CNI
   customConf: true
 
 kubeProxyReplacement: true # Cilium replaces kube-proxy (eBPF)
 enableIPv4Masquerade: true
+enable-host-reachable-services: true
 
 # ────────────────────────────────────────────────────────────────
 # KUBE-API ACCESS (via Tailscale)
@@ -34,9 +35,9 @@ k8sServicePort: 6443
 # NETWORKING: Tailscale-native (no tunnel)
 # ────────────────────────────────────────────────────────────────
 endpointRoutes:
-  enabled: true
+  enabled: false
 
-MTU: 1300
+MTU: 1220
 
 k8s:
   requireIPv4PodCIDR: true
@@ -45,10 +46,10 @@ k8s:
 routing-mode: "tunnel" # 'native' routing via Tailscale
 tunnel-protocol: "vxlan"  # vxlan for tunnel encapsulation or 'none' for native
 devices: "tailscale0" # Tailscale interface for native routing or none for vxlan
-ipv4NativeRoutingCIDR: "10.42.0.0/16" # Your pod CIDR for native routing
+ipv4NativeRoutingCIDR: "" # Your pod CIDR for native routing
 
-enable-bpf-masquerade: false # True for native routing, false for vxlan
-autoDirectNodeRoutes: false # True for native routing, false for vxlan
+enable-bpf-masquerade: true # True for native routing, false for vxlan
+autoDirectNodeRoutes: false  # True for native routing, false for vxlan
 
 # ────────────────────────────────────────────────────────────────
 # ENCRYPTION: Double encryption optional
@@ -87,6 +88,7 @@ accessLog:
 bpf:
   mapDynamicSizeRatio: 0.0025
   masquerade: true
+  hostLegacyRouting: true
 
 monitor:
   queueSize: 32768
@@ -154,13 +156,3 @@ upgradeCompatibility: "1.15"
 enableNetfilterController: false
 enableBandwidthManager: false
 enableHostReachableServices: false
-
-# ────────────────────────────────────────────────────────────────
-# Security Context
-# ────────────────────────────────────────────────────────────────
-networkPolicy:
-  enabled: true
-  default: "deny"
-
-securityContext:
-  privileged: false

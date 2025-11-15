@@ -1,0 +1,17 @@
+# egress-gateway-policies.yaml
+apiVersion: cilium.io/v2
+kind: CiliumEgressGatewayPolicy
+metadata:
+  name: internet-egress-enp0s6
+  namespace: kube-system
+spec:
+  selectors:
+  - podSelector: {}  # Apply to all pods
+  destinationCIDRs:
+  - "0.0.0.0/0"
+  egressGateway:
+    nodeSelector:
+      matchLabels: {}  # Use current node
+#    interface: "enp0s6"
+    egressIP: 10.0.0.19
+

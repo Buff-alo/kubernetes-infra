@@ -1,0 +1,15 @@
+# allow-external-egress-clusterwide.yaml
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: allow-external-egress
+spec:
+  # empty endpointSelector = match all endpoints in the cluster
+  endpointSelector: {}
+  # allow egress to external "world" entity (all IPs outside cluster)
+  egress:
+    - toEntities:
+        - world
+  # keep ingress empty (do not change ingress behavior)
+  ingress: []
+  # don't enable default deny here; this is an allow rule

@@ -2,6 +2,7 @@ apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
   name: allow-all-test
+  namespace: kube-system
 spec:
   endpointSelector: {}
   ingress:

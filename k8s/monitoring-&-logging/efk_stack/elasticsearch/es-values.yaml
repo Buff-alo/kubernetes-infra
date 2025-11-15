@@ -1,0 +1,46 @@
+replicas: 1
+
+# Run on control plane
+nodeSelector:
+  node-role.kubernetes.io/control-plane: ""
+
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/master
+    operator: Exists
+    effect: NoSchedule
+
+# Resources
+resources:
+  requests:
+    memory: 1Gi
+    cpu: 500m
+  limits:
+    memory: 2Gi
+
+# Single-node (important for dev!)
+discovery:
+  type: single-node
+
+# HTTP (not HTTPS) for simplicity
+protocol: http
+
+# Disable security (X-Pack) - DEV ONLY
+esConfig:
+  elasticsearch.yml: |
+    xpack.security.enabled: false
+    discovery.type: single-node
+    http.host: 0.0.0.0
+
+# Optional: Reduce JVM heap
+esJavaOpts: "-Xmx768m -Xms768m"
+
+# Persistence (optional)
+volumeClaimTemplate:
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: "longhorn" 
+  resources:
+    requests:
+      storage: 10Gi

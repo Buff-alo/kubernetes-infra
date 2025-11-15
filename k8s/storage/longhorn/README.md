@@ -8,7 +8,7 @@
 
 ```bash
     kubectl -n longhorn-system patch daemonset longhorn-manager \
-        --type='json' -p='[{"op":"add","path":"/spec/template/spec/nodeSelector","value":{"storage":"longhorn-storage"}}]'
+        --type='json' -p='[{"op":"add","path":"/spec/template/spec/nodeSelector","value":{"storage":"longhorn"}}]'
 ```
 
 ## Apply Ingress/Ingressroute

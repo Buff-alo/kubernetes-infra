@@ -1,7 +1,5 @@
-# Switch to monolithic mode
 deploymentMode: SingleBinary
 
-# Single binary config (your replicas: 1)
 singleBinary:
   replicas: 1
   nodeSelector:
@@ -24,7 +22,6 @@ singleBinary:
     storageClassName: "longhorn"
     size: 7Gi
 
-# Disable all other components (required for SingleBinary)
 backend:
   replicas: 0
 read:
@@ -50,11 +47,10 @@ bloomCompactor:
 bloomGateway:
   replicas: 0
 
-# Your Loki config (unchanged, but ensure replication_factor matches replicas)
 loki:
   commonConfig:
-    replication_factor: 1  # Matches single replica
-  config:
+    replication_factor: 1
+  config: |
     server:
       http_listen_port: 3100
     ingester:
@@ -62,31 +58,20 @@ loki:
       chunk_retain_period: 30s
     schema_config:
       configs:
-        - from: 2020-10-24
-          store: boltdb-shipper
+        - from: 2025-11-15
+          store: tsdb
           object_store: filesystem
-          schema: v11
+          schema: v13
           index:
-            prefix: index_
+            prefix: loki_index_
             period: 24h
     storage_config:
-      boltdb_shipper:
-        active_index_directory: /data/loki/boltdb-shipper-active
-        cache_location: /data/loki/boltdb-shipper-cache
+      tsdb_shipper:
+        active_index_directory: /data/loki/tsdb-shipper-active
+        cache_location: /data/loki/tsdb-shipper-cache
         shared_store: filesystem
       filesystem:
         directory: /data/loki/chunks
     limits_config:
       reject_old_samples: true
       reject_old_samples_max_age: 168h
-
-# Optional: If using newer Loki, switch to tsdb (recommended over boltdb-shipper)
-# schema_config:
-#   configs:
-#     - from: 2024-01-01
-#       store: tsdb
-#       object_store: filesystem
-#       schema: v13
-#       index:
-#         prefix: loki_index_
-#         period: 24h

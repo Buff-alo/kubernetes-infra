@@ -1,0 +1,17 @@
+# grafana-ui-ingress.yaml
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana-ui
+  namespace: logging
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`kube-graf.kwadwolabs.cloud`)
+    kind: Rule
+    services:
+      - name: grafana
+        port: http
+  tls:
+    certResolver: myresolver

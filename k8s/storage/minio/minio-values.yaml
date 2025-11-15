@@ -1,12 +1,16 @@
-# minio-values.yaml
-accessKey: "minioadmin"
-secretKey: "minioadmin123"
+mode: standalone          # explicit for 1-replica installs
+auth:
+  rootUser: "minioadmin"          # <-- becomes ROOT_USER
+  rootPassword: "minioadmin123"   # <-- becomes ROOT_PASSWORD (min 8 chars)
+
 persistence:
   enabled: true
-  existingClaim: ""        # leave empty to let Helm create PVCs
+  existingClaim: ""               # Helm will create a PVC
   storageClass: "longhorn"
   size: 10Gi
+
 replicas: 1
+
 resources:
   requests:
     cpu: 500m
@@ -14,12 +18,13 @@ resources:
   limits:
     cpu: 1
     memory: 1Gi
+
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
-      - matchExpressions:
-        - key: storage
-          operator: In
-          values:
-          - longhorn
+        - matchExpressions:
+            - key: storage
+              operator: In
+              values:
+                - longhorn

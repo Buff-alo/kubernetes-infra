@@ -13,8 +13,9 @@ helm repo update
 ## Install Minio
 
 ```bash
-helm install minio minio/minio -n minio \
-    -f minio-values.yaml
+helm install minio minio/minio \
+  -n minio \
+  -f minio-values.yaml 
 ```
 
 ## Get Credentials

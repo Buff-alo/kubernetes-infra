@@ -28,3 +28,12 @@ affinity:
               operator: In
               values:
                 - longhorn
+
+service:
+  selector:
+    app: minio
+    release: minio
+consoleService:
+  selector:
+    app: minio
+    release: minio

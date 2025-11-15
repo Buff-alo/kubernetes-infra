@@ -26,3 +26,6 @@ export ROOT_PASSWORD=$(kubectl get secret --namespace minio minio -o jsonpath="{
 echo $ROOT_USER
 echo $ROOT_PASSWORD
 ```
+
+## Note
+- Don't forget to set the right app selectors

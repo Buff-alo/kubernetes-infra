@@ -11,7 +11,7 @@ spec:
       kind: Rule
       services:
         - name: minio-console
-          port: 9090
+          port: 9001
   tls:
     certResolver: myresolver
 ---

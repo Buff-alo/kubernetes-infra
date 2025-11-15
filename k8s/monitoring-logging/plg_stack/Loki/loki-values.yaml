@@ -1,47 +1,92 @@
-replicas: 1
-nodeSelector:
-  node-role.kubernetes.io/control-plane: ""
-tolerations:
-  - key: node-role.kubernetes.io/control-plane
-    operator: Exists
-    effect: NoSchedule
-  - key: node-role.kubernetes.io/master
-    operator: Exists
-    effect: NoSchedule
-resources:
-  requests:
-    cpu: 100m
-    memory: 256Mi
-  limits:
-    memory: 512Mi
-persistence:
-  enabled: true
-  storageClassName: "longhorn"
-  size: 7Gi
-config:
-  server:
-    http_listen_port: 3100
-  ingester:
-    chunk_idle_period: 5m
-    chunk_retain_period: 30s
-  schema_config:
-    configs:
-      - from: 2020-10-24
-        store: boltdb-shipper
-        object_store: filesystem
-        schema: v11
-        index:
-          prefix: index_
-          period: 24h
-  storage_config:
-    boltdb_shipper:
-      active_index_directory: /data/loki/boltdb-shipper-active
-      cache_location: /data/loki/boltdb-shipper-cache
-      shared_store: filesystem
-    filesystem:
-      directory: /data/loki/chunks
-  limits_config:
-    reject_old_samples: true
-    reject_old_samples_max_age: 168h
-service:
-  type: ClusterIP
+# Switch to monolithic mode
+deploymentMode: SingleBinary
+
+# Single binary config (your replicas: 1)
+singleBinary:
+  replicas: 1
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: ""
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/master
+      operator: Exists
+      effect: NoSchedule
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 512Mi
+  persistence:
+    enabled: true
+    storageClassName: "longhorn"
+    size: 7Gi
+
+# Disable all other components (required for SingleBinary)
+backend:
+  replicas: 0
+read:
+  replicas: 0
+write:
+  replicas: 0
+ingester:
+  replicas: 0
+querier:
+  replicas: 0
+queryFrontend:
+  replicas: 0
+queryScheduler:
+  replicas: 0
+distributor:
+  replicas: 0
+compactor:
+  replicas: 0
+indexGateway:
+  replicas: 0
+bloomCompactor:
+  replicas: 0
+bloomGateway:
+  replicas: 0
+
+# Your Loki config (unchanged, but ensure replication_factor matches replicas)
+loki:
+  commonConfig:
+    replication_factor: 1  # Matches single replica
+  config:
+    server:
+      http_listen_port: 3100
+    ingester:
+      chunk_idle_period: 5m
+      chunk_retain_period: 30s
+    schema_config:
+      configs:
+        - from: 2020-10-24
+          store: boltdb-shipper
+          object_store: filesystem
+          schema: v11
+          index:
+            prefix: index_
+            period: 24h
+    storage_config:
+      boltdb_shipper:
+        active_index_directory: /data/loki/boltdb-shipper-active
+        cache_location: /data/loki/boltdb-shipper-cache
+        shared_store: filesystem
+      filesystem:
+        directory: /data/loki/chunks
+    limits_config:
+      reject_old_samples: true
+      reject_old_samples_max_age: 168h
+
+# Optional: If using newer Loki, switch to tsdb (recommended over boltdb-shipper)
+# schema_config:
+#   configs:
+#     - from: 2024-01-01
+#       store: tsdb
+#       object_store: filesystem
+#       schema: v13
+#       index:
+#         prefix: loki_index_
+#         period: 24h

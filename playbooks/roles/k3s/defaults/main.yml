@@ -2,3 +2,5 @@
 # defaults file for k3s
 # Version of K3s to install
 k3s_version: "v1.30.2+k3s1"
+
+tailscale_auth_key: "tskey-auth-k6jZETomL921CNTRL-Uom9v29GiuagiLD1hFBSuatU7GkVCpiTc"

@@ -64,6 +64,8 @@
     --auth-key={{ tailscale_auth_key }}
     {% if tailscale_enable_ssh | default(true) %}--ssh{% endif %}
     --hostname={{ inventory_hostname }}
+    --advertise-routes=10.42.0.0/16
+    --accept-routes
   register: tailscale_up_result
   when:
     - tailscale_auth_key is defined
@@ -112,11 +114,10 @@
       tailscale_ips: {{ tailscale_map | to_json }}
     # --- End of content modification ---
     dest: /tmp/tailscale_ips.yml
-    mode: '0644'
+    mode: "0644"
   delegate_to: localhost
   run_once: true
   become: false
-
 
 - name: Collect and write Tailscale IPs to file
   ansible.builtin.copy:
@@ -134,3 +135,8 @@
       {{ hostvars[host].tailscale_ip | default('') }} {{ host }}
       {% endfor %}
   when: tailscale_ip is defined
+
+# 11. Stop Tailscale since K3s will start item
+- name: Stop Tailscale
+  ansible.builtin.command: >
+    tailscale down

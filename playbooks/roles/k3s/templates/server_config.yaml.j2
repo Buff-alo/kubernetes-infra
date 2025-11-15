@@ -1,15 +1,17 @@
 write-kubeconfig-mode: "0644"
 node-name: {{ server_hostname }}
-node-ip: {{ server_ip }}
-advertise-address: {{ server_ip }}
+node-external-ip: {{ server_ip }}
+# advertise-address: {{ server_ip }}
+vpn-auth: "name=tailscale,joinKey={{ tailscale_auth_key }}"
 bind-address: 0.0.0.0
 cluster-cidr: 10.42.0.0/16
 service-cidr: 10.43.0.0/16
-flannel-backend: none
-disable-network-policy: true
-disable:
-  - traefik
-  - servicelb
+# flannel-iface: tailscale0
+# flannel-backend: none
 tls-san:
     - {{ server_ip }}
     - {{ server_hostname }}
+disable:
+  - traefik
+  - servicelb
+  - local-storage

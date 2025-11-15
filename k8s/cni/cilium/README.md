@@ -7,6 +7,8 @@
 
     helm upgrade -i cilium cilium/cilium \
      --namespace kube-system \
+     --set egress-masquerade-interfaces=enp0s6 \
      -f values.yaml \
      --version 1.16.3
 ```
+     --set direct-routing-device=tailscale0 \

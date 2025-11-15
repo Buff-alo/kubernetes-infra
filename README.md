@@ -67,11 +67,13 @@ Install Tailscale on **both nodes**:
 
 ```bash
 curl -fsSL https://tailscale.com/install.sh | sh
+#Run tailscale up to obtain ip addresses for config.yaml
 sudo tailscale up --authkey=<YOUR_TAILSCALE_AUTH_KEY> --hostname=<HOSTNAME>
+#Note run tailscale down because k3s native tailscale willl automatically join
+sudo taiscale down
 ```
 
 - Example:
-
   - Control plane → `kls-controlplane-01`
   - Worker node → `kls-worker-01`
 
@@ -86,6 +88,29 @@ ping <tailscale-ip-of-other-node>
 
 ## 🧠 3. Install K3s 
 
+### Create Iptables Input and Forward policies for tailscalel and K3s
+```bash
+   sudo iptables -I INPUT 1 -s 10.42.0.0/16 -j ACCEPT
+   sudo iptables -I INPUT 1 -s 10.43.0.0/16 -j ACCEPT
+   sudo iptables -I INPUT 1 -s 100.64.0.0/10 -j ACCEPT  # Tailscale CGNAT
+   sudo iptables -I INPUT 1 -i tailscale0 -j ACCEPT
+   sudo iptables -I INPUT 1 -i cni0 -j ACCEPT
+   sudo iptables -I INPUT 1 -p icmp -j ACCEPT  # Ensure ping
+   sudo iptables -I FORWARD 1 -s 10.42.0.0/16 -j ACCEPT
+   sudo iptables -I FORWARD 1 -d 10.42.0.0/16 -j ACCEPT
+   sudo iptables -I FORWARD 1 -s 10.43.0.0/16 -j ACCEPT
+   sudo iptables -I FORWARD 1 -d 10.43.0.0/16 -j ACCEPT
+   sudo iptables -I FORWARD 1 -s 100.64.0.0/10 -j ACCEPT # Tailscale CGNAT
+   sudo iptables -I FORWARD 1 -d 100.64.0.0/10 -j ACCEPT # Tailscale CGNAT
+   sudo iptables -I FORWARD 1 -i tailscale0 -j ACCEPT
+   sudo iptables -I FORWARD 1 -o tailscale0 -j ACCEPT
+   sudo iptables -I FORWARD 1 -i cni0 -j ACCEPT
+   sudo iptables -I FORWARD 1 -o cni0 -j ACCEPT
+   sudo iptables -I FORWARD 1 -p icmp -j ACCEPT  # For ping
+   sudo apt install iptables-persistent -y
+   sudo netfilter-persistent save
+```
+---
 ### Control Plane (AWS)
 
 1. Create `/etc/rancher/k3s/config.yaml` file for K3s server configuration.
@@ -101,22 +126,24 @@ tailscale ip -4
    # /etc/rancher/k3s/config.yaml
    write-kubeconfig-mode: "0644"
    node-name: kls-controlplane-01
-   node-ip: 100.x.y.z # Tailscale IP of control plane
-   advertise-address: 100.x.y.z # Tailscale IP for other nodes to connect
+   node-external-ip: 100.x.y.z # Tailscale IP of control plane
+   vpn-auth: "name=tailscale,joinKey=< tailscale_auth_key>"
    bind-address: 0.0.0.0
    cluster-cidr: 10.42.0.0/16
-   service-cidr: 10.43.0.0/16
-   disable-cloud-controller: true
-   flannel-iface: tailscale0 # Flannel to tailscale interface                     # if you're running Traefik separately as a Docker container
+   service-cidr: 10.43.0.0/16                  
    tls-san:
      - 100.x.y.z # Tailscale IP
      - kls-controlplane-01
+   disable: #if You want these disabled 
+      - traefik
+      - servicelb
+      - local-storage
    ```
 
 4. Install K3s using:
 
    ```bash
-   curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--flannel-backend=none --disable-network-policy' sh -
+   curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--config /etc/rancher/k3s/config.yaml --disable-network-policy" sh -
    ```
 
 5. Verify K3s server is running:
@@ -143,14 +170,15 @@ tailscale ip -4
    server: https://100.x.y.z:6443 # Tailscale IP of control plane
    token: YOUR_CLUSTER_TOKEN # from /var/lib/rancher/k3s/server/node-token on control plane
    node-name: YOUR_WORKER_NODE_NAME
-   node-ip: 100.x.y.z # Tailscale IP of this worker
-   flannel-iface: tailscale0 # Flannel to tailscale interface
+   node-external-ip: 100.x.y.z # Tailscale IP of this worker
+   vpn-auth: "name=tailscale,joinKey=< tailscale_auth_key>"
+   
    ```
 
 3. Install K3s agent using:
 
    ```bash
-   curl -sfL https://get.k3s.io | K3S_URL=https://<control-plane-tailscale-ip>:6443 K3S_TOKEN=<node-token> INSTALL_K3S_EXEC='--flannel-backend=none --disable-network-policy' sh -
+   curl -sfL https://get.k3s.io | K3S_URL=https://<control-plane-tailscale-ip>:6443 K3S_TOKEN=<node-token> INSTALL_K3S_EXEC='agent --config /etc/rancher/k3s/config.yaml' sh -
    ```
 
 4. Verify node has joined the cluster:
@@ -226,6 +254,7 @@ Delete your instances from AWS & GCP to avoid charges.
 
 ## 🧠 Notes & Tips
 
+- Don't forget to allow subnet routes and acls access on tailscale admin page
 - Both nodes are **tiny** (1 vCPU / ~1 GB RAM), so keep workloads minimal.
 - Tailscale allows cross-cloud communication without exposing control plane to the public Internet.
 - If control plane goes offline, the cluster becomes **unmanageable**, even if worker pods keep running.

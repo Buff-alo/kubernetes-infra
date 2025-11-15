@@ -22,4 +22,4 @@ affinity:
         - key: storage
           operator: In
           values:
-          - worker-storage
+          - longhorn

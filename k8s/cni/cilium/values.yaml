@@ -24,7 +24,14 @@ cni:
 kubeProxyReplacement: true # Cilium replaces kube-proxy (eBPF)
 enableIPv4Masquerade: true
 enable-host-reachable-services: true
-enable-runtime-device-detection: false
+egress-masquerade-interfaces: "enp0s6"
+enable-runtime-device-detection: "false"
+
+# ────────────────────────────────────────────────────────────────
+# SERVICE RELATED SETTINGS
+# ────────────────────────────────────────────────────────────────
+
+bpf-lb-external-clusterip: true
 
 # ────────────────────────────────────────────────────────────────
 # KUBE-API ACCESS (via Tailscale)

@@ -63,6 +63,18 @@
     group: root
   become: true
 
+# - name: "[CLEANUP] Remove old K3s node from API server"
+#   kubernetes.core.k8s:
+#     kind: Node
+#     name: "{{ inventory_hostname }}"
+#     state: absent
+#   delegate_to: "{{ groups['controlplane'][0] }}"
+#   register: k3s_cleanup_result
+#   failed_when: >
+#     k3s_cleanup_result.failed and
+#     ('NotFound' not in (k3s_cleanup_result.msg | default('')) and 'not found' not in (k3s_cleanup_result.msg | default('')))
+#   when: k3s_is_server or k3s_is_agent
+
 # --- CONTROL PLANE SETUP ---
 - name: Configure and Install K3s Control Plane
   when: k3s_is_server
@@ -118,7 +130,7 @@
         creates: /usr/local/bin/k3s
       environment:
         INSTALL_K3S_VERSION: "{{ k3s_version | default('v1.30.2+k3s1') }}"
-        INSTALL_K3S_EXEC: "--config /etc/rancher/k3s/config.yaml --flannel-backend=none --disable-network-policy"
+        INSTALL_K3S_EXEC: "--config /etc/rancher/k3s/config.yaml --disable-network-policy"
 
     - name: Wait for K3s server to be ready and grab the token
       ansible.builtin.wait_for:
@@ -199,13 +211,13 @@
       ansible.builtin.set_fact:
         k3s_node_token: "{{ hostvars[groups['controlplane'][0]].k3s_node_token }}"
       when: hostvars[groups['controlplane'][0]].k3s_node_token is defined
-      run_once: true
+      # run_once: true
 
     - name: Fail if K3s token is not available
       ansible.builtin.fail:
         msg: "K3s node token is not available from control plane node {{ groups['controlplane'][0] }}. Ensure control plane setup completed successfully."
       when: hostvars[groups['controlplane'][0]].k3s_node_token is not defined
-      run_once: true
+      # run_once: true
 
     - name: Template K3s Agent Config File
       ansible.builtin.template:
@@ -213,7 +225,7 @@
         dest: /etc/rancher/k3s/config.yaml
         mode: "0600"
         owner: root
-        group: root
+        group: ubuntu
       vars:
         server_ip: "{{ k3s_control_plane_ip }}"
         node_ip: "{{ k3s_node_tailscale_ip }}"
@@ -232,4 +244,4 @@
         creates: /usr/local/bin/k3s
       environment:
         INSTALL_K3S_VERSION: "{{ k3s_version | default('v1.30.2+k3s1') }}"
-        INSTALL_K3S_EXEC: "agent --config /etc/rancher/k3s/config.yaml --flannel-backend=none --disable-network-policy"
+        INSTALL_K3S_EXEC: "agent --config /etc/rancher/k3s/config.yaml"

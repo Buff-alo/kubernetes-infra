@@ -36,6 +36,7 @@
           - neofetch
           - net-tools
           - jq
+          - iptables-persistent
         state: present
 
 - name: Install Docker
@@ -43,7 +44,6 @@
   become: true
 
   tasks:
-
     - name: Create Docker GPG key directory
       ansible.builtin.file:
         path: /etc/apt/keyrings
@@ -163,5 +163,105 @@
   hosts: all
   become: true
   gather_facts: true
+  pre_tasks:
+    - name: Ensure iptables is installed and persistent
+      ansible.builtin.package:
+        name: netfilter-persistent
+        state: present
+
+    # --- K3s and CNI Rules ---
+    - name: Allow INPUT traffic for K3s Pod CIDR (10.42/16)
+      ansible.builtin.iptables:
+        chain: INPUT
+        protocol: all
+        source: 10.42.0.0/16
+        jump: ACCEPT
+        rule_num: 1
+
+    - name: Allow INPUT traffic for K3s Service CIDR (10.43/16)
+      ansible.builtin.iptables:
+        chain: INPUT
+        protocol: all
+        source: 10.43.0.0/16
+        jump: ACCEPT
+        rule_num: 1
+
+    - name: Allow INPUT traffic on CNI bridge interface (cni0)
+      ansible.builtin.iptables:
+        chain: INPUT
+        in_interface: cni0
+        jump: ACCEPT
+        rule_num: 1
+
+    # --- Tailscale Rules ---
+    - name: Allow INPUT traffic for Tailscale CGNAT range (100.64/10)
+      ansible.builtin.iptables:
+        chain: INPUT
+        protocol: all
+        source: 100.64.0.0/10
+        jump: ACCEPT
+        rule_num: 1
+
+    - name: Allow INPUT traffic on Tailscale interface (tailscale0)
+      ansible.builtin.iptables:
+        chain: INPUT
+        in_interface: tailscale0
+        jump: ACCEPT
+        rule_num: 1
+
+    # --- ICMP (Ping) Rules ---
+    - name: Allow INPUT ICMP (ping) traffic
+      ansible.builtin.iptables:
+        chain: INPUT
+        protocol: icmp
+        jump: ACCEPT
+        rule_num: 1
+
+    # --- FORWARD Chain Rules (Inter-network communication) ---
+    - name: Allow FORWARD traffic for K3s Pod/Service CIDRs (10.42/16 & 10.43/16)
+      ansible.builtin.iptables:
+        chain: FORWARD
+        protocol: all
+        destination: "{{ item }}"
+        source: "{{ item }}"
+        jump: ACCEPT
+        rule_num: 1
+      loop:
+        - 10.42.0.0/16
+        - 10.43.0.0/16
+
+    - name: Allow FORWARD traffic for Tailscale CGNAT (100.64/10)
+      ansible.builtin.iptables:
+        chain: FORWARD
+        protocol: all
+        destination: 100.64.0.0/10
+        source: 100.64.0.0/10
+        jump: ACCEPT
+        rule_num: 1
+
+    - name: Allow FORWARD traffic on Tailscale and CNI interfaces
+      ansible.builtin.iptables:
+        chain: FORWARD
+        protocol: all
+        in_interface: "{{ item }}"
+        out_interface: "{{ item }}"
+        jump: ACCEPT
+        rule_num: 1
+      loop:
+        - tailscale0
+        - cni0
+
+    - name: Allow FORWARD ICMP (ping) traffic
+      ansible.builtin.iptables:
+        chain: FORWARD
+        protocol: icmp
+        jump: ACCEPT
+        rule_num: 1
+
+    # --- Save all changes persistently ---
+    - name: Save iptables rules persistently
+      ansible.builtin.command: netfilter-persistent save
+      changed_when: true # Always report a change for saving rules
+
   roles:
     - k3s

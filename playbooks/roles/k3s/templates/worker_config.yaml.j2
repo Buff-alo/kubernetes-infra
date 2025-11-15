@@ -1,6 +1,5 @@
 server: https://{{ server_ip }}:6443
 token: {{ k3s_node_token }}
 node-name: {{ worker_hostname }}
-node-ip: {{ worker_ip }}
-flannel-backend: none
-disable-network-policy: true
+node-external-ip: {{ worker_ip }}
+vpn-auth: "name=tailscale,joinKey={{ tailscale_auth_key }}"

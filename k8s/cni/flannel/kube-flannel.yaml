@@ -47,7 +47,7 @@ metadata:
   labels:
     k8s-app: flannel
   name: flannel
-  namespace: kube-system # Corrected Namespace
+  namespace: kube-system # Corrected namespace
 ---
 kind: ConfigMap
 apiVersion: v1

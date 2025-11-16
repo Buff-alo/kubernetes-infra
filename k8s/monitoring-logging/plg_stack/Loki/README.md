@@ -1,4 +1,5 @@
 ## Create essential secrets
+
 ```bash
 kubectl create secret generic loki-s3-secrets \
   --namespace logging \
@@ -7,8 +8,8 @@ kubectl create secret generic loki-s3-secrets \
   --from-literal=secret-key=minioadmin
 ```
 
-
 ## Install Loki aggregator
+
 ```bash
 helm upgrade --install loki grafana/loki \
   -n logging \
@@ -18,5 +19,12 @@ helm upgrade --install loki grafana/loki \
 ```
 
 ## Cleanup
+
 ```bash
+helm uninstall loki -n logging
 ```
+helm uninstall loki -n logging
+
+kubectl delete pvc --all -n logging --force --grace-period=0
+
+helm upgrade --install loki grafana/loki -n logging -f loki-values.yaml

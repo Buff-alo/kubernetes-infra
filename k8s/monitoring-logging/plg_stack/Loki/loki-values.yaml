@@ -1,4 +1,3 @@
-# Fix 1: Component Overlap and Duplication (Consolidated)
 deploymentMode: SimpleScalable
 
 gateway:
@@ -15,7 +14,7 @@ gateway:
 read:
   replicas: 1
   persistence:
-    enabled: false # Disabled persistence
+    enabled: false
   resources:
     requests:
       cpu: 100m
@@ -28,7 +27,7 @@ read:
 write:
   replicas: 1
   persistence:
-    enabled: false # Disabled persistence
+    enabled: false
   resources:
     requests:
       cpu: 100m
@@ -41,7 +40,7 @@ write:
 backend:
   replicas: 1
   persistence:
-    enabled: false # Disabled persistence
+    enabled: false
   resources:
     requests:
       cpu: 100m
@@ -52,7 +51,20 @@ backend:
     - secretRef:
         name: loki-s3-secrets
 
-# Disabled components (Optional/Not needed in SimpleScalable):
+# ---
+# CRITICAL FIX: Set compactor and indexGateway replicas to 0
+# The Helm chart validation requires these to be 0 for SimpleScalable mode.
+compactor:
+  replicas: 0
+  persistence:
+    enabled: false
+indexGateway:
+  replicas: 0
+  persistence:
+    enabled: false
+# ---
+
+# Ensure all Distributed components remain 0 (this section is fine)
 canary:
   enabled: false
 chunksCache:
@@ -74,20 +86,6 @@ bloomCompactor:
 bloomGateway:
   replicas: 0
 
-# Fix 2: Enable essential backend sub-components if using TSDB/S3
-compactor:
-  replicas: 1
-  persistence:
-    enabled: false # Disabled persistence
-  # Add resources and extraArgs/extraEnvFrom if needed
-
-indexGateway:
-  replicas: 1
-  persistence:
-    enabled: false # Disabled persistence
-  # Add resources and extraArgs/extraEnvFrom if needed
-
-# Fix 3: Correct config interpolation syntax ($${VAR_NAME})
 loki:
   auth_enabled: false
   commonConfig:
@@ -126,7 +124,7 @@ loki:
         cache_location: /loki/tsdb-cache
         cache_ttl: 24h
       aws:
-        # Correct environment variable interpolation
+        # Environment variable interpolation fix remains correct
         s3: s3://$${ACCESS_KEY}:$${SECRET_KEY}@minio-api.kwadwolabs.cloud:9000
         s3forcepathstyle: true
         insecure: false

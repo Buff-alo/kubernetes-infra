@@ -1,42 +1,36 @@
-# loki-values.yaml
-deploymentMode: SimpleScalable
+deploymentMode: SingleBinary
 
-# One replica of each component – scale later if needed
-gateway:
+singleBinary:
   replicas: 1
-  resources:
-    requests:
-      cpu: 50m
-      memory: 128Mi
-
-read:
-  replicas: 1
-  persistence:
-    enabled: false
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-
-write:
-  replicas: 1
-  persistence:
-    enabled: false
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: "true"
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/master
+      operator: Exists
+      effect: NoSchedule
   resources:
     requests:
       cpu: 100m
       memory: 256Mi
+    limits:
+      memory: 512Mi
+  persistence:
+    enabled: false  # No local PVC; MinIO is remote S3
+  extraArgs: 
+    - -config.expand-env=true  # Enable env var expansion in config
+  extraEnvFrom:
+    - secretRef:
+        name: loki-s3-secrets  # Your secret with ACCESS_KEY_ID and SECRET_ACCESS_KEY
 
 backend:
-  replicas: 1
-  persistence:
-    enabled: false
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-
-# Disable components we don’t need in SimpleScalable
+  replicas: 0
+read:
+  replicas: 0
+write:
+  replicas: 0
 ingester:
   replicas: 0
 querier:
@@ -57,36 +51,19 @@ bloomGateway:
   replicas: 0
 
 loki:
-  auth_enabled: false # keep it simple
+  useTestSchema: false
+  auth_enabled: false
   commonConfig:
     replication_factor: 1
-
-  # ---- TSDB SCHEMA (v13) ----
   schemaConfig:
     configs:
-      - from: 2020-01-01 # must be in the past
+      - from: 2020-01-01
         store: tsdb
         object_store: s3
         schema: v13
         index:
           prefix: loki_index_
           period: 24h
-
-  # ---- S3 / MinIO CONFIG ----
-  storage:
-    type: s3
-    bucketNames:
-      chunks: loki-chunks
-      ruler: loki-index # TSDB index lives here
-    s3:
-      endpoint: minio-api.kwadwolabs.cloud
-      region: af-johannesburg-1 # dummy – MinIO ignores it
-      accessKeyId: {{ .Values.minio.accessKey }}
-      secretAccessKey: {{ .Values.minio.secretKey }}
-      s3ForcePathStyle: true
-      insecure: false # true if you run MinIO without TLS
-
-  # ---- Runtime config (merged into the final config.yaml) ----
   config: |
     server:
       http_listen_port: 3100
@@ -97,13 +74,15 @@ loki:
 
     storage_config:
       tsdb_shipper:
-        active_index_directory: /loki/tsdb-index
-        cache_location: /loki/tsdb-cache
+        active_index_directory: /tmp/loki/tsdb-shipper-active
+        cache_location: /tmp/loki/tsdb-shipper-cache
         cache_ttl: 24h
       aws:
-        s3: s3://minio-api.kwadwolabs.cloud
+        s3: s3://minio-api.kwadwolabs.cloud:9000
         s3forcepathstyle: true
         insecure: false
+        access_key_id: \${access-key}
+        secret_access_key: \${secret-key}
 
     limits_config:
       reject_old_samples: true

@@ -17,5 +17,6 @@ helm upgrade --install loki grafana/loki \
   --set minio.secretKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.secretAccessKey}' | base64 -d)
 ```
 
-accessKeyId: loki
-secretAccessKey: loki@minio
+## Cleanup
+```bash
+```

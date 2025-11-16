@@ -1,57 +1,69 @@
-deploymentMode: SingleBinary
+# loki-values.yaml
+deploymentMode: SimpleScalable
 
-singleBinary:
+gateway:
   replicas: 1
-  nodeSelector:
-    node-role.kubernetes.io/control-plane: "true"
-  tolerations:
-    - key: node-role.kubernetes.io/control-plane
-      operator: Exists
-      effect: NoSchedule
-    - key: node-role.kubernetes.io/master
-      operator: Exists
-      effect: NoSchedule
+read:
+  replicas: 1
+write:
+  replicas: 1
+backend:
+  replicas: 1
+
+# No PVCs
+read:
+  persistence:
+    enabled: false
+write:
+  persistence:
+    enabled: false
+backend:
+  persistence:
+    enabled: false
+
+# Light resources
+gateway:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+read:
   resources:
     requests:
       cpu: 100m
       memory: 256Mi
-    limits:
-      memory: 512Mi
-  persistence:
-    enabled: false
-  extraArgs: 
+write:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+backend:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+# Secrets only
+gateway:
+  extraArgs:
     - -config.expand-env=true
   extraEnvFrom:
     - secretRef:
-        name: loki-s3-secrets  
-
-backend:
-  replicas: 0
+        name: loki-s3-secrets
 read:
-  replicas: 0
+  extraEnvFrom:
+    - secretRef:
+        name: loki-s3-secrets
 write:
-  replicas: 0
-ingester:
-  replicas: 0
-querier:
-  replicas: 0
-queryFrontend:
-  replicas: 0
-queryScheduler:
-  replicas: 0
-distributor:
-  replicas: 0
-compactor:
-  replicas: 0
-indexGateway:
-  replicas: 0
-bloomCompactor:
-  replicas: 0
-bloomGateway:
-  replicas: 0
+  extraEnvFrom:
+    - secretRef:
+        name: loki-s3-secrets
+backend:
+  extraEnvFrom:
+    - secretRef:
+        name: loki-s3-secrets
 
 loki:
-  useTestSchema: false
   auth_enabled: false
   commonConfig:
     replication_factor: 1
@@ -64,25 +76,28 @@ loki:
         index:
           prefix: loki_index_
           period: 24h
+  storage:
+    type: s3
+    bucketNames:
+      chunks: loki-chunks
+      ruler: loki-index
+    s3:
+      endpoint: minio-api.kwadwolabs.cloud
+      s3ForcePathStyle: true
+      insecure: false
   config: |
     server:
       http_listen_port: 3100
 
-    ingester:
-      chunk_idle_period: 5m
-      chunk_retain_period: 30s
-
     storage_config:
       tsdb_shipper:
-        active_index_directory: /tmp/loki/tsdb-shipper-active
-        cache_location: /tmp/loki/tsdb-shipper-cache
+        active_index_directory: /loki/tsdb-index
+        cache_location: /loki/tsdb-cache
         cache_ttl: 24h
       aws:
-        s3: s3://minio-api.kwadwolabs.cloud
+        s3: s3://${access-key}:${secret-key}@minio-api.kwadwolabs.cloud
         s3forcepathstyle: true
         insecure: false
-        access_key_id: ${access-key}
-        secret_access_key: ${secret-key}
 
     limits_config:
       reject_old_samples: true

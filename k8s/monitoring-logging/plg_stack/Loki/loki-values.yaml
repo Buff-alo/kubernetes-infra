@@ -81,14 +81,8 @@ loki:
     s3:
       endpoint: minio-api.kwadwolabs.cloud
       region: af-johannesburg-1 # dummy – MinIO ignores it
-      accessKeyId:
-        secret:
-          name: loki-s3-secrets # Name of the Secret object
-          key: accessKeyId          # Key name inside the Secret
-      secretAccessKey:
-        secret:
-          name: loki-s3-secrets # Name of the Secret object
-          key: secretAccessKey      # Key name inside the Secret
+      accessKeyId: {{ .Values.minio.accessKey }}
+      secretAccessKey: {{ .Values.minio.secretKey }}
       s3ForcePathStyle: true
       insecure: false # true if you run MinIO without TLS
 

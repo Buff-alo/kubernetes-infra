@@ -1,3 +1,4 @@
+#loki-values.yaml
 deploymentMode: SimpleScalable
 
 gateway:
@@ -15,6 +16,8 @@ read:
   replicas: 1
   persistence:
     enabled: false
+    storageClass: "-"
+    size: 1Gi
   resources:
     requests:
       cpu: 100m
@@ -28,6 +31,8 @@ write:
   replicas: 1
   persistence:
     enabled: false
+    storageClass: "-"
+    size: 1Gi
   resources:
     requests:
       cpu: 100m
@@ -41,6 +46,8 @@ backend:
   replicas: 1
   persistence:
     enabled: false
+    storageClass: "-"
+    size: 1Gi
   resources:
     requests:
       cpu: 100m
@@ -58,10 +65,14 @@ compactor:
   replicas: 0
   persistence:
     enabled: false
+    storageClass: "-"
+    size: 1Gi
 indexGateway:
   replicas: 0
   persistence:
     enabled: false
+    storageClass: "-"
+    size: 1Gi
 # ---
 
 # Ensure all Distributed components remain 0 (this section is fine)

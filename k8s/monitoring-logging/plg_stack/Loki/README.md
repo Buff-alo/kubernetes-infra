@@ -23,6 +23,11 @@ helm upgrade --install loki grafana/loki \
 ```bash
 helm uninstall loki -n logging
 ```
+## Restart
+```bash
+helm uninstall loki -n logging
+helm upgrade --install loki grafana/loki -n logging -f loki-values.yaml
+```
 helm uninstall loki -n logging
 
 kubectl delete pvc --all -n logging --force --grace-period=0

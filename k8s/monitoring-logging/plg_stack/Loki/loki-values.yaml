@@ -1,68 +1,93 @@
-# loki-values.yaml
+# Fix 1: Component Overlap and Duplication (Consolidated)
 deploymentMode: SimpleScalable
 
 gateway:
   replicas: 1
-read:
-  replicas: 1
-write:
-  replicas: 1
-backend:
-  replicas: 1
-
-# No PVCs
-read:
-  persistence:
-    enabled: false
-write:
-  persistence:
-    enabled: false
-backend:
-  persistence:
-    enabled: false
-
-# Light resources
-gateway:
   resources:
     requests:
       cpu: 50m
       memory: 128Mi
-read:
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-write:
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-backend:
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-
-# Secrets only
-gateway:
   extraArgs:
     - -config.expand-env=true
   extraEnvFrom:
     - secretRef:
         name: loki-s3-secrets
 read:
+  replicas: 1
+  persistence:
+    enabled: false # Disabled persistence
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  extraArgs:
+    - -config.expand-env=true
   extraEnvFrom:
     - secretRef:
         name: loki-s3-secrets
 write:
+  replicas: 1
+  persistence:
+    enabled: false # Disabled persistence
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  extraArgs:
+    - -config.expand-env=true
   extraEnvFrom:
     - secretRef:
         name: loki-s3-secrets
 backend:
+  replicas: 1
+  persistence:
+    enabled: false # Disabled persistence
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  extraArgs:
+    - -config.expand-env=true
   extraEnvFrom:
     - secretRef:
         name: loki-s3-secrets
 
+# Disabled components (Optional/Not needed in SimpleScalable):
+canary:
+  enabled: false
+chunksCache:
+  enabled: false
+resultsCache:
+  enabled: false
+ingester:
+  replicas: 0
+querier:
+  replicas: 0
+queryFrontend:
+  replicas: 0
+queryScheduler:
+  replicas: 0
+distributor:
+  replicas: 0
+bloomCompactor:
+  replicas: 0
+bloomGateway:
+  replicas: 0
+
+# Fix 2: Enable essential backend sub-components if using TSDB/S3
+compactor:
+  replicas: 1
+  persistence:
+    enabled: false # Disabled persistence
+  # Add resources and extraArgs/extraEnvFrom if needed
+
+indexGateway:
+  replicas: 1
+  persistence:
+    enabled: false # Disabled persistence
+  # Add resources and extraArgs/extraEnvFrom if needed
+
+# Fix 3: Correct config interpolation syntax ($${VAR_NAME})
 loki:
   auth_enabled: false
   commonConfig:
@@ -77,17 +102,23 @@ loki:
           prefix: loki_index_
           period: 24h
   storage:
+    filesystem:
+      enabled: false
     type: s3
     bucketNames:
       chunks: loki-chunks
       ruler: loki-index
     s3:
-      endpoint: minio-api.kwadwolabs.cloud
+      endpoint: minio-api.kwadwolabs.cloud:9000
       s3ForcePathStyle: true
       insecure: false
   config: |
     server:
       http_listen_port: 3100
+
+    ingester:
+      chunk_idle_period: 5m
+      chunk_retain_period: 30s
 
     storage_config:
       tsdb_shipper:
@@ -95,7 +126,8 @@ loki:
         cache_location: /loki/tsdb-cache
         cache_ttl: 24h
       aws:
-        s3: s3://${access-key}:${secret-key}@minio-api.kwadwolabs.cloud
+        # Correct environment variable interpolation
+        s3: s3://$${ACCESS_KEY}:$${SECRET_KEY}@minio-api.kwadwolabs.cloud:9000
         s3forcepathstyle: true
         insecure: false
 

@@ -1,3 +1,5 @@
+deploymentMode: SingleBinary
+
 singleBinary:
   replicas: 1
   nodeSelector:

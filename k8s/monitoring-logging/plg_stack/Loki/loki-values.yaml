@@ -16,7 +16,6 @@ read:
   replicas: 1
   persistence:
     enabled: false
-    storageClass: "-"
     size: 1Gi
   resources:
     requests:
@@ -31,7 +30,6 @@ write:
   replicas: 1
   persistence:
     enabled: false
-    storageClass: "-"
     size: 1Gi
   resources:
     requests:
@@ -46,7 +44,6 @@ backend:
   replicas: 1
   persistence:
     enabled: false
-    storageClass: "-"
     size: 1Gi
   resources:
     requests:
@@ -65,13 +62,11 @@ compactor:
   replicas: 0
   persistence:
     enabled: false
-    storageClass: "-"
     size: 1Gi
 indexGateway:
   replicas: 0
   persistence:
     enabled: false
-    storageClass: "-"
     size: 1Gi
 # ---
 

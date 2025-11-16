@@ -14,8 +14,8 @@ kubectl create secret generic loki-s3-secrets \
 helm upgrade --install loki grafana/loki \
   -n logging \
   -f loki-values.yaml \
-  --set minio.accessKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.accessKeyId}' | base64 -d) \
-  --set minio.secretKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.secretAccessKey}' | base64 -d)
+  --set minio.accessKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.access-key}' | base64 -d) \
+  --set minio.secretKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.secret-key}' | base64 -d)
 ```
 
 ## Cleanup

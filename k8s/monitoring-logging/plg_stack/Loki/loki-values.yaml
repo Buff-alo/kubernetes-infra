@@ -118,7 +118,7 @@ loki:
       chunks: loki-chunks
       ruler: loki-index
     s3:
-      endpoint: minio-api.kwadwolabs.cloud:9000
+      endpoint: minio-api.kwadwolabs.cloud
       s3ForcePathStyle: true
       insecure: false
   config: |
@@ -136,7 +136,7 @@ loki:
         cache_ttl: 24h
       aws:
         # Environment variable interpolation fix remains correct
-        s3: s3://$${ACCESS_KEY}:$${SECRET_KEY}@minio-api.kwadwolabs.cloud:9000
+        s3: s3://$${access-key}:$${secret-key}@minio-api.kwadwolabs.cloud:9000
         s3forcepathstyle: true
         insecure: false
 

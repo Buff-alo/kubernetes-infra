@@ -5,6 +5,7 @@ kubectl create ns minio
 ```
 
 ## Add minio helm repo
+
 ```bash
 helm repo add minio https://charts.min.io/
 helm repo update
@@ -15,17 +16,73 @@ helm repo update
 ```bash
 helm install minio minio/minio \
   -n minio \
-  -f minio-values.yaml 
+  -f minio-values.yaml
 ```
 
 ## Get Credentials
 
 ```bash
-export ROOT_USER=$(kubectl get secret --namespace minio minio -o jsonpath="{.data.root-user}" | base64 -d)
-export ROOT_PASSWORD=$(kubectl get secret --namespace minio minio -o jsonpath="{.data.root-password}" | base64 -d)
-echo $ROOT_USER
-echo $ROOT_PASSWORD
+export ROOT_USER=$(kubectl -n minio get secret minio -o jsonpath='{.data.rootUser}' | base64 -d)
+export ROOT_PASSWORD=$(kubectl -n minio get secret minio -o jsonpath='{.data.rootPassword}' | base64 -d)
+echo "ROOT_USER     = $ROOT_USER"
+echo "ROOT_PASSWORD = $ROOT_PASSWORD"
+```
+
+## Install minio client
+
+```bash
+# Download ARM64 version
+curl https://dl.min.io/client/mc/release/linux-arm64/mc -o ~/mc
+chmod +x ~/mc
+sudo mv ~/mc /usr/local/bin/mc
+
+# Verify
+mc --version
+```
+
+## Set Alias
+
+```bash
+mc alias set kls-s3 https://minio-api.kwadwolabs.cloud <username> <password> --api s3v4
+```
+
+## Change root password
+
+```bash
+# Change root password
+mc admin user add kls newroot
+mc admin user info kls newroot  # copy access/secret
+mc admin policy attach kls consoleAdmin --user=newroot
 ```
 
 ## Note
-- Don't forget to set the right app selectors
+
+- Don't forget to set the correct app selectors
+
+
+## Basic Commands
+```bash
+# CONFIG
+mc alias set kls-s3 https://minio-api.kwadwolabs.cloud minioadmin minioadmin123 --api s3v4
+
+# BUCKETS
+mc mb kls-s3/my-bucket
+mc ls kls-s3
+
+# UPLOAD / DOWNLOAD
+mc cp file.txt kls-s3/my-bucket/
+mc cp kls-s3/my-bucket/file.txt .
+
+# LIST
+mc ls kls-s3/my-bucket
+
+# PUBLIC ACCESS
+mc anonymous set download kls-s3/my-bucket
+
+# SHARE LINK
+mc share download kls-s3/my-bucket/file.txt
+
+# VERSIONING
+mc version enable kls-s3/my-bucket
+mc ls --versions kls-s3/my-bucket/file.txt
+```

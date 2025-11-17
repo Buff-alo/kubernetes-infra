@@ -108,7 +108,39 @@ loki:
   commonConfig:
     replication_factor: 1
 
-  # Single unified config section - this is the key fix
+  schema_config:
+      configs:
+        - from: 2024-04-01
+          store: tsdb
+          object_store: s3
+          schema: v13
+          index:
+            prefix: loki_index_
+            period: 24h
+
+  limits_config:
+    allow_structured_metadata: true
+    volume_enabled: true
+    retention_period: 672h
+    reject_old_samples: true
+    reject_old_samples_max_age: 168h
+    max_query_length: 721h
+    max_query_parallelism: 32
+
+  storage_config:
+    aws:
+      endpoint: minio-api.kwadwolabs.cloud
+      region: af-johannesburg-1
+      bucketnames: loki-chunks
+      access_key_id: ${ACCESS_KEY}
+      secret_access_key: ${SECRET_KEY}
+      s3forcepathstyle: true
+      insecure: false
+    tsdb_shipper:
+      active_index_directory: /loki/tsdb-index
+      cache_location: /loki/tsdb-cache
+      cache_ttl: 24h
+
   config: |
     auth_enabled: false
     
@@ -128,38 +160,6 @@ loki:
           s3forcepathstyle: true
           insecure: false
 
-    schema_config:
-      configs:
-        - from: 2024-04-01
-          store: tsdb
-          object_store: s3
-          schema: v13
-          index:
-            prefix: loki_index_
-            period: 24h
-
-    limits_config:
-      allow_structured_metadata: true
-      volume_enabled: true
-      retention_period: 672h
-      reject_old_samples: true
-      reject_old_samples_max_age: 168h
-      max_query_length: 721h
-      max_query_parallelism: 32
-
-    storage_config:
-      aws:
-        endpoint: minio-api.kwadwolabs.cloud
-        region: af-johannesburg-1
-        bucketnames: loki-chunks
-        access_key_id: ${ACCESS_KEY}
-        secret_access_key: ${SECRET_KEY}
-        s3forcepathstyle: true
-        insecure: false
-      tsdb_shipper:
-        active_index_directory: /loki/tsdb-index
-        cache_location: /loki/tsdb-cache
-        cache_ttl: 24h
 
     # Ruler configuration with explicit bucket names
     ruler:

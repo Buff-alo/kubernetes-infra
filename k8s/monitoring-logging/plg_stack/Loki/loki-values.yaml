@@ -18,7 +18,7 @@ gateway:
 # -------------------------
 
 read:
-  replicas: 3
+  replicas: 1
   persistence:
     enabled: false
     size: 1Gi
@@ -33,7 +33,7 @@ read:
         name: loki-s3-secrets
 
 write:
-  replicas: 3
+  replicas: 1
   persistence:
     enabled: false
     size: 1Gi
@@ -48,7 +48,7 @@ write:
         name: loki-s3-secrets
 
 backend:
-  replicas: 3
+  replicas: 1
   persistence:
     enabled: false
     size: 1Gi

@@ -4,8 +4,8 @@
 kubectl create secret generic loki-s3-secrets \
   --namespace logging \
   --type=Opaque \
-  --from-literal=access-key=minioadmin \
-  --from-literal=secret-key=minioadmin
+  --from-literal=ACCESS_KEY=minioadmin \
+  --from-literal=SECRET_KEY=minioadmin
 ```
 
 ## Install Loki aggregator
@@ -14,8 +14,8 @@ kubectl create secret generic loki-s3-secrets \
 helm upgrade --install loki grafana/loki \
   -n logging \
   -f loki-values.yaml \
-  --set minio.accessKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.access-key}' | base64 -d) \
-  --set minio.secretKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.secret-key}' | base64 -d)
+  --set minio.accessKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.ACCESS_KEY}' | base64 -d) \
+  --set minio.secretKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.SECRET_KEY}' | base64 -d)
 ```
 
 ## Cleanup
@@ -35,5 +35,5 @@ kubectl delete pvc --all -n logging --force --grace-period=0
 helm upgrade --install loki grafana/loki \
   -n logging \
   -f loki-values.yaml \
-  --set minio.accessKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.access-key}' | base64 -d) \
-  --set minio.secretKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.secret-key}' | base64 -d)
+  --set minio.accessKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.ACCESS_KEY}' | base64 -d) \
+  --set minio.secretKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.SECRET_KEY}' | base64 -d)

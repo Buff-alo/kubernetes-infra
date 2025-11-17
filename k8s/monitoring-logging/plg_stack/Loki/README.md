@@ -13,9 +13,7 @@ kubectl create secret generic loki-s3-secrets \
 ```bash
 helm upgrade --install loki grafana/loki \
   -n logging \
-  -f loki-values.yaml \
-  --set minio.accessKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.ACCESS_KEY}' | base64 -d) \
-  --set minio.secretKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.SECRET_KEY}' | base64 -d)
+  -f loki-values.yaml 
 ```
 
 ## Cleanup
@@ -34,6 +32,4 @@ kubectl delete pvc --all -n logging --force --grace-period=0
 
 helm upgrade --install loki grafana/loki \
   -n logging \
-  -f loki-values.yaml \
-  --set minio.accessKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.ACCESS_KEY}' | base64 -d) \
-  --set minio.secretKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.SECRET_KEY}' | base64 -d)
+  -f loki-values.yaml 

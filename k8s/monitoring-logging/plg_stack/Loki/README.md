@@ -32,4 +32,8 @@ helm uninstall loki -n logging
 
 kubectl delete pvc --all -n logging --force --grace-period=0
 
-helm upgrade --install loki grafana/loki -n logging -f loki-values.yaml
+helm upgrade --install loki grafana/loki \
+  -n logging \
+  -f loki-values.yaml \
+  --set minio.accessKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.access-key}' | base64 -d) \
+  --set minio.secretKey=$(kubectl get secret loki-s3-secrets -n logging -o jsonpath='{.data.secret-key}' | base64 -d)

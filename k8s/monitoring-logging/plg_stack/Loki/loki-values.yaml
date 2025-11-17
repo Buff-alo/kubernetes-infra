@@ -158,16 +158,16 @@ loki:
       chunk_retain_period: 30s
 
     storage_config:
+      tsdb_shipper:
+        active_index_directory: /loki/tsdb-index
+        cache_location: /loki/tsdb-cache
+        cache_ttl: 24h
+
       aws:
         endpoint: minio-api.kwadwolabs.cloud
         region: af-johannesburg-1
         s3forcepathstyle: true
         insecure: false
-
-      tsdb_shipper:
-        active_index_directory: /loki/tsdb-index
-        cache_location: /loki/tsdb-cache
-        cache_ttl: 24h
 
 
 # Disable the built-in MinIO chart

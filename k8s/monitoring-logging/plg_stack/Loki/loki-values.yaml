@@ -178,6 +178,7 @@ loki:
     aws:
       endpoint: minio-api.kwadwolabs.cloud
       region: af-johannesburg-1
+      bucketname: loki-chunks
       s3forcepathstyle: true
       insecure: false
     tsdb_shipper:

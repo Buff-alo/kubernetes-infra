@@ -61,6 +61,21 @@ backend:
   extraEnvFrom:
     - secretRef:
         name: loki-s3-secrets
+  # Add emptyDir volumes for writable directories
+  extraVolumes:
+    - name: compactor-dir
+      emptyDir: {}
+    - name: tsdb-dir
+      emptyDir: {}
+    - name: tsdb-shipper-cache-dir  # Add this new volume
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: compactor-dir
+      mountPath: /loki/compactor
+    - name: tsdb-dir
+      mountPath: /loki/tsdb-index
+    - name: tsdb-shipper-cache-dir  # Add this new mount
+      mountPath: /loki/tsdb-shipper-cache
 
 # Disable compactor & indexGateway in SimpleScalable
 compactor:
@@ -100,10 +115,18 @@ bloomGateway:
   replicas: 0
 
 # -------------------------------------
-# LOKI STRUCTURED CONFIGURATION (NO MONOLITHIC config SECTION)
+# LOKI STRUCTURED CONFIGURATION
 # -------------------------------------
 loki:
   auth_enabled: false
+
+  # Storage bucket names (REQUIRED by Helm chart)
+  storage:
+    type: s3
+    bucketNames:
+      chunks: loki-chunks
+      ruler: loki-index
+      admin: loki-admin
 
   # Server configuration
   server:
@@ -136,8 +159,15 @@ loki:
       insecure: false
     tsdb_shipper:
       active_index_directory: /loki/tsdb-index
-      cache_location: /loki/tsdb-cache
+      cache_location: /loki/tsdb-shipper-cache
       cache_ttl: 24h
+
+  # Compactor configuration - disable it
+  compactorConfig:
+    working_directory: /loki/compactor
+    shared_store: s3
+    compaction_interval: 0s  # Disable compaction
+    retention_enabled: false  # Disable retention
 
   # Limits configuration
   limitsConfig:

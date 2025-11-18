@@ -215,6 +215,8 @@ loki:
         endpoint: minio-api.kwadwolabs.cloud
         region: af-johannesburg-1
         bucketnames: loki-index  # Change to singular 'bucketname'
+        access_key_id: ${ACCESS_KEY}      # Add this line
+        secret_access_key: ${SECRET_KEY}  # Add this line
         s3forcepathstyle: true
         insecure: false
 

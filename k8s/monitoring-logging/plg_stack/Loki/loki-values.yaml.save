@@ -1,0 +1,220 @@
+# loki-values.yaml
+deploymentMode: SimpleScalable
+
+gateway:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: loki-s3-secrets
+
+# -------------------------
+# SIMPLESCALABLE COMPONENTS
+# -------------------------
+
+read:
+  replicas: 1
+  persistence:
+    enabled: false
+    size: 1Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: loki-s3-secrets
+
+write:
+  replicas: 1
+  persistence:
+    enabled: false
+    size: 1Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: loki-s3-secrets
+
+backend:
+  replicas: 1
+  persistence:
+    enabled: false
+    size: 1Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: loki-s3-secrets
+  # Add emptyDir volumes for writable directories
+  extraVolumes:
+    - name: compactor-dir
+      emptyDir: {}
+    - name: tsdb-dir
+      emptyDir: {}
+    - name: tsdb-shipper-cache-dir  # Add this new volume
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: compactor-dir
+      mountPath: /loki/compactor
+    - name: tsdb-dir
+      mountPath: /loki/tsdb-index
+    - name: tsdb-shipper-cache-dir  # Add this new mount
+      mountPath: /loki/tsdb-shipper-cache
+    - name: tsdb-dir
+      mou
+
+# Disable compactor & indexGateway in SimpleScalable
+compactor:
+  replicas: 0
+  persistence:
+    enabled: false
+    size: 1Gi
+
+indexGateway:
+  replicas: 0
+  persistence:
+    enabled: false
+    size: 1Gi
+
+# -------------------------
+# DISTRIBUTED COMPONENTS OFF
+# -------------------------
+canary:
+  enabled: false
+chunksCache:
+  enabled: false
+resultsCache:
+  enabled: false
+ingester:
+  replicas: 0
+querier:
+  replicas: 0
+queryFrontend:
+  replicas: 0
+queryScheduler:
+  replicas: 0
+distributor:
+  replicas: 0
+bloomCompactor:
+  replicas: 0
+bloomGateway:
+  replicas: 0
+
+# -------------------------------------
+# LOKI STRUCTURED CONFIGURATION
+# -------------------------------------
+loki:
+  auth_enabled: false
+
+  # Storage bucket names (REQUIRED by Helm chart)
+  storage:
+    type: s3
+    bucketNames:
+      chunks: loki-chunks
+      ruler: loki-index
+      admin: loki-admin
+
+  # Server configuration
+  server:
+    http_listen_port: 3100
+    grpc_listen_port: 9096
+
+  # Common configuration
+  commonConfig:
+    replication_factor: 1
+    path_prefix: /loki
+
+  # Schema configuration
+  schemaConfig:
+    configs:
+      - from: "2024-04-01"
+        store: tsdb
+        object_store: s3
+        schema: v13
+        index:
+          prefix: loki_index_
+          period: 24h
+
+  # Storage configuration
+  storageConfig:
+    aws:
+      endpoint: minio-api.kwadwolabs.cloud
+      region: af-johannesburg-1
+      bucketnames: loki-chunks
+      s3forcepathstyle: true
+      insecure: false
+    tsdb_shipper:
+      active_index_directory: /loki/tsdb-index
+      cache_location: /loki/tsdb-shipper-cache
+      cache_ttl: 24h
+
+  # Compactor configuration - disable it
+  compactorConfig:
+    working_directory: /loki/compactor
+    shared_store: s3
+    compaction_interval: 0s  # Disable compaction
+    retention_enabled: false  # Disable retention
+
+  # Limits configuration
+  limitsConfig:
+    allow_structured_metadata: true
+    volume_enabled: true
+    retention_period: 672h
+    reject_old_samples: true
+    reject_old_samples_max_age: 168h
+    max_query_length: 721h
+    max_query_parallelism: 32
+
+  # Ruler configuration
+  rulerConfig:
+    storage:
+      type: s3
+      s3:
+        endpoint: minio-api.kwadwolabs.cloud
+        region: af-johannesburg-1
+        bucketnames: loki-index
+        s3forcepathstyle: true
+        insecure: false
+
+  # Ingester configuration
+  ingesterConfig:
+    chunk_idle_period: 5m
+    chunk_retain_period: 30s
+    wal:
+      enabled: false
+
+  # Querier configuration
+  querierConfig:
+    max_concurrent: 4
+
+  # Query frontend configuration
+  queryFrontendConfig:
+    max_outstanding_per_tenant: 2048
+
+  # Query scheduler configuration
+  querySchedulerConfig:
+    max_outstanding_requests_per_tenant: 2048
+
+  # Pattern ingester configuration
+  patternIngesterConfig:
+    enabled: true
+
+# Disable the built-in MinIO chart
+minio:
+  enabled: false

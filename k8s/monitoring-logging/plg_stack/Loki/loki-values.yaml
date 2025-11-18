@@ -12,6 +12,16 @@ gateway:
   extraEnvFrom:
     - secretRef:
         name: loki-s3-secrets
+  extraVolumes:
+    - name: tsdb-index-dir
+      emptyDir: {}
+    - name: tsdb-cache-dir
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: tsdb-index-dir
+      mountPath: /loki/tsdb-index
+    - name: tsdb-cache-dir
+      mountPath: /loki/tsdb-cache
 
 # -------------------------
 # SIMPLESCALABLE COMPONENTS
@@ -46,6 +56,20 @@ write:
   extraEnvFrom:
     - secretRef:
         name: loki-s3-secrets
+  extraVolumes:
+    - name: tsdb-index-dir
+      emptyDir: {}
+    - name: tsdb-cache-dir
+      emptyDir: {}
+    - name: tsdb-shipper-active-dir
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: tsdb-index-dir
+      mountPath: /loki/tsdb-index
+    - name: tsdb-cache-dir
+      mountPath: /loki/tsdb-cache
+    - name: tsdb-shipper-active-dir
+      mountPath: /loki/tsdb-shipper-active 
 
 backend:
   replicas: 1
@@ -154,7 +178,6 @@ loki:
     aws:
       endpoint: minio-api.kwadwolabs.cloud
       region: af-johannesburg-1
-      bucketnames: loki-chunks
       s3forcepathstyle: true
       insecure: false
     tsdb_shipper:
@@ -186,7 +209,7 @@ loki:
       s3:
         endpoint: minio-api.kwadwolabs.cloud
         region: af-johannesburg-1
-        bucketnames: loki-index
+        bucketname: loki-index  # Change to singular 'bucketname'
         s3forcepathstyle: true
         insecure: false
 

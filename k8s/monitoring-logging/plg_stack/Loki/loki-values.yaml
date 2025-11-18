@@ -178,7 +178,7 @@ loki:
     aws:
       endpoint: minio-api.kwadwolabs.cloud
       region: af-johannesburg-1
-      bucketname: loki-chunks
+     # bucketnames: loki-chunks
       s3forcepathstyle: true
       insecure: false
     tsdb_shipper:
@@ -210,7 +210,7 @@ loki:
       s3:
         endpoint: minio-api.kwadwolabs.cloud
         region: af-johannesburg-1
-        bucketname: loki-index  # Change to singular 'bucketname'
+        bucketnames: loki-index  # Change to singular 'bucketname'
         s3forcepathstyle: true
         insecure: false
 

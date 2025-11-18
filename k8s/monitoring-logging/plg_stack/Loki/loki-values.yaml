@@ -63,6 +63,8 @@ write:
       emptyDir: {}
     - name: tsdb-shipper-active-dir
       emptyDir: {}
+    - name: wal-dir
+      emptyDir: {}
   extraVolumeMounts:
     - name: tsdb-index-dir
       mountPath: /loki/tsdb-index
@@ -70,6 +72,8 @@ write:
       mountPath: /loki/tsdb-cache
     - name: tsdb-shipper-active-dir
       mountPath: /loki/tsdb-shipper-active 
+    - name: wal-dir
+      mountPath: /loki/wal
 
 backend:
   replicas: 1

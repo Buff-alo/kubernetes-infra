@@ -38,6 +38,9 @@ kubectl exec test-pod-1 -- ping -c 3 8.8.8.8
 echo "=== DNS RESOLUTION ==="
 kubectl exec test-pod-1 -- nslookup google.com
 
+echo "=== DNS RESOLUTION in cluster ==="
+kubectl exec test-pod-1 -- nslookup kubernetes.default
+
 echo "=== API SERVER ACCESS ==="
 kubectl exec test-pod-1 -- curl -k https://100.118.120.5:6443/version
 

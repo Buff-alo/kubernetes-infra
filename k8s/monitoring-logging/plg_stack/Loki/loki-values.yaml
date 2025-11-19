@@ -1,132 +1,46 @@
 # loki-values.yaml
-deploymentMode: SimpleScalable
+deploymentMode: SingleBinary
 
+# -------------------------------------
+# SINGLE BINARY CONFIGURATION
+# -------------------------------------
+singleBinary:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi # Combined memory of read/write/backend
+  
+  # Load AWS/MinIO Credentials
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: loki-s3-secrets
+
+  # -------------------------------------
+  # STORAGE & CACHE VOLUMES (Ephemeral)
+  # -------------------------------------
+  # Using emptyDir as requested. Warning: If the pod restarts, 
+  # logs not yet flushed to S3 will be lost because WAL is ephemeral.
+  extraVolumes:
+    - name: loki-data
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: loki-data
+      mountPath: /loki
+      
+# -------------------------------------
+# DISABLE MICROSERVICES
+# -------------------------------------
 gateway:
-  replicas: 1
-  resources:
-    requests:
-      cpu: 50m
-      memory: 128Mi
-  extraArgs:
-    - -config.expand-env=true
-  extraEnvFrom:
-    - secretRef:
-        name: loki-s3-secrets
-  extraVolumes:
-    - name: tsdb-index-dir
-      emptyDir: {}
-    - name: tsdb-cache-dir
-      emptyDir: {}
-  extraVolumeMounts:
-    - name: tsdb-index-dir
-      mountPath: /loki/tsdb-index
-    - name: tsdb-cache-dir
-      mountPath: /loki/tsdb-cache
-
-# -------------------------
-# SIMPLESCALABLE COMPONENTS
-# -------------------------
-
-read:
-  replicas: 1
-  persistence:
-    enabled: false
-    size: 1Gi
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-  extraArgs:
-    - -config.expand-env=true
-  extraEnvFrom:
-    - secretRef:
-        name: loki-s3-secrets
-
-write:
-  replicas: 1
-  persistence:
-    enabled: false
-    size: 1Gi
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-  extraArgs:
-    - -config.expand-env=true
-  extraEnvFrom:
-    - secretRef:
-        name: loki-s3-secrets
-  extraVolumes:
-    - name: tsdb-index-dir
-      emptyDir: {}
-    - name: tsdb-cache-dir
-      emptyDir: {}
-    - name: tsdb-shipper-active-dir
-      emptyDir: {}
-    - name: wal-dir
-      emptyDir: {}
-  extraVolumeMounts:
-    - name: tsdb-index-dir
-      mountPath: /loki/tsdb-index
-    - name: tsdb-cache-dir
-      mountPath: /loki/tsdb-cache
-    - name: tsdb-shipper-active-dir
-      mountPath: /loki/tsdb-shipper-active 
-    - name: wal-dir
-      mountPath: /loki/wal
-
+  enabled: false # Single binary handles traffic directly
 backend:
-  replicas: 1
-  persistence:
-    enabled: false
-    size: 1Gi
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-  extraArgs:
-    - -config.expand-env=true
-  extraEnvFrom:
-    - secretRef:
-        name: loki-s3-secrets
-  # Add emptyDir volumes for writable directories
-  extraVolumes:
-    - name: compactor-dir
-      emptyDir: {}
-    - name: tsdb-dir
-      emptyDir: {}
-    - name: tsdb-shipper-cache-dir  # Add this new volume
-      emptyDir: {}
-  extraVolumeMounts:
-    - name: compactor-dir
-      mountPath: /loki/compactor
-    - name: tsdb-dir
-      mountPath: /loki/tsdb-index
-    - name: tsdb-shipper-cache-dir  # Add this new mount
-      mountPath: /loki/tsdb-shipper-cache
-
-# Disable compactor & indexGateway in SimpleScalable
-compactor:
   replicas: 0
-  persistence:
-    enabled: false
-    size: 1Gi
-
-indexGateway:
+read:
   replicas: 0
-  persistence:
-    enabled: false
-    size: 1Gi
-
-# -------------------------
-# DISTRIBUTED COMPONENTS OFF
-# -------------------------
-canary:
-  enabled: false
-chunksCache:
-  enabled: false
-resultsCache:
-  enabled: false
+write:
+  replicas: 0
 ingester:
   replicas: 0
 querier:
@@ -137,45 +51,29 @@ queryScheduler:
   replicas: 0
 distributor:
   replicas: 0
+compactor:
+  replicas: 0 # Disabled as a standalone service (runs inside singleBinary)
+indexGateway:
+  replicas: 0
 bloomCompactor:
   replicas: 0
 bloomGateway:
   replicas: 0
 
 # -------------------------------------
-# LOKI STRUCTURED CONFIGURATION
+# LOKI APP CONFIGURATION
 # -------------------------------------
 loki:
   auth_enabled: false
 
-  memberlist:
-    join_members: []
-    abort_if_cluster_join_fails: false
-
-  ring:
-    instance_addr: 127.0.0.1
-    kvstore:
-      store: inmemory
-
-  # Storage bucket names (REQUIRED by Helm chart)
-  storage:
-    type: s3
-    bucketNames:
-      chunks: loki-chunks
-      ruler: loki-index
-      admin: loki-admin
-
-  # Server configuration
-  server:
-    http_listen_port: 3100
-    grpc_listen_port: 9096
-
-  # Common configuration
   commonConfig:
     replication_factor: 1
     path_prefix: /loki
+    ring:
+      kvstore:
+        store: inmemory
 
-  # Schema configuration
+  # Schema Config
   schemaConfig:
     configs:
       - from: "2024-04-01"
@@ -186,72 +84,66 @@ loki:
           prefix: loki_index_
           period: 24h
 
-  # Storage configuration
-  storageConfig:
-    aws:
+  # -------------------------------------
+  # S3 / MINIO CONFIGURATION
+  # -------------------------------------
+  storage:
+    type: s3
+    bucketNames:
+      chunks: loki-chunks
+      ruler: loki-ruler
+      admin: loki-admin
+    s3:
       endpoint: minio-api.kwadwolabs.cloud
       region: af-johannesburg-1
-     # bucketnames: loki-chunks
-      s3forcepathstyle: true
+      s3ForcePathStyle: true
       insecure: false
+      # Credentials injected via env vars from 'loki-s3-secrets'
+      accessKeyId: "${AWS_ACCESS_KEY_ID}"
+      secretAccessKey: "${AWS_SECRET_ACCESS_KEY}"
+
+  # -------------------------------------
+  # COMPONENT CONFIG
+  # -------------------------------------
+  
+  # TSDB Shipper (Manages Index in S3)
+  storageConfig:
     tsdb_shipper:
       active_index_directory: /loki/tsdb-index
-      cache_location: /loki/tsdb-shipper-cache
+      cache_location: /loki/tsdb-cache
       cache_ttl: 24h
 
-  # Compactor configuration - disable it
-  compactorConfig:
+  # Compactor (Runs inside the single binary now)
+  compactor:
     working_directory: /loki/compactor
     shared_store: s3
-    compaction_interval: 0s  # Disable compaction
-    retention_enabled: false  # Disable retention
+    compaction_interval: 10m 
+    retention_enabled: true
+    retention_delete_delay: 2h
+    retention_delete_worker_count: 150
 
-  # Limits configuration
-  limitsConfig:
-    allow_structured_metadata: true
-    volume_enabled: true
-    retention_period: 672h
-    reject_old_samples: true
-    reject_old_samples_max_age: 168h
-    max_query_length: 721hAWS_ACCESS_KEY_ID
-    max_query_parallelism: 32
-
-  # Ruler configuration
-  rulerConfig:
-    storage:
-      type: s3
-      s3:
-        bucketnames: loki-index
-        endpoint: minio-api.kwadwolabs.cloud
-        region: ""
-        access_key_id: ${AWS_ACCESS_KEY_ID}
-        secret_access_key: ${AWS_SECRET_ACCESS_KEY}
-        s3forcepathstyle: true
-        insecure: false
-
-  # Ingester configuration
-  ingesterConfig:
+  # Ingester (Controls flushing to S3)
+  ingester:
     chunk_idle_period: 5m
     chunk_retain_period: 30s
+    max_transfer_retries: 0
     wal:
-      enabled: false
+      dir: /loki/wal
+      enabled: true # Highly recommended enabling WAL for SingleBinary
+      replay_memory_ceiling: 4GB
 
-  # Querier configuration
-  querierConfig:
-    max_concurrent: 4
+  limits_config:
+    allow_structured_metadata: true
+    retention_period: 672h # 28 Days
+    max_query_length: 721h
+    max_query_parallelism: 32
+    reject_old_samples: true
+    reject_old_samples_max_age: 168h
 
-  # Query frontend configuration
-  queryFrontendConfig:
-    max_outstanding_per_tenant: 2048
+  ruler:
+    storage:
+      type: s3
 
-  # Query scheduler configuration
-  querySchedulerConfig:
-    max_outstanding_requests_per_tenant: 2048
-
-  # Pattern ingester configuration
-  patternIngesterConfig:
-    enabled: true
-
-# Disable the built-in MinIO chart
+# Disable built-in MinIO
 minio:
   enabled: false

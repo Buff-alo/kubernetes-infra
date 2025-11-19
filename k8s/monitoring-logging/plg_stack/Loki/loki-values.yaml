@@ -221,13 +221,13 @@ loki:
     storage:
       type: s3
       s3:
-      bucketnames: loki-index
-      endpoint: minio-api.kwadwolabs.cloud
-      region: ""
-      access_key_id: ${AWS_ACCESS_KEY_ID}
-      secret_access_key: ${AWS_SECRET_ACCESS_KEY}
-      s3forcepathstyle: true
-      insecure: false
+        bucketnames: loki-index
+        endpoint: minio-api.kwadwolabs.cloud
+        region: ""
+        access_key_id: ${AWS_ACCESS_KEY_ID}
+        secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+        s3forcepathstyle: true
+        insecure: false
 
   # Ingester configuration
   ingesterConfig:

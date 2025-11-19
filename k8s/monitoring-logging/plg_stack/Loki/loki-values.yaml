@@ -180,7 +180,7 @@ loki:
   # Storage configuration
   storageConfig:
     aws:
-      endpoint: minio-api.kwadwolabs.cloud
+      # endpoint: minio-api.kwadwolabs.cloud
       region: af-johannesburg-1
      # bucketnames: loki-chunks
       s3forcepathstyle: true

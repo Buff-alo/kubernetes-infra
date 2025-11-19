@@ -214,9 +214,10 @@ loki:
       s3:
         endpoint: minio-api.kwadwolabs.cloud
         region: ""
-        bucketnames: loki-index  
-        access_key_id: ${AWS_ACCESS_KEY_ID}      # Add this line
-        secret_access_key: ${AWS_SECRET_ACCESS_KEY}  # Add this line
+        s3: s3://${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}@minio-api.kwadwolabs.cloud/loki-index
+        # bucketnames: loki-index  
+        # access_key_id: ${AWS_ACCESS_KEY_ID}      # Add this line
+        # secret_access_key: ${AWS_SECRET_ACCESS_KEY}  # Add this line
         s3forcepathstyle: true
         insecure: false
 

@@ -116,7 +116,6 @@ loki:
   # Compactor (Runs inside the single binary now)
   compactor:
     working_directory: /loki/compactor
-    shared_store: s3
     compaction_interval: 10m 
     retention_enabled: true
     retention_delete_delay: 2h
@@ -126,7 +125,6 @@ loki:
   ingester:
     chunk_idle_period: 5m
     chunk_retain_period: 30s
-    max_transfer_retries: 0
     wal:
       dir: /loki/wal
       enabled: true # Highly recommended enabling WAL for SingleBinary

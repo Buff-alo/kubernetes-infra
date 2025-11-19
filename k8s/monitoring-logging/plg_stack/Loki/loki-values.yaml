@@ -204,7 +204,7 @@ loki:
     retention_period: 672h
     reject_old_samples: true
     reject_old_samples_max_age: 168h
-    max_query_length: 721h
+    max_query_length: 721hAWS_ACCESS_KEY_ID
     max_query_parallelism: 32
 
   # Ruler configuration
@@ -213,10 +213,10 @@ loki:
       type: s3
       s3:
         endpoint: minio-api.kwadwolabs.cloud
-        region: af-johannesburg-1
-        bucketnames: loki-index  # Change to singular 'bucketname'
-        access_key_id: ${ACCESS_KEY}      # Add this line
-        secret_access_key: ${SECRET_KEY}  # Add this line
+        region: ""
+        bucketnames: loki-index  
+        accessKeyId: ${AWS_ACCESS_KEY_ID}      # Add this line
+        secretAccessKey: ${AWS_SECRET_ACCESS_KEY}  # Add this line
         s3forcepathstyle: true
         insecure: false
 

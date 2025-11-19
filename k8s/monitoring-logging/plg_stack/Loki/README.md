@@ -4,8 +4,8 @@
 kubectl create secret generic loki-s3-secrets \
   --namespace logging \
   --type=Opaque \
-  --from-literal=ACCESS_KEY=minioadmin \
-  --from-literal=SECRET_KEY=minioadmin
+  --from-literal=AWS_ACCESS_KEY_ID=minioadmin \
+  --from-literal=AWS_SECRET_ACCESS_KEY=minioadmin
 ```
 
 ## Install Loki aggregator

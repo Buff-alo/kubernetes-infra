@@ -1,2 +1,20 @@
 .vscode/
 *.ini
+.venv/
+.ansible/
+
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments & Configuration
+.venv
+venv/      # Alternative name
+env/       # Alternative name
+.env
+.idea/     # PyCharm
+.vscode/   # VS Code

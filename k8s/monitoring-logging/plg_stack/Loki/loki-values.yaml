@@ -148,6 +148,15 @@ bloomGateway:
 loki:
   auth_enabled: false
 
+  memberlist:
+    join_members: []
+    abort_if_cluster_join_fails: false
+
+  ring:
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: inmemory
+
   # Storage bucket names (REQUIRED by Helm chart)
   storage:
     type: s3
@@ -180,7 +189,7 @@ loki:
   # Storage configuration
   storageConfig:
     aws:
-      # endpoint: minio-api.kwadwolabs.cloud
+      endpoint: minio-api.kwadwolabs.cloud
       region: af-johannesburg-1
      # bucketnames: loki-chunks
       s3forcepathstyle: true
@@ -212,14 +221,13 @@ loki:
     storage:
       type: s3
       s3:
-        # endpoint: minio-api.kwadwolabs.cloud
-        region: ""
-        s3: s3://${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}@minio-api.kwadwolabs.cloud/loki-index
-        # bucketnames: loki-index  
-        # access_key_id: ${AWS_ACCESS_KEY_ID}      # Add this line
-        # secret_access_key: ${AWS_SECRET_ACCESS_KEY}  # Add this line
-        s3forcepathstyle: true
-        insecure: false
+      bucketnames: loki-index
+      endpoint: minio-api.kwadwolabs.cloud
+      region: ""
+      access_key_id: ${AWS_ACCESS_KEY_ID}
+      secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+      s3forcepathstyle: true
+      insecure: false
 
   # Ingester configuration
   ingesterConfig:

@@ -1,24 +1,57 @@
+# promtails-values.yaml
+# -------------------
+# Resource Management
+# -------------------
 resources:
   requests:
     cpu: 50m
     memory: 128Mi
+  limits:
+    memory: 256Mi
+
+# -------------------
+# Promtail Configuration
+# -------------------
 config:
   clients:
-    - url: http://loki.logging.svc.cluster.local:3100/loki/api/v1/push  # Points to Loki service
+    - url: http://loki.logging.svc.cluster.local:3100/loki/api/v1/push
+      tenant_id: fake
+
+  # Use 'snippets' to configure parsing without breaking file discovery
   snippets:
     pipelineStages:
       - docker: {}
-      - cri: {}
-    scrapeConfigs:
-      - job_name: kubernetes-pods
-        kubernetes_sd_configs:
-          - role: pod
-        relabel_configs:
-          - source_labels: [__meta_kubernetes_pod_container_name]
-            target_label: __service__
-          - source_labels: [__meta_kubernetes_pod_node_name]
-            target_label: hostname
-        pipeline_stages:
-          - docker: {}
-daemonset:
-  enabled: true
+      - cri: {}  # K3s uses Containerd (CRI), not Docker
+    
+    # This adds your custom labels to every log line
+    common:
+      - action: replace
+        source_labels: ['__meta_kubernetes_pod_node_name']
+        target_label: 'hostname'
+      - action: replace
+        source_labels: ['__meta_kubernetes_pod_container_name']
+        target_label: 'service'
+
+# -------------------
+# K3s Specific Mounts
+# -------------------
+# Required because K3s stores logs in /var/log/pods, 
+# and we need to verify Promtail has permission to read them.
+extraVolumeMounts:
+  - name: pods
+    mountPath: /var/log/pods
+    readOnly: true
+extraVolumes:
+  - name: pods
+    hostPath:
+      path: /var/log/pods
+
+# -------------------
+# Scheduler Tolerations
+# -------------------
+# This ensures Promtail runs on your Control Plane nodes too
+tolerations:
+  - effect: NoSchedule
+    operator: Exists
+  - effect: NoExecute
+    operator: Exists

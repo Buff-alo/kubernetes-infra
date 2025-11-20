@@ -12,6 +12,6 @@ spec:
     kind: Rule
     services:
       - name: grafana
-        port: http
+        port: service
   tls:
     certResolver: myresolver

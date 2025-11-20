@@ -5,7 +5,7 @@ resources:
   limits:
     memory: 512Mi
 persistence:
-  enabled: true  # Optional: Set true and storageClassName: "longhorn" for dashboards
+  enabled: true  
   storageClassName: "longhorn"
   size: 2Gi
 sidecar:

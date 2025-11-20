@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`kube-graf.kwadwolabs.cloud`)
+  - match: Host(`grafana.kwadwolabs.cloud`)
     kind: Rule
     services:
       - name: grafana

@@ -1,18 +1,35 @@
+# grafana-values.yaml
+
 resources:
   requests:
     cpu: 100m
     memory: 256Mi
   limits:
     memory: 512Mi
+
 persistence:
   enabled: true  
   storageClassName: "longhorn"
   size: 2Gi
+
+# -----------------------------------
+# 🔐 PRODUCTION SECRET CONFIGURATION
+# -----------------------------------
+admin:
+  existingSecret: "grafana-admin-credentials"
+  userKey: "admin-user"
+  passwordKey: "admin-password"
+
+# -----------------------------------
+
 sidecar:
   datasources:
     enabled: true
     label: grafana_datasource
-    labelValue: "1"
+  dashboards:
+    enabled: true
+    label: grafana_dashboard
+
 datasources:
   datasources.yaml:
     apiVersion: 1
@@ -20,9 +37,10 @@ datasources:
       - name: Loki
         type: loki
         access: proxy
-        url: http://loki:3100  # Loki service
+        url: http://loki.logging.svc.cluster.local:3100/
+        isDefault: true
         jsonData:
           maxLines: 1000
+
 service:
   type: ClusterIP
-adminPassword: admin  # Change this!

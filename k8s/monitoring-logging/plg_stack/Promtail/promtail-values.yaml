@@ -33,20 +33,6 @@ config:
         target_label: 'service'
 
 # -------------------
-# K3s Specific Mounts
-# -------------------
-# Required because K3s stores logs in /var/log/pods, 
-# and we need to verify Promtail has permission to read them.
-extraVolumeMounts:
-  - name: pods
-    mountPath: /var/log/pods
-    readOnly: true
-extraVolumes:
-  - name: pods
-    hostPath:
-      path: /var/log/pods
-
-# -------------------
 # Scheduler Tolerations
 # -------------------
 # This ensures Promtail runs on your Control Plane nodes too

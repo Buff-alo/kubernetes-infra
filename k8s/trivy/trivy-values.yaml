@@ -6,6 +6,16 @@ trivy:
   
   # Point to your external Docker Compose instance via Tailscale IP
   serverURL: "http://100.102.159.43:4954"
+
+  # Force Jobs to use Host Network (Bridges to Tailscale)
+  podSpec:
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+
+  # Inject the DNS fix into the Scanner Environment
+  env:
+    - name: GODEBUG
+      value: "netdns=go"
   
   # (Optional) Server Token
   # serverToken: "mysecret"

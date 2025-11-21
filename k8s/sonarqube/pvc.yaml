@@ -6,7 +6,20 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn   # change this as needed
+  storageClassName: longhorn
   resources:
     requests:
-      storage: 2Gi
+      storage: 10Gi # 2Gi is too small for ES indices + metrics
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarqube-extensions
+  namespace: sonarqube
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 5Gi # Plugins and language packs

@@ -1,0 +1,38 @@
+# trivy-values.yaml
+
+trivy:
+  # Switch to Client/Server mode
+  mode: ClientServer
+  
+  # Point to your external Docker Compose instance via Tailscale IP
+  serverURL: "http://100.102.159.43:4954"
+  
+  # (Optional) Server Token
+  # serverToken: "mysecret"
+
+  # --- CORRECTED LOCATION ---
+  # Resource limits for the actual SCANNER JOBS (the ephemeral pods).
+  # This protects your worker nodes from CPU spikes during scans.
+  resources:
+    requests:
+      cpu: 100m
+      memory: 100Mi
+    limits:
+      cpu: 500m
+      memory: 500Mi
+
+operator:
+  # Disable the built-in StatefulSet server since you are hosting it externally
+  builtInTrivyServer: false
+
+  # Job Timeouts
+  # The operator needs to wait longer for the remote job to report back over the VPN.
+  scanJobTimeout: "15m"
+  
+  # Concurrency
+  # Lower concurrency to prevent saturating the Tailscale tunnel bandwidth.
+  scanJobsConcurrentLimit: 2
+
+# Node Collector scans the node OS itself.
+nodeCollector:
+  enabled: true

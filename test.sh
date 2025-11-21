@@ -46,3 +46,6 @@ kubectl exec test-pod-1 -- curl -k https://100.118.120.5:6443/version
 
 echo "=== CILIUM STATUS ==="
 kubectl exec -n kube-system ds/cilium -- cilium status
+
+echo "=== TRIVY SERVER ACCESS ==="
+kubectl exec -n kube-system test-pod-1 -- curl -v --connect-timeout 5 http://100.102.159.43:4954/healthz

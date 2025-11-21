@@ -8,6 +8,13 @@
   --create-namespace \
   -f trivy-values.yaml
 ```
+## Set Image pull secrets for trivy
+```bash 
+kubectl create secret generic trivy-registry-auth \
+  --namespace trivy-system \
+  --from-literal=username=<registry-username> \
+  --from-literal=password=<registry-pass>
+```
 
 ## Configuration for smooth deployment
 ```bash

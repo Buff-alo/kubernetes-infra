@@ -16,6 +16,14 @@ trivy:
   env:
     - name: GODEBUG
       value: "netdns=go"
+
+  # Image Pull Secrets
+  registries:
+  - name: "index.docker.io"  # Matches 'docker.io' in your secret
+    auth:
+      secretName: "trivy-registry-auth"  # The new secret we just created
+      usernameKey: "username"            # Matches --from-literal=username
+      passwordKey: "password"            # Matches --from-literal=password
   
   # (Optional) Server Token
   # serverToken: "mysecret"

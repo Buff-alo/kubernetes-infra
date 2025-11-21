@@ -12,6 +12,12 @@ trivy:
     hostNetwork: true
     dnsPolicy: ClusterFirstWithHostNet
 
+    # Allow the pod to run as Root to fix permission issues
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+      fsGroup: 0
+
   # Inject the DNS fix into the Scanner Environment
   env:
     - name: GODEBUG

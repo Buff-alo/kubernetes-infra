@@ -9,4 +9,4 @@ spec:
   storageClassName: longhorn   # change this as needed
   resources:
     requests:
-      storage: 10Gi
+      storage: 2Gi

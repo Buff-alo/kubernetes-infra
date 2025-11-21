@@ -1,5 +1,10 @@
 # SonarQube on Kubernetes
 
+## Apply database
+```bash
+kubectl apply -f postgresql
+```
+
 ## Installation
 
 ```bash

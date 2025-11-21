@@ -9,4 +9,4 @@ spec:
   storageClassName: longhorn   # change to your default storage class
   resources:
     requests:
-      storage: 5Gi
+      storage: 2Gi

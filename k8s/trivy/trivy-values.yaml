@@ -16,10 +16,10 @@ trivy:
   resources:
     requests:
       cpu: 100m
-      memory: 100Mi
+      memory: 500Mi   # Increased from 100Mi to ensure it starts with enough room
     limits:
-      cpu: 500m
-      memory: 500Mi
+      cpu: 1000m      # Allow it to burst to 1 CPU to finish faster
+      memory: 2Gi
 
 operator:
   # Disable the built-in StatefulSet server since you are hosting it externally
@@ -27,7 +27,7 @@ operator:
 
   # Job Timeouts
   # The operator needs to wait longer for the remote job to report back over the VPN.
-  scanJobTimeout: "15m"
+  scanJobTimeout: "20m"
   
   # Concurrency
   # Lower concurrency to prevent saturating the Tailscale tunnel bandwidth.

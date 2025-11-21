@@ -3,8 +3,8 @@
 ## Installation
 
 ```bash
-  helm install trivy-operator aqua/trivy-operator \
+  helm install trivy-operator oci://ghcr.io/aquasecurity/helm-charts/trivy-operator \
   --namespace trivy-system \
   --create-namespace \
-  -f values-stretched.yaml
+  -f trivy-values.yaml
 ```

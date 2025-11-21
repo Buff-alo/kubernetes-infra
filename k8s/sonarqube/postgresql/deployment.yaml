@@ -31,6 +31,14 @@ spec:
               value: sonarqube
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "512Mi"
+              ephemeral-storage: "1Gi"
+            limits:
+              memory: "1Gi"
+              ephemeral-storage: "2Gi"
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data

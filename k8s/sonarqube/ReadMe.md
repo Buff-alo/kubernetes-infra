@@ -4,6 +4,7 @@
 ```bash
 #Make sure namespace exits
 kubectl apply -f namespace.yaml
+kubectl create ns sonarqube
 
 #Create secrets
 kubectl create secret generic loki-s3-secrets \
@@ -26,3 +27,9 @@ helm repo update
 helm upgrade --install sonarqube sonarqube/sonarqube \
   -n sonarqube \
   -f values.yaml
+```
+
+## CleanUP
+```bash
+
+```

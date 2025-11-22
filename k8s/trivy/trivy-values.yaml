@@ -44,6 +44,13 @@ trivy:
       usernameKey: "username"            # Matches --from-literal=username
       passwordKey: "password"            # Matches --from-literal=password
   
+  # Catch explicit "docker.io/..."
+  - name: "docker.io"
+    auth:
+      secretName: "trivy-registry-auth"
+      usernameKey: "username"
+      passwordKey: "password"
+  
   # (Optional) Server Token
   # serverToken: "mysecret"
 

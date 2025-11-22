@@ -17,6 +17,14 @@ trivy:
       runAsUser: 0
       runAsGroup: 0
       fsGroup: 0
+    
+    # Add this to ensure the container doesn't try to drop privileges
+    containers:
+      - name: trivy
+        securityContext:
+          allowPrivilegeEscalation: true
+          privileged: true
+          readOnlyRootFilesystem: false
 
   # Inject the DNS fix into the Scanner Environment
   env:

@@ -36,3 +36,6 @@ kubectl -n trivy-system patch deploy trivy-operator --type='json' -p='[
   }
 ]'
 ```
+## CleanUp
+```bash
+```

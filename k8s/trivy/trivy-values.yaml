@@ -35,6 +35,8 @@ trivy:
       value: "true"
     - name: TRIVY_SKIP_JAVA_DB_UPDATE
       value: "true"
+    - name: TRIVY_TIMEOUT
+      value: "15m"
 
   # Image Pull Secrets
   registries:

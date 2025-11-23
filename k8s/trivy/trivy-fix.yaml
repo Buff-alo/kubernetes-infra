@@ -1,0 +1,67 @@
+trivy:
+  # 1. Keep ClientServer (Crucial for your setup)
+  mode: ClientServer
+  serverURL: "http://100.102.159.43:4954"
+
+  # 2. THE USER'S FIX: Switch to Filesystem Scanning
+  # This forces Trivy to inspect the layers as files, not as an OS.
+  # It bypasses "Entrypoint" crashes and "Init Container" runtime errors.
+  command: filesystem
+  
+  # 3. Optimization: Don't download the DB (use the server!)
+  env:
+    - name: TRIVY_SKIP_DB_UPDATE
+      value: "true"
+    - name: TRIVY_SKIP_JAVA_DB_UPDATE
+      value: "true"
+    - name: GODEBUG
+      value: "netdns=go"
+
+  # 4. Scanners Configuration (Disable unnecessary checks)
+  # We only want vulnerabilities. Secrets/License checks can cause crashes on large FS.
+  scanners:
+    - vulnerability
+  
+  # 5. Registry Auth (DO NOT REMOVE THIS - It's why authentication works!)
+  registries:
+  - name: "docker.io"
+    auth:
+      secretName: "trivy-registry-auth"
+      usernameKey: "username"
+      passwordKey: "password"
+  - name: "index.docker.io"
+    auth:
+      secretName: "trivy-registry-auth"
+      usernameKey: "username"
+      passwordKey: "password"
+
+  # 6. Network & Permissions (Keep this to bypass OCI issues)
+  podSpec:
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+      fsGroup: 0
+    containers:
+      - name: trivy
+        securityContext:
+          allowPrivilegeEscalation: true
+          privileged: true
+          readOnlyRootFilesystem: false
+
+  # 7. Resource Limits (Keep the bump)
+  resources:
+    requests:
+      cpu: 100m
+      memory: 500Mi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+
+operator:
+  # 8. Operational Safety
+  scanJobRetryLimit: 0        # Fail fast if it crashes, don't loop forever
+  scanJobTimeout: "20m"       # Give it time to unpack the filesystem
+  scanJobTTL: 1h              # Keep logs for debugging
+  builtInTrivyServer: false

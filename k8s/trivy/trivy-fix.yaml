@@ -64,5 +64,5 @@ operator:
   scanJobRetryLimit: 0        # Fail fast if it crashes, don't loop forever
   scanJobTimeout: "20m"       # Give it time to unpack the filesystem
   scanJobTTL: 1h              # Keep logs for debugging
-  scanJobsConcurrentLimit: 2
+  scanJobsConcurrentLimit: 1
   builtInTrivyServer: false

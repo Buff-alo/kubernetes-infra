@@ -1,0 +1,137 @@
+---
+- name: Configure and Install K3s Control Plane
+  when: k3s_is_server
+  become: true
+  block:
+    - name: Template K3s Server Config File
+      ansible.builtin.template:
+        src: server_config.yaml.j2
+        dest: /etc/rancher/k3s/config.yaml
+        mode: "0640"
+      vars:
+        server_ip: "{{ k3s_node_tailscale_ip }}"
+        server_hostname: "{{ inventory_hostname }}"
+        control_plane_ips: "{{ k3s_control_plane_ips }}"
+        control_plane_nodes: "{{ groups['controlplane'] }}"
+      notify: Restart K3s
+
+    - name: Check if K3s is installed
+      ansible.builtin.command: k3s --version
+      register: k3s_installed_version
+      failed_when: false
+      changed_when: false
+
+    - name: Download K3s install script for server
+      ansible.builtin.get_url:
+        url: https://get.k3s.io
+        dest: /tmp/install_k3s_server.sh
+        mode: "0755"
+      # Optimization: Only download if it doesn't exist or is older
+      # default behavior of get_url is already idempotent if checksum matches or if we trust file mod time. 
+      # Adding explicit 'creates' isn't supported by get_url directly in the same way as command, 
+      # but get_url is idempotent by default.
+
+    - name: Download Helm installation script
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+        dest: /tmp/get_helm.sh
+        mode: "0755"
+
+    - name: Run Helm installation script
+      ansible.builtin.command: /tmp/get_helm.sh
+      args:
+        creates: /usr/local/bin/helm
+      register: helm_install_result
+      changed_when: false
+
+    - name: Add /usr/local/bin to PATH
+      ansible.builtin.lineinfile:
+        path: ~/.bashrc
+        line: "export PATH=$PATH:/usr/local/bin"
+      when: helm_install_result.rc == 0
+
+    - name: Set permissions and group for K3s server config
+      ansible.builtin.file:
+        path: /etc/rancher/k3s/config.yaml
+        owner: root
+        group: ubuntu
+        mode: "0640"
+      when: inventory_hostname == groups['controlplane'][0]
+
+    - name: Install K3s Server with specified config
+      ansible.builtin.command:
+        cmd: /bin/sh /tmp/install_k3s_server.sh
+      when: k3s_installed_version.rc != 0 or k3s_version not in k3s_installed_version.stdout
+      environment:
+        INSTALL_K3S_VERSION: "{{ k3s_version | default('v1.30.2+k3s1') }}"
+        INSTALL_K3S_EXEC: "--config /etc/rancher/k3s/config.yaml --disable-network-policy"
+
+    - name: Wait for K3s server to be ready and grab the token
+      ansible.builtin.wait_for:
+        path: /var/lib/rancher/k3s/server/node-token
+        search_regex: "^K10"
+        timeout: 300
+      when: inventory_hostname == groups['controlplane'][0]
+
+    - name: Fetch K3s node token from first control plane node
+      ansible.builtin.slurp:
+        src: /var/lib/rancher/k3s/server/node-token
+      register: k3s_token_result
+      when: inventory_hostname == groups['controlplane'][0]
+
+    - name: Debug K3s token fetch result
+      ansible.builtin.debug:
+        var: k3s_token_result
+      when: inventory_hostname == groups['controlplane'][0]
+
+    - name: Set global fact for worker nodes to use
+      ansible.builtin.set_fact:
+        k3s_node_token: "{{ k3s_token_result.content | b64decode | trim }}"
+        cacheable: true
+      when: inventory_hostname == groups['controlplane'][0]
+      delegate_facts: true
+
+    - name: Ensure k3s_kubeconfig exists
+      ansible.builtin.stat:
+        path: /etc/rancher/k3s/k3s.yaml
+      register: k3s_kubeconfig_stat
+      when: inventory_hostname == groups['controlplane'][0]
+
+    - name: Fail if kubeconfig is missing
+      ansible.builtin.fail:
+        msg: "Kubeconfig file /etc/rancher/k3s/k3s.yaml is missing on {{ inventory_hostname }}. Check K3s installation."
+      when: inventory_hostname == groups['controlplane'][0] and not k3s_kubeconfig_stat.stat.exists
+
+    - name: Set kubeconfig permissions
+      ansible.builtin.file:
+        path: /etc/rancher/k3s/k3s.yaml
+        mode: "0640"
+        owner: root
+        group: ubuntu
+      when: inventory_hostname == groups['controlplane'][0] and k3s_kubeconfig_stat.stat.exists
+
+    - name: Ensure ubuntu user is in the correct group
+      ansible.builtin.user:
+        name: ubuntu
+        groups: ubuntu
+        append: true
+      when: inventory_hostname == groups['controlplane'][0]
+
+    - name: Ensure .kube directory exists in ubuntu home
+      ansible.builtin.file:
+        path: /home/ubuntu/.kube
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: "0755"
+      when: inventory_hostname == groups['controlplane'][0]
+
+    - name: Create kubeconfig symlink for ubuntu user
+      ansible.builtin.file:
+        src: /etc/rancher/k3s/k3s.yaml
+        dest: /home/ubuntu/.kube/config
+        state: link
+        owner: ubuntu
+        group: ubuntu
+        mode: "0644"
+      when: inventory_hostname == groups['controlplane'][0] and k3s_kubeconfig_stat.stat.exists

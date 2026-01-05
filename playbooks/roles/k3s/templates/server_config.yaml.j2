@@ -6,6 +6,7 @@ vpn-auth: "name=tailscale,joinKey={{ tailscale_auth_key }}"
 bind-address: 0.0.0.0
 cluster-cidr: 10.42.0.0/16
 service-cidr: 10.43.0.0/16
+flannel-mtu: 1230
 # flannel-iface: tailscale0
 # flannel-backend: none
 tls-san:

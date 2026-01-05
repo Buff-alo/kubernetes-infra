@@ -86,9 +86,10 @@ ping <tailscale-ip-of-other-node>
 
 ---
 
-## 🧠 3. Install K3s 
+## 🧠 3. Install K3s
 
 ### Create Iptables Input and Forward policies for tailscalel and K3s
+
 ```bash
    sudo iptables -I INPUT 1 -s 10.42.0.0/16 -j ACCEPT
    sudo iptables -I INPUT 1 -s 10.43.0.0/16 -j ACCEPT
@@ -110,7 +111,9 @@ ping <tailscale-ip-of-other-node>
    sudo apt install iptables-persistent -y
    sudo netfilter-persistent save
 ```
+
 ---
+
 ### Control Plane (AWS)
 
 1. Create `/etc/rancher/k3s/config.yaml` file for K3s server configuration.
@@ -125,19 +128,19 @@ tailscale ip -4
    ```yaml
    # /etc/rancher/k3s/config.yaml
    write-kubeconfig-mode: "0644"
-   node-name: kls-controlplane-01
+   node-name: kls-controlplane-01 #Node name
    node-external-ip: 100.x.y.z # Tailscale IP of control plane
    vpn-auth: "name=tailscale,joinKey=< tailscale_auth_key>"
    bind-address: 0.0.0.0
    cluster-cidr: 10.42.0.0/16
-   service-cidr: 10.43.0.0/16                  
+   service-cidr: 10.43.0.0/16
    tls-san:
      - 100.x.y.z # Tailscale IP
      - kls-controlplane-01
-   disable: #if You want these disabled 
-      - traefik
-      - servicelb
-      - local-storage
+   disable: #if You want these disabled
+     - traefik
+     - servicelb
+     - local-storage
    ```
 
 4. Install K3s using:
@@ -172,7 +175,6 @@ tailscale ip -4
    node-name: YOUR_WORKER_NODE_NAME
    node-external-ip: 100.x.y.z # Tailscale IP of this worker
    vpn-auth: "name=tailscale,joinKey=< tailscale_auth_key>"
-   
    ```
 
 3. Install K3s agent using:
@@ -231,6 +233,23 @@ Two main approaches for persistent storage in a multicloud lab:
    - Or use a portable storage solution like **NFS**, **Longhorn**, or **Rook/Ceph** across nodes.
 
 > For now, this setup only documents the pattern; storage classes and PV provisioning are not implemented yet.
+
+---
+
+### Network Debug
+
+```bash
+# Flush iptables (CAUTION: This will temporarily disrupt network)
+sudo iptables -F
+sudo iptables -t nat -F
+sudo iptables -t mangle -F
+sudo iptables -X
+
+# Restart network services
+sudo systemctl restart docker  # if using docker
+sudo systemctl restart kubelet
+sudo systemctl restart containerd  # if using containerd
+```
 
 ---
 

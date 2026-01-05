@@ -1,0 +1,65 @@
+---
+- name: Load Tailscale IPs from file
+  ansible.builtin.include_vars:
+    file: /tmp/tailscale_ips.yml
+    name: tailscale_map
+
+- name: Ensure Tailscale IPs are set for all hosts
+  ansible.builtin.set_fact:
+    k3s_node_tailscale_ip: "{{ hostvars[inventory_hostname].tailscale_ip }}"
+    k3s_control_plane_ip: "{{ hostvars[groups['controlplane'][0]].tailscale_ip | default('undefined') }}"
+    k3s_is_server: "{{ inventory_hostname in groups['controlplane'] }}"
+    k3s_is_agent: "{{ inventory_hostname in groups['workers'] }}"
+    k3s_control_plane_ips: "{{ groups['controlplane'] | map('extract', hostvars, 'tailscale_ip') | list }}"
+  when: hostvars[inventory_hostname].tailscale_ip is defined
+
+- name: Debug loaded Tailscale IPs
+  ansible.builtin.debug:
+    msg: "Loaded Tailscale IPs: {{ tailscale_ips }}"
+  when: tailscale_ips is defined
+  run_once: true
+
+- name: Validate Tailscale IP for current node
+  ansible.builtin.fail:
+    msg: "The 'tailscale_ip' fact is not defined for {{ inventory_hostname }}. Ensure the 'tailscale' role has run successfully."
+  when: hostvars[inventory_hostname].tailscale_ip is not defined
+
+- name: Validate Tailscale IPs for control plane nodes
+  ansible.builtin.fail:
+    msg: "The 'tailscale_ip' fact is not defined for control plane host {{ item }}. Ensure the 'tailscale' role has run successfully."
+  loop: "{{ groups['controlplane'] }}"
+  when: hostvars[item].tailscale_ip is not defined
+
+- name: Validate control plane group
+  ansible.builtin.fail:
+    msg: "At least one control plane node must be defined in the 'controlplane' group."
+  when: groups['controlplane'] | length == 0
+  run_once: true
+
+- name: Set common K3s facts for all nodes
+  ansible.builtin.set_fact:
+    k3s_is_server: "{{ inventory_hostname in groups['controlplane'] }}"
+    k3s_is_agent: "{{ inventory_hostname in groups['workers'] }}"
+    k3s_node_tailscale_ip: "{{ hostvars[inventory_hostname].tailscale_ip }}"
+    k3s_control_plane_ip: "{{ hostvars[groups['controlplane'][0]].tailscale_ip }}"
+    k3s_control_plane_ips: "{{ groups['controlplane'] | map('extract', hostvars, 'tailscale_ip') | list }}"
+  delegate_facts: true
+
+- name: Ensure ubuntu user has passwordless sudo
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/ubuntu
+    line: "ubuntu ALL=(ALL) NOPASSWD: ALL"
+    mode: "0440"
+    create: true
+    validate: "visudo -cf %s"
+  become: true
+  when: k3s_is_server or k3s_is_agent
+
+- name: Ensure /etc/rancher/k3s directory exists
+  ansible.builtin.file:
+    path: /etc/rancher/k3s
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  become: true

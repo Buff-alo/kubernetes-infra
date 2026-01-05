@@ -78,5 +78,5 @@ variable "oci_shape_type" {
 variable "oci_worker_count" {
   description = "Number of worker instances for OCI"
   type        = number
-  default     = 4
+  default     = 3
 }

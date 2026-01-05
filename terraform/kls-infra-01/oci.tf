@@ -1,3 +1,4 @@
+# oci.tf
 # Get Availability Domains
 data "oci_identity_availability_domains" "ads" {
   count          = var.cloud_provider == "oci" ? 1 : 0
@@ -70,6 +71,14 @@ resource "oci_core_instance" "controlplane" {
     Role = "controlplane"
   }
 
+  lifecycle {
+    ignore_changes = [
+      source_details,   # Ignores Image ID changes and Volume Size changes
+      shape_config,     # Ignores any shape adjustments
+      metadata          # Ignores SSH key changes
+    ]
+  }
+
   provisioner "local-exec" {
     command = <<-EOT
       INVENTORY_PATH="${path.module}/inventory.ini"
@@ -116,6 +125,15 @@ resource "oci_core_instance" "workers" {
   source_details {
     source_type = "image"
     source_id   = count.index < 2 ? try(data.oci_core_images.ubuntu_arm[0].images[0].id, null) : try(data.oci_core_images.ubuntu_amd[0].images[0].id, null)
+    boot_volume_size_in_gbs = 50
+  }
+
+  lifecycle {
+    ignore_changes = [
+      source_details,  # Ignores Image ID updates and Volume Size mismatches
+      shape_config,    # Ignores any shape adjustments
+      metadata          # Prevents restarts if you tweak OCPU/RAM settings
+    ]
   }
 
   freeform_tags = {

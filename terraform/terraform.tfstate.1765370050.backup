@@ -1,0 +1,1204 @@
+{
+  "version": 4,
+  "terraform_version": "1.14.1",
+  "serial": 196,
+  "lineage": "33295d2a-3414-b1e9-8a80-0b54c2c1459a",
+  "outputs": {
+    "aws_public_ips": {
+      "value": [],
+      "type": [
+        "tuple",
+        []
+      ]
+    },
+    "gcp_public_ips": {
+      "value": [],
+      "type": [
+        "tuple",
+        []
+      ]
+    },
+    "oci_controlplane_ips": {
+      "value": [
+        "145.241.188.24"
+      ],
+      "type": [
+        "tuple",
+        [
+          "string"
+        ]
+      ]
+    },
+    "oci_worker_ips": {
+      "value": [
+        "145.241.189.89",
+        "84.8.135.161",
+        "145.241.186.145",
+        "84.8.143.5"
+      ],
+      "type": [
+        "tuple",
+        [
+          "string",
+          "string",
+          "string",
+          "string"
+        ]
+      ]
+    }
+  },
+  "resources": [
+    {
+      "mode": "data",
+      "type": "aws_ami",
+      "name": "ubuntu",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "allow_unsafe_filter": null,
+            "architecture": "x86_64",
+            "arn": "arn:aws:ec2:eu-north-1::image/ami-01637463b2cbe7cb6",
+            "block_device_mappings": [
+              {
+                "device_name": "/dev/sda1",
+                "ebs": {
+                  "delete_on_termination": "true",
+                  "encrypted": "false",
+                  "iops": "0",
+                  "snapshot_id": "snap-047b6789c9f3b0f8b",
+                  "throughput": "0",
+                  "volume_initialization_rate": "0",
+                  "volume_size": "8",
+                  "volume_type": "gp2"
+                },
+                "no_device": "",
+                "virtual_name": ""
+              },
+              {
+                "device_name": "/dev/sdb",
+                "ebs": {},
+                "no_device": "",
+                "virtual_name": "ephemeral0"
+              },
+              {
+                "device_name": "/dev/sdc",
+                "ebs": {},
+                "no_device": "",
+                "virtual_name": "ephemeral1"
+              }
+            ],
+            "boot_mode": "legacy-bios",
+            "creation_date": "2025-06-25T05:32:49.000Z",
+            "deprecation_time": "2027-06-25T05:32:49.000Z",
+            "description": "Canonical, Ubuntu, 20.04, amd64 focal image",
+            "ena_support": true,
+            "executable_users": null,
+            "filter": [
+              {
+                "name": "name",
+                "values": [
+                  "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
+                ]
+              },
+              {
+                "name": "virtualization-type",
+                "values": [
+                  "hvm"
+                ]
+              }
+            ],
+            "hypervisor": "xen",
+            "id": "ami-01637463b2cbe7cb6",
+            "image_id": "ami-01637463b2cbe7cb6",
+            "image_location": "amazon/ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20250624",
+            "image_owner_alias": "amazon",
+            "image_type": "machine",
+            "imds_support": "",
+            "include_deprecated": false,
+            "kernel_id": "",
+            "last_launched_time": "",
+            "most_recent": true,
+            "name": "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20250624",
+            "name_regex": null,
+            "owner_id": "099720109477",
+            "owners": [
+              "099720109477"
+            ],
+            "platform": "",
+            "platform_details": "Linux/UNIX",
+            "product_codes": [],
+            "public": true,
+            "ramdisk_id": "",
+            "region": "eu-north-1",
+            "root_device_name": "/dev/sda1",
+            "root_device_type": "ebs",
+            "root_snapshot_id": "snap-047b6789c9f3b0f8b",
+            "sriov_net_support": "simple",
+            "state": "available",
+            "state_reason": {
+              "code": "UNSET",
+              "message": "UNSET"
+            },
+            "tags": {},
+            "timeouts": null,
+            "tpm_support": "",
+            "uefi_data": null,
+            "usage_operation": "RunInstances",
+            "virtualization_type": "hvm"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "google_compute_image",
+      "name": "ubuntu",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "archive_size_bytes": 3809761536,
+            "creation_timestamp": "2025-10-14T02:30:44.796-07:00",
+            "description": "Canonical, Ubuntu, 24.04 LTS, amd64 noble image built on 2025-10-14",
+            "disk_size_gb": 10,
+            "family": "ubuntu-2404-lts-amd64",
+            "filter": null,
+            "id": "projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20251014",
+            "image_encryption_key_sha256": "",
+            "image_id": "7794673876390356651",
+            "label_fingerprint": "iNBmVNCFF9w=",
+            "labels": {
+              "public-image": "true"
+            },
+            "licenses": [
+              "https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/licenses/ubuntu-2404-lts"
+            ],
+            "most_recent": false,
+            "name": "ubuntu-2404-noble-amd64-v20251014",
+            "project": "ubuntu-os-cloud",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20251014",
+            "source_disk": "",
+            "source_disk_encryption_key_sha256": "",
+            "source_disk_id": "",
+            "source_image_id": "",
+            "status": "READY"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "oci_core_images",
+      "name": "ubuntu_amd",
+      "provider": "provider[\"registry.terraform.io/oracle/oci\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "compartment_id": "ocid1.compartment.oc1..aaaaaaaadg65ggclqvk4otl4lhxrswskyu7km6roo7qhdz4be45g43vm6l3a",
+            "display_name": null,
+            "filter": null,
+            "id": "CoreImagesDataSource-104861848",
+            "images": [
+              {
+                "agent_features": [],
+                "base_image_id": "",
+                "billable_size_in_gbs": "3",
+                "compartment_id": "",
+                "create_image_allowed": true,
+                "defined_tags": {},
+                "display_name": "Canonical-Ubuntu-24.04-2025.09.22-0",
+                "freeform_tags": {},
+                "id": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaamj3iyserwqia23r6uhtqfqxqm6gwe5nsxyupstkro3aiszivth7a",
+                "image_source_details": [],
+                "instance_id": "",
+                "launch_mode": "NATIVE",
+                "launch_options": [
+                  {
+                    "boot_volume_type": "PARAVIRTUALIZED",
+                    "firmware": "UEFI_64",
+                    "is_consistent_volume_naming_enabled": true,
+                    "is_pv_encryption_in_transit_enabled": true,
+                    "network_type": "PARAVIRTUALIZED",
+                    "remote_data_volume_type": "PARAVIRTUALIZED"
+                  }
+                ],
+                "listing_type": "",
+                "operating_system": "Canonical Ubuntu",
+                "operating_system_version": "24.04",
+                "size_in_mbs": "47694",
+                "state": "AVAILABLE",
+                "time_created": "2025-10-02 08:24:00.19 +0000 UTC"
+              },
+              {
+                "agent_features": [],
+                "base_image_id": "",
+                "billable_size_in_gbs": "3",
+                "compartment_id": "",
+                "create_image_allowed": true,
+                "defined_tags": {},
+                "display_name": "Canonical-Ubuntu-24.04-2025.07.23-0",
+                "freeform_tags": {},
+                "id": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaalbizehvkwxig6df3madnc6lduo3urojwmczos3i3shailiz4zhwq",
+                "image_source_details": [],
+                "instance_id": "",
+                "launch_mode": "NATIVE",
+                "launch_options": [
+                  {
+                    "boot_volume_type": "PARAVIRTUALIZED",
+                    "firmware": "UEFI_64",
+                    "is_consistent_volume_naming_enabled": true,
+                    "is_pv_encryption_in_transit_enabled": true,
+                    "network_type": "PARAVIRTUALIZED",
+                    "remote_data_volume_type": "PARAVIRTUALIZED"
+                  }
+                ],
+                "listing_type": "",
+                "operating_system": "Canonical Ubuntu",
+                "operating_system_version": "24.04",
+                "size_in_mbs": "47694",
+                "state": "AVAILABLE",
+                "time_created": "2025-08-01 09:11:40.451 +0000 UTC"
+              },
+              {
+                "agent_features": [],
+                "base_image_id": "",
+                "billable_size_in_gbs": "3",
+                "compartment_id": "",
+                "create_image_allowed": true,
+                "defined_tags": {},
+                "display_name": "Canonical-Ubuntu-24.04-2025.05.20-0",
+                "freeform_tags": {},
+                "id": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaaeyksiuz3loqoodfwsglc7l4uqamd6w266rlneasncnf3qi2gisha",
+                "image_source_details": [],
+                "instance_id": "",
+                "launch_mode": "NATIVE",
+                "launch_options": [
+                  {
+                    "boot_volume_type": "PARAVIRTUALIZED",
+                    "firmware": "UEFI_64",
+                    "is_consistent_volume_naming_enabled": true,
+                    "is_pv_encryption_in_transit_enabled": true,
+                    "network_type": "PARAVIRTUALIZED",
+                    "remote_data_volume_type": "PARAVIRTUALIZED"
+                  }
+                ],
+                "listing_type": "",
+                "operating_system": "Canonical Ubuntu",
+                "operating_system_version": "24.04",
+                "size_in_mbs": "47694",
+                "state": "AVAILABLE",
+                "time_created": "2025-05-22 00:22:57.842 +0000 UTC"
+              }
+            ],
+            "operating_system": "Canonical Ubuntu",
+            "operating_system_version": "24.04",
+            "shape": "VM.Standard.E2.1.Micro",
+            "sort_by": "TIMECREATED",
+            "sort_order": "DESC",
+            "state": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "oci_core_images",
+      "name": "ubuntu_arm",
+      "provider": "provider[\"registry.terraform.io/oracle/oci\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "compartment_id": "ocid1.compartment.oc1..aaaaaaaadg65ggclqvk4otl4lhxrswskyu7km6roo7qhdz4be45g43vm6l3a",
+            "display_name": null,
+            "filter": null,
+            "id": "CoreImagesDataSource-2731912486",
+            "images": [
+              {
+                "agent_features": [],
+                "base_image_id": "",
+                "billable_size_in_gbs": "2",
+                "compartment_id": "",
+                "create_image_allowed": true,
+                "defined_tags": {},
+                "display_name": "Canonical-Ubuntu-24.04-aarch64-2025.09.26-0",
+                "freeform_tags": {},
+                "id": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaaxrd4wrkrzmynilyjz7fesusgaeyz3pwlqa5qlbpinbuyg5viperq",
+                "image_source_details": [],
+                "instance_id": "",
+                "launch_mode": "NATIVE",
+                "launch_options": [
+                  {
+                    "boot_volume_type": "PARAVIRTUALIZED",
+                    "firmware": "UEFI_64",
+                    "is_consistent_volume_naming_enabled": true,
+                    "is_pv_encryption_in_transit_enabled": true,
+                    "network_type": "PARAVIRTUALIZED",
+                    "remote_data_volume_type": "PARAVIRTUALIZED"
+                  }
+                ],
+                "listing_type": "",
+                "operating_system": "Canonical Ubuntu",
+                "operating_system_version": "24.04",
+                "size_in_mbs": "47694",
+                "state": "AVAILABLE",
+                "time_created": "2025-10-02 08:23:34.157 +0000 UTC"
+              },
+              {
+                "agent_features": [],
+                "base_image_id": "",
+                "billable_size_in_gbs": "2",
+                "compartment_id": "",
+                "create_image_allowed": true,
+                "defined_tags": {},
+                "display_name": "Canonical-Ubuntu-24.04-aarch64-2025.07.23-0",
+                "freeform_tags": {},
+                "id": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaamo4n45epixsgfayliwvf3dd4hqkmjnwzwynsrthtoiohu7o5i65a",
+                "image_source_details": [],
+                "instance_id": "",
+                "launch_mode": "NATIVE",
+                "launch_options": [
+                  {
+                    "boot_volume_type": "PARAVIRTUALIZED",
+                    "firmware": "UEFI_64",
+                    "is_consistent_volume_naming_enabled": true,
+                    "is_pv_encryption_in_transit_enabled": true,
+                    "network_type": "PARAVIRTUALIZED",
+                    "remote_data_volume_type": "PARAVIRTUALIZED"
+                  }
+                ],
+                "listing_type": "",
+                "operating_system": "Canonical Ubuntu",
+                "operating_system_version": "24.04",
+                "size_in_mbs": "47694",
+                "state": "AVAILABLE",
+                "time_created": "2025-08-01 09:17:39.583 +0000 UTC"
+              },
+              {
+                "agent_features": [],
+                "base_image_id": "",
+                "billable_size_in_gbs": "2",
+                "compartment_id": "",
+                "create_image_allowed": true,
+                "defined_tags": {},
+                "display_name": "Canonical-Ubuntu-24.04-aarch64-2025.05.20-0",
+                "freeform_tags": {},
+                "id": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaamypktduzrpnxyazlazgjh555jknaldfxhtxq5qlgnvsb3lfpe36a",
+                "image_source_details": [],
+                "instance_id": "",
+                "launch_mode": "NATIVE",
+                "launch_options": [
+                  {
+                    "boot_volume_type": "PARAVIRTUALIZED",
+                    "firmware": "UEFI_64",
+                    "is_consistent_volume_naming_enabled": true,
+                    "is_pv_encryption_in_transit_enabled": true,
+                    "network_type": "PARAVIRTUALIZED",
+                    "remote_data_volume_type": "PARAVIRTUALIZED"
+                  }
+                ],
+                "listing_type": "",
+                "operating_system": "Canonical Ubuntu",
+                "operating_system_version": "24.04",
+                "size_in_mbs": "47694",
+                "state": "AVAILABLE",
+                "time_created": "2025-05-22 00:23:09.83 +0000 UTC"
+              }
+            ],
+            "operating_system": "Canonical Ubuntu",
+            "operating_system_version": "24.04",
+            "shape": "VM.Standard.A1.Flex",
+            "sort_by": "TIMECREATED",
+            "sort_order": "DESC",
+            "state": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "oci_identity_availability_domains",
+      "name": "ads",
+      "provider": "provider[\"registry.terraform.io/oracle/oci\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "availability_domains": [
+              {
+                "compartment_id": "ocid1.compartment.oc1..aaaaaaaadg65ggclqvk4otl4lhxrswskyu7km6roo7qhdz4be45g43vm6l3a",
+                "id": "ocid1.availabilitydomain.oc1..aaaaaaaaqedagnv3u5a2yi2jcbln576254togvlldtcdtxxw5babwzv3xenq",
+                "name": "qPou:AF-JOHANNESBURG-1-AD-1"
+              }
+            ],
+            "compartment_id": "ocid1.compartment.oc1..aaaaaaaadg65ggclqvk4otl4lhxrswskyu7km6roo7qhdz4be45g43vm6l3a",
+            "filter": null,
+            "id": "IdentityAvailabilityDomainsDataSource-946156642"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "oci_core_instance",
+      "name": "controlplane",
+      "provider": "provider[\"registry.terraform.io/oracle/oci\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "agent_config": [
+              {
+                "are_all_plugins_disabled": false,
+                "is_management_disabled": false,
+                "is_monitoring_disabled": false,
+                "plugins_config": []
+              }
+            ],
+            "async": null,
+            "availability_config": [
+              {
+                "is_live_migration_preferred": false,
+                "recovery_action": "RESTORE_INSTANCE"
+              }
+            ],
+            "availability_domain": "qPou:AF-JOHANNESBURG-1-AD-1",
+            "boot_volume_id": "ocid1.bootvolume.oc1.af-johannesburg-1.abvg4ljraonq6obdnjqxia2zrmda5gu3af3fmsqv7xwwsg35moz2lwcxnj6q",
+            "capacity_reservation_id": null,
+            "cluster_placement_group_id": null,
+            "compartment_id": "ocid1.compartment.oc1..aaaaaaaadg65ggclqvk4otl4lhxrswskyu7km6roo7qhdz4be45g43vm6l3a",
+            "compute_cluster_id": null,
+            "create_vnic_details": [
+              {
+                "assign_ipv6ip": false,
+                "assign_private_dns_record": false,
+                "assign_public_ip": "true",
+                "defined_tags": {
+                  "Oracle-Tags.CreatedBy": "default/boakkwadwo2@gmail.com",
+                  "Oracle-Tags.CreatedOn": "2025-10-15T17:28:07.847Z"
+                },
+                "display_name": "oci-kls-controlplane-1",
+                "freeform_tags": {
+                  "Role": "controlplane"
+                },
+                "hostname_label": "oci-kls-controlplane-1",
+                "ipv6address_ipv6subnet_cidr_pair_details": [],
+                "nsg_ids": [],
+                "private_ip": "10.0.0.19",
+                "security_attributes": {},
+                "skip_source_dest_check": false,
+                "subnet_id": "ocid1.subnet.oc1.af-johannesburg-1.aaaaaaaaklobs5fqev772ysq3hmx2kggw7czyjduxpyvpqzbtcaaz3hnd26a",
+                "vlan_id": ""
+              }
+            ],
+            "dedicated_vm_host_id": null,
+            "defined_tags": {
+              "Oracle-Tags.CreatedBy": "default/boakkwadwo2@gmail.com",
+              "Oracle-Tags.CreatedOn": "2025-10-15T17:28:07.775Z"
+            },
+            "display_name": "oci-kls-controlplane-1",
+            "extended_metadata": {},
+            "fault_domain": "FAULT-DOMAIN-1",
+            "freeform_tags": {
+              "Role": "controlplane"
+            },
+            "hostname_label": "oci-kls-controlplane-1",
+            "id": "ocid1.instance.oc1.af-johannesburg-1.anvg4ljrcpx7gkycqd7xh3zjhzayf62xpusvqmbpkzkl2xqsr35x664zcudq",
+            "image": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaaxrd4wrkrzmynilyjz7fesusgaeyz3pwlqa5qlbpinbuyg5viperq",
+            "instance_configuration_id": null,
+            "instance_options": [
+              {
+                "are_legacy_imds_endpoints_disabled": false
+              }
+            ],
+            "ipxe_script": null,
+            "is_ai_enterprise_enabled": null,
+            "is_cross_numa_node": false,
+            "is_pv_encryption_in_transit_enabled": null,
+            "launch_mode": "PARAVIRTUALIZED",
+            "launch_options": [
+              {
+                "boot_volume_type": "PARAVIRTUALIZED",
+                "firmware": "UEFI_64",
+                "is_consistent_volume_naming_enabled": true,
+                "is_pv_encryption_in_transit_enabled": false,
+                "network_type": "PARAVIRTUALIZED",
+                "remote_data_volume_type": "PARAVIRTUALIZED"
+              }
+            ],
+            "launch_volume_attachments": null,
+            "licensing_configs": [],
+            "metadata": {
+              "ssh_authorized_keys": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1\n"
+            },
+            "placement_constraint_details": [],
+            "platform_config": [],
+            "preemptible_instance_config": [],
+            "preserve_boot_volume": null,
+            "preserve_data_volumes_created_at_launch": null,
+            "private_ip": "10.0.0.19",
+            "public_ip": "145.241.188.24",
+            "region": "af-johannesburg-1",
+            "security_attributes": {},
+            "security_attributes_state": "STABLE",
+            "shape": "VM.Standard.A1.Flex",
+            "shape_config": [
+              {
+                "baseline_ocpu_utilization": "",
+                "gpu_description": "",
+                "gpus": 0,
+                "local_disk_description": "",
+                "local_disks": 0,
+                "local_disks_total_size_in_gbs": 0,
+                "max_vnic_attachments": 2,
+                "memory_in_gbs": 6,
+                "networking_bandwidth_in_gbps": 1,
+                "nvmes": 0,
+                "ocpus": 1,
+                "processor_description": "3.0 GHz Ampere® Altra™",
+                "resource_management": "",
+                "vcpus": 1
+              }
+            ],
+            "source_details": [
+              {
+                "boot_volume_size_in_gbs": "47",
+                "boot_volume_vpus_per_gb": "10",
+                "instance_source_image_filter_details": [],
+                "is_preserve_boot_volume_enabled": false,
+                "kms_key_id": "",
+                "source_id": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaaxrd4wrkrzmynilyjz7fesusgaeyz3pwlqa5qlbpinbuyg5viperq",
+                "source_type": "image"
+              }
+            ],
+            "state": "RUNNING",
+            "subnet_id": "ocid1.subnet.oc1.af-johannesburg-1.aaaaaaaaklobs5fqev772ysq3hmx2kggw7czyjduxpyvpqzbtcaaz3hnd26a",
+            "system_tags": {},
+            "time_created": "2025-10-15 17:28:08.181 +0000 UTC",
+            "time_maintenance_reboot_due": "",
+            "timeouts": null,
+            "update_operation_constraint": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNzAwMDAwMDAwMDAwLCJkZWxldGUiOjQ1MDAwMDAwMDAwMDAsInVwZGF0ZSI6MjcwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.oci_core_images.ubuntu_arm",
+            "data.oci_identity_availability_domains.ads"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "oci_core_instance",
+      "name": "workers",
+      "provider": "provider[\"registry.terraform.io/oracle/oci\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "agent_config": [
+              {
+                "are_all_plugins_disabled": false,
+                "is_management_disabled": false,
+                "is_monitoring_disabled": false,
+                "plugins_config": []
+              }
+            ],
+            "async": null,
+            "availability_config": [
+              {
+                "is_live_migration_preferred": false,
+                "recovery_action": "RESTORE_INSTANCE"
+              }
+            ],
+            "availability_domain": "qPou:AF-JOHANNESBURG-1-AD-1",
+            "boot_volume_id": "ocid1.bootvolume.oc1.af-johannesburg-1.abvg4ljrcwp3qyiuhty5idzwyilo4ckfz2pyfm5bmchdfounrhq3fjwk6biq",
+            "capacity_reservation_id": null,
+            "cluster_placement_group_id": null,
+            "compartment_id": "ocid1.compartment.oc1..aaaaaaaadg65ggclqvk4otl4lhxrswskyu7km6roo7qhdz4be45g43vm6l3a",
+            "compute_cluster_id": null,
+            "create_vnic_details": [
+              {
+                "assign_ipv6ip": false,
+                "assign_private_dns_record": false,
+                "assign_public_ip": "true",
+                "defined_tags": {
+                  "Oracle-Tags.CreatedBy": "default/boakkwadwo2@gmail.com",
+                  "Oracle-Tags.CreatedOn": "2025-10-15T17:28:07.896Z"
+                },
+                "display_name": "oci-kls-worker-1",
+                "freeform_tags": {
+                  "Role": "worker"
+                },
+                "hostname_label": "oci-kls-worker-1",
+                "ipv6address_ipv6subnet_cidr_pair_details": [],
+                "nsg_ids": [],
+                "private_ip": "10.0.0.195",
+                "security_attributes": {},
+                "skip_source_dest_check": false,
+                "subnet_id": "ocid1.subnet.oc1.af-johannesburg-1.aaaaaaaaklobs5fqev772ysq3hmx2kggw7czyjduxpyvpqzbtcaaz3hnd26a",
+                "vlan_id": ""
+              }
+            ],
+            "dedicated_vm_host_id": null,
+            "defined_tags": {
+              "Oracle-Tags.CreatedBy": "default/boakkwadwo2@gmail.com",
+              "Oracle-Tags.CreatedOn": "2025-10-15T17:28:07.766Z"
+            },
+            "display_name": "oci-kls-worker-1",
+            "extended_metadata": {},
+            "fault_domain": "FAULT-DOMAIN-1",
+            "freeform_tags": {
+              "Role": "worker"
+            },
+            "hostname_label": "oci-kls-worker-1",
+            "id": "ocid1.instance.oc1.af-johannesburg-1.anvg4ljrcpx7gkyclhsjhkjeq3qai66uqkozptif2kztmeeanots3se2t2tq",
+            "image": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaaxrd4wrkrzmynilyjz7fesusgaeyz3pwlqa5qlbpinbuyg5viperq",
+            "instance_configuration_id": null,
+            "instance_options": [
+              {
+                "are_legacy_imds_endpoints_disabled": false
+              }
+            ],
+            "ipxe_script": null,
+            "is_ai_enterprise_enabled": null,
+            "is_cross_numa_node": false,
+            "is_pv_encryption_in_transit_enabled": null,
+            "launch_mode": "PARAVIRTUALIZED",
+            "launch_options": [
+              {
+                "boot_volume_type": "PARAVIRTUALIZED",
+                "firmware": "UEFI_64",
+                "is_consistent_volume_naming_enabled": true,
+                "is_pv_encryption_in_transit_enabled": false,
+                "network_type": "PARAVIRTUALIZED",
+                "remote_data_volume_type": "PARAVIRTUALIZED"
+              }
+            ],
+            "launch_volume_attachments": null,
+            "licensing_configs": [],
+            "metadata": {
+              "ssh_authorized_keys": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1\n"
+            },
+            "placement_constraint_details": [],
+            "platform_config": [],
+            "preemptible_instance_config": [],
+            "preserve_boot_volume": null,
+            "preserve_data_volumes_created_at_launch": null,
+            "private_ip": "10.0.0.195",
+            "public_ip": "145.241.189.89",
+            "region": "af-johannesburg-1",
+            "security_attributes": {},
+            "security_attributes_state": "STABLE",
+            "shape": "VM.Standard.A1.Flex",
+            "shape_config": [
+              {
+                "baseline_ocpu_utilization": "",
+                "gpu_description": "",
+                "gpus": 0,
+                "local_disk_description": "",
+                "local_disks": 0,
+                "local_disks_total_size_in_gbs": 0,
+                "max_vnic_attachments": 2,
+                "memory_in_gbs": 12,
+                "networking_bandwidth_in_gbps": 2,
+                "nvmes": 0,
+                "ocpus": 2,
+                "processor_description": "3.0 GHz Ampere® Altra™",
+                "resource_management": "",
+                "vcpus": 2
+              }
+            ],
+            "source_details": [
+              {
+                "boot_volume_size_in_gbs": "47",
+                "boot_volume_vpus_per_gb": "10",
+                "instance_source_image_filter_details": [],
+                "is_preserve_boot_volume_enabled": false,
+                "kms_key_id": "",
+                "source_id": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaaxrd4wrkrzmynilyjz7fesusgaeyz3pwlqa5qlbpinbuyg5viperq",
+                "source_type": "image"
+              }
+            ],
+            "state": "RUNNING",
+            "subnet_id": "ocid1.subnet.oc1.af-johannesburg-1.aaaaaaaaklobs5fqev772ysq3hmx2kggw7czyjduxpyvpqzbtcaaz3hnd26a",
+            "system_tags": {},
+            "time_created": "2025-10-15 17:28:08.27 +0000 UTC",
+            "time_maintenance_reboot_due": "",
+            "timeouts": null,
+            "update_operation_constraint": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNzAwMDAwMDAwMDAwLCJkZWxldGUiOjQ1MDAwMDAwMDAwMDAsInVwZGF0ZSI6MjcwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.oci_core_images.ubuntu_amd",
+            "data.oci_core_images.ubuntu_arm",
+            "data.oci_identity_availability_domains.ads"
+          ]
+        },
+        {
+          "index_key": 1,
+          "schema_version": 0,
+          "attributes": {
+            "agent_config": [
+              {
+                "are_all_plugins_disabled": false,
+                "is_management_disabled": false,
+                "is_monitoring_disabled": false,
+                "plugins_config": []
+              }
+            ],
+            "async": null,
+            "availability_config": [
+              {
+                "is_live_migration_preferred": false,
+                "recovery_action": "RESTORE_INSTANCE"
+              }
+            ],
+            "availability_domain": "qPou:AF-JOHANNESBURG-1-AD-1",
+            "boot_volume_id": "ocid1.bootvolume.oc1.af-johannesburg-1.abvg4ljrtb3q46yy7f5tpq2kwfhaggad6nywaqiluv6hak5svc55cy6hse4a",
+            "capacity_reservation_id": null,
+            "cluster_placement_group_id": null,
+            "compartment_id": "ocid1.compartment.oc1..aaaaaaaadg65ggclqvk4otl4lhxrswskyu7km6roo7qhdz4be45g43vm6l3a",
+            "compute_cluster_id": null,
+            "create_vnic_details": [
+              {
+                "assign_ipv6ip": false,
+                "assign_private_dns_record": false,
+                "assign_public_ip": "true",
+                "defined_tags": {
+                  "Oracle-Tags.CreatedBy": "default/boakkwadwo2@gmail.com",
+                  "Oracle-Tags.CreatedOn": "2025-10-15T17:29:31.711Z"
+                },
+                "display_name": "oci-kls-worker-2",
+                "freeform_tags": {
+                  "Role": "worker"
+                },
+                "hostname_label": "oci-kls-worker-2",
+                "ipv6address_ipv6subnet_cidr_pair_details": [],
+                "nsg_ids": [],
+                "private_ip": "10.0.0.86",
+                "security_attributes": {},
+                "skip_source_dest_check": false,
+                "subnet_id": "ocid1.subnet.oc1.af-johannesburg-1.aaaaaaaaklobs5fqev772ysq3hmx2kggw7czyjduxpyvpqzbtcaaz3hnd26a",
+                "vlan_id": ""
+              }
+            ],
+            "dedicated_vm_host_id": null,
+            "defined_tags": {
+              "Oracle-Tags.CreatedBy": "default/boakkwadwo2@gmail.com",
+              "Oracle-Tags.CreatedOn": "2025-10-15T17:29:31.633Z"
+            },
+            "display_name": "oci-kls-worker-2",
+            "extended_metadata": {},
+            "fault_domain": "FAULT-DOMAIN-1",
+            "freeform_tags": {
+              "Role": "worker"
+            },
+            "hostname_label": "oci-kls-worker-2",
+            "id": "ocid1.instance.oc1.af-johannesburg-1.anvg4ljrcpx7gkyclqzmtx7tiqffridmekpes6lhd4wfzhas4crhilhvjlla",
+            "image": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaaxrd4wrkrzmynilyjz7fesusgaeyz3pwlqa5qlbpinbuyg5viperq",
+            "instance_configuration_id": null,
+            "instance_options": [
+              {
+                "are_legacy_imds_endpoints_disabled": false
+              }
+            ],
+            "ipxe_script": null,
+            "is_ai_enterprise_enabled": null,
+            "is_cross_numa_node": false,
+            "is_pv_encryption_in_transit_enabled": null,
+            "launch_mode": "PARAVIRTUALIZED",
+            "launch_options": [
+              {
+                "boot_volume_type": "PARAVIRTUALIZED",
+                "firmware": "UEFI_64",
+                "is_consistent_volume_naming_enabled": true,
+                "is_pv_encryption_in_transit_enabled": false,
+                "network_type": "PARAVIRTUALIZED",
+                "remote_data_volume_type": "PARAVIRTUALIZED"
+              }
+            ],
+            "launch_volume_attachments": null,
+            "licensing_configs": [],
+            "metadata": {
+              "ssh_authorized_keys": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1\n"
+            },
+            "placement_constraint_details": [],
+            "platform_config": [],
+            "preemptible_instance_config": [],
+            "preserve_boot_volume": null,
+            "preserve_data_volumes_created_at_launch": null,
+            "private_ip": "10.0.0.86",
+            "public_ip": "84.8.135.161",
+            "region": "af-johannesburg-1",
+            "security_attributes": {},
+            "security_attributes_state": "STABLE",
+            "shape": "VM.Standard.A1.Flex",
+            "shape_config": [
+              {
+                "baseline_ocpu_utilization": "",
+                "gpu_description": "",
+                "gpus": 0,
+                "local_disk_description": "",
+                "local_disks": 0,
+                "local_disks_total_size_in_gbs": 0,
+                "max_vnic_attachments": 2,
+                "memory_in_gbs": 6,
+                "networking_bandwidth_in_gbps": 1,
+                "nvmes": 0,
+                "ocpus": 1,
+                "processor_description": "3.0 GHz Ampere® Altra™",
+                "resource_management": "",
+                "vcpus": 1
+              }
+            ],
+            "source_details": [
+              {
+                "boot_volume_size_in_gbs": "47",
+                "boot_volume_vpus_per_gb": "10",
+                "instance_source_image_filter_details": [],
+                "is_preserve_boot_volume_enabled": false,
+                "kms_key_id": "",
+                "source_id": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaaxrd4wrkrzmynilyjz7fesusgaeyz3pwlqa5qlbpinbuyg5viperq",
+                "source_type": "image"
+              }
+            ],
+            "state": "RUNNING",
+            "subnet_id": "ocid1.subnet.oc1.af-johannesburg-1.aaaaaaaaklobs5fqev772ysq3hmx2kggw7czyjduxpyvpqzbtcaaz3hnd26a",
+            "system_tags": {},
+            "time_created": "2025-10-15 17:29:31.978 +0000 UTC",
+            "time_maintenance_reboot_due": "",
+            "timeouts": null,
+            "update_operation_constraint": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNzAwMDAwMDAwMDAwLCJkZWxldGUiOjQ1MDAwMDAwMDAwMDAsInVwZGF0ZSI6MjcwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.oci_core_images.ubuntu_amd",
+            "data.oci_core_images.ubuntu_arm",
+            "data.oci_identity_availability_domains.ads"
+          ]
+        },
+        {
+          "index_key": 2,
+          "schema_version": 0,
+          "attributes": {
+            "agent_config": [
+              {
+                "are_all_plugins_disabled": false,
+                "is_management_disabled": false,
+                "is_monitoring_disabled": false,
+                "plugins_config": []
+              }
+            ],
+            "async": null,
+            "availability_config": [
+              {
+                "is_live_migration_preferred": false,
+                "recovery_action": "RESTORE_INSTANCE"
+              }
+            ],
+            "availability_domain": "qPou:AF-JOHANNESBURG-1-AD-1",
+            "boot_volume_id": "ocid1.bootvolume.oc1.af-johannesburg-1.abvg4ljrqtyajyxtyrmfhgtlqjhumch4fk473f5ltoakrrelb5blnwky62ma",
+            "capacity_reservation_id": null,
+            "cluster_placement_group_id": null,
+            "compartment_id": "ocid1.compartment.oc1..aaaaaaaadg65ggclqvk4otl4lhxrswskyu7km6roo7qhdz4be45g43vm6l3a",
+            "compute_cluster_id": null,
+            "create_vnic_details": [
+              {
+                "assign_ipv6ip": false,
+                "assign_private_dns_record": false,
+                "assign_public_ip": "true",
+                "defined_tags": {
+                  "Oracle-Tags.CreatedBy": "default/boakkwadwo2@gmail.com",
+                  "Oracle-Tags.CreatedOn": "2025-10-15T17:28:07.875Z"
+                },
+                "display_name": "oci-kls-worker-3",
+                "freeform_tags": {
+                  "Role": "worker"
+                },
+                "hostname_label": "oci-kls-worker-3",
+                "ipv6address_ipv6subnet_cidr_pair_details": [],
+                "nsg_ids": [],
+                "private_ip": "10.0.0.65",
+                "security_attributes": {},
+                "skip_source_dest_check": false,
+                "subnet_id": "ocid1.subnet.oc1.af-johannesburg-1.aaaaaaaaklobs5fqev772ysq3hmx2kggw7czyjduxpyvpqzbtcaaz3hnd26a",
+                "vlan_id": ""
+              }
+            ],
+            "dedicated_vm_host_id": null,
+            "defined_tags": {
+              "Oracle-Tags.CreatedBy": "default/boakkwadwo2@gmail.com",
+              "Oracle-Tags.CreatedOn": "2025-10-15T17:28:07.759Z"
+            },
+            "display_name": "oci-kls-worker-3",
+            "extended_metadata": {},
+            "fault_domain": "FAULT-DOMAIN-2",
+            "freeform_tags": {
+              "Role": "worker"
+            },
+            "hostname_label": "oci-kls-worker-3",
+            "id": "ocid1.instance.oc1.af-johannesburg-1.anvg4ljrcpx7gkycbkj2f2uecv2lhccrg3s6ghuuw6uwrehle7b2x2udvp5a",
+            "image": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaamj3iyserwqia23r6uhtqfqxqm6gwe5nsxyupstkro3aiszivth7a",
+            "instance_configuration_id": null,
+            "instance_options": [
+              {
+                "are_legacy_imds_endpoints_disabled": false
+              }
+            ],
+            "ipxe_script": null,
+            "is_ai_enterprise_enabled": null,
+            "is_cross_numa_node": false,
+            "is_pv_encryption_in_transit_enabled": null,
+            "launch_mode": "PARAVIRTUALIZED",
+            "launch_options": [
+              {
+                "boot_volume_type": "PARAVIRTUALIZED",
+                "firmware": "UEFI_64",
+                "is_consistent_volume_naming_enabled": true,
+                "is_pv_encryption_in_transit_enabled": false,
+                "network_type": "PARAVIRTUALIZED",
+                "remote_data_volume_type": "PARAVIRTUALIZED"
+              }
+            ],
+            "launch_volume_attachments": null,
+            "licensing_configs": [],
+            "metadata": {
+              "ssh_authorized_keys": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1\n"
+            },
+            "placement_constraint_details": [],
+            "platform_config": [],
+            "preemptible_instance_config": [],
+            "preserve_boot_volume": null,
+            "preserve_data_volumes_created_at_launch": null,
+            "private_ip": "10.0.0.65",
+            "public_ip": "145.241.186.145",
+            "region": "af-johannesburg-1",
+            "security_attributes": {},
+            "security_attributes_state": "STABLE",
+            "shape": "VM.Standard.E2.1.Micro",
+            "shape_config": [
+              {
+                "baseline_ocpu_utilization": "",
+                "gpu_description": "",
+                "gpus": 0,
+                "local_disk_description": "",
+                "local_disks": 0,
+                "local_disks_total_size_in_gbs": 0,
+                "max_vnic_attachments": 1,
+                "memory_in_gbs": 1,
+                "networking_bandwidth_in_gbps": 0.5,
+                "nvmes": 0,
+                "ocpus": 1,
+                "processor_description": "2.55 GHz AMD EPYC™ 7J13 (Milan)",
+                "resource_management": "",
+                "vcpus": 2
+              }
+            ],
+            "source_details": [
+              {
+                "boot_volume_size_in_gbs": "47",
+                "boot_volume_vpus_per_gb": "10",
+                "instance_source_image_filter_details": [],
+                "is_preserve_boot_volume_enabled": false,
+                "kms_key_id": "",
+                "source_id": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaamj3iyserwqia23r6uhtqfqxqm6gwe5nsxyupstkro3aiszivth7a",
+                "source_type": "image"
+              }
+            ],
+            "state": "RUNNING",
+            "subnet_id": "ocid1.subnet.oc1.af-johannesburg-1.aaaaaaaaklobs5fqev772ysq3hmx2kggw7czyjduxpyvpqzbtcaaz3hnd26a",
+            "system_tags": {
+              "orcl-cloud.free-tier-retained": "true"
+            },
+            "time_created": "2025-10-15 17:28:08.223 +0000 UTC",
+            "time_maintenance_reboot_due": "",
+            "timeouts": null,
+            "update_operation_constraint": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNzAwMDAwMDAwMDAwLCJkZWxldGUiOjQ1MDAwMDAwMDAwMDAsInVwZGF0ZSI6MjcwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.oci_core_images.ubuntu_amd",
+            "data.oci_core_images.ubuntu_arm",
+            "data.oci_identity_availability_domains.ads"
+          ]
+        },
+        {
+          "index_key": 3,
+          "schema_version": 0,
+          "attributes": {
+            "agent_config": [
+              {
+                "are_all_plugins_disabled": false,
+                "is_management_disabled": false,
+                "is_monitoring_disabled": false,
+                "plugins_config": []
+              }
+            ],
+            "async": null,
+            "availability_config": [
+              {
+                "is_live_migration_preferred": false,
+                "recovery_action": "RESTORE_INSTANCE"
+              }
+            ],
+            "availability_domain": "qPou:AF-JOHANNESBURG-1-AD-1",
+            "boot_volume_id": "ocid1.bootvolume.oc1.af-johannesburg-1.abvg4ljr3gxfgnfucodx6w22o3kosuzocfjk436e7j36lbmgizbdxzgwffeq",
+            "capacity_reservation_id": null,
+            "cluster_placement_group_id": null,
+            "compartment_id": "ocid1.compartment.oc1..aaaaaaaadg65ggclqvk4otl4lhxrswskyu7km6roo7qhdz4be45g43vm6l3a",
+            "compute_cluster_id": null,
+            "create_vnic_details": [
+              {
+                "assign_ipv6ip": false,
+                "assign_private_dns_record": false,
+                "assign_public_ip": "true",
+                "defined_tags": {
+                  "Oracle-Tags.CreatedBy": "default/boakkwadwo2@gmail.com",
+                  "Oracle-Tags.CreatedOn": "2025-10-15T17:28:07.896Z"
+                },
+                "display_name": "oci-kls-worker-4",
+                "freeform_tags": {
+                  "Role": "worker"
+                },
+                "hostname_label": "oci-kls-worker-4",
+                "ipv6address_ipv6subnet_cidr_pair_details": [],
+                "nsg_ids": [],
+                "private_ip": "10.0.0.72",
+                "security_attributes": {},
+                "skip_source_dest_check": false,
+                "subnet_id": "ocid1.subnet.oc1.af-johannesburg-1.aaaaaaaaklobs5fqev772ysq3hmx2kggw7czyjduxpyvpqzbtcaaz3hnd26a",
+                "vlan_id": ""
+              }
+            ],
+            "dedicated_vm_host_id": null,
+            "defined_tags": {
+              "Oracle-Tags.CreatedBy": "default/boakkwadwo2@gmail.com",
+              "Oracle-Tags.CreatedOn": "2025-10-15T17:28:13.191Z"
+            },
+            "display_name": "oci-kls-worker-4",
+            "extended_metadata": {},
+            "fault_domain": "FAULT-DOMAIN-2",
+            "freeform_tags": {
+              "Role": "worker"
+            },
+            "hostname_label": "oci-kls-worker-4",
+            "id": "ocid1.instance.oc1.af-johannesburg-1.anvg4ljrcpx7gkyctd5bbs67qdsblhgrutn2wxowvn5p5ah3g45mw6g7d7xq",
+            "image": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaamj3iyserwqia23r6uhtqfqxqm6gwe5nsxyupstkro3aiszivth7a",
+            "instance_configuration_id": null,
+            "instance_options": [
+              {
+                "are_legacy_imds_endpoints_disabled": false
+              }
+            ],
+            "ipxe_script": null,
+            "is_ai_enterprise_enabled": null,
+            "is_cross_numa_node": false,
+            "is_pv_encryption_in_transit_enabled": null,
+            "launch_mode": "PARAVIRTUALIZED",
+            "launch_options": [
+              {
+                "boot_volume_type": "PARAVIRTUALIZED",
+                "firmware": "UEFI_64",
+                "is_consistent_volume_naming_enabled": true,
+                "is_pv_encryption_in_transit_enabled": false,
+                "network_type": "PARAVIRTUALIZED",
+                "remote_data_volume_type": "PARAVIRTUALIZED"
+              }
+            ],
+            "launch_volume_attachments": null,
+            "licensing_configs": [],
+            "metadata": {
+              "ssh_authorized_keys": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1\n"
+            },
+            "placement_constraint_details": [],
+            "platform_config": [],
+            "preemptible_instance_config": [],
+            "preserve_boot_volume": null,
+            "preserve_data_volumes_created_at_launch": null,
+            "private_ip": "10.0.0.72",
+            "public_ip": "84.8.143.5",
+            "region": "af-johannesburg-1",
+            "security_attributes": {},
+            "security_attributes_state": "STABLE",
+            "shape": "VM.Standard.E2.1.Micro",
+            "shape_config": [
+              {
+                "baseline_ocpu_utilization": "",
+                "gpu_description": "",
+                "gpus": 0,
+                "local_disk_description": "",
+                "local_disks": 0,
+                "local_disks_total_size_in_gbs": 0,
+                "max_vnic_attachments": 1,
+                "memory_in_gbs": 1,
+                "networking_bandwidth_in_gbps": 0.5,
+                "nvmes": 0,
+                "ocpus": 1,
+                "processor_description": "2.55 GHz AMD EPYC™ 7J13 (Milan)",
+                "resource_management": "",
+                "vcpus": 2
+              }
+            ],
+            "source_details": [
+              {
+                "boot_volume_size_in_gbs": "47",
+                "boot_volume_vpus_per_gb": "10",
+                "instance_source_image_filter_details": [],
+                "is_preserve_boot_volume_enabled": false,
+                "kms_key_id": "",
+                "source_id": "ocid1.image.oc1.af-johannesburg-1.aaaaaaaamj3iyserwqia23r6uhtqfqxqm6gwe5nsxyupstkro3aiszivth7a",
+                "source_type": "image"
+              }
+            ],
+            "state": "RUNNING",
+            "subnet_id": "ocid1.subnet.oc1.af-johannesburg-1.aaaaaaaaklobs5fqev772ysq3hmx2kggw7czyjduxpyvpqzbtcaaz3hnd26a",
+            "system_tags": {
+              "orcl-cloud.free-tier-retained": "true"
+            },
+            "time_created": "2025-10-15 17:28:13.581 +0000 UTC",
+            "time_maintenance_reboot_due": "",
+            "timeouts": null,
+            "update_operation_constraint": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNzAwMDAwMDAwMDAwLCJkZWxldGUiOjQ1MDAwMDAwMDAwMDAsInVwZGF0ZSI6MjcwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.oci_core_images.ubuntu_amd",
+            "data.oci_core_images.ubuntu_arm",
+            "data.oci_identity_availability_domains.ads"
+          ]
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}

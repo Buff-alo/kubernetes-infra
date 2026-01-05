@@ -133,7 +133,7 @@ loki:
     wal:
       dir: /loki/wal
       enabled: true # Highly recommended enabling WAL for SingleBinary
-      replay_memory_ceiling: 4GB
+      replay_memory_ceiling: 1GB
 
   limits_config:
     # Allow older logs to be ingested (since Promtail is catching up)
@@ -159,6 +159,11 @@ loki:
     storage:
       type: s3
 
+chunksCache:
+  enabled: false
+resultsCache:
+  enabled: false
+    
 # Disable built-in MinIO
 minio:
   enabled: false

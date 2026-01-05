@@ -1,0 +1,54 @@
+---
+- name: Configure and Install K3s Worker Node
+  when: k3s_is_agent
+  become: true
+  block:
+    - name: Retrieve K3s token from first control plane node
+      ansible.builtin.set_fact:
+        k3s_node_token: "{{ hostvars[groups['controlplane'][0]].k3s_node_token }}"
+      when: 
+        - k3s_node_token is not defined
+        - groups['controlplane'] is defined
+        - groups['controlplane'] | length > 0
+        - hostvars[groups['controlplane'][0]].k3s_node_token is defined
+      # run_once: true
+
+    - name: Fail if K3s token is not available
+      ansible.builtin.fail:
+        msg: "K3s node token is not available. Ensure control plane setup completed successfully or token is provided manually."
+      when: k3s_node_token is not defined
+      # run_once: true
+
+    - name: Template K3s Agent Config File
+      ansible.builtin.template:
+        src: worker_config.yaml.j2
+        dest: /etc/rancher/k3s/config.yaml
+        mode: "0600"
+        owner: root
+        group: ubuntu
+      vars:
+        server_ip: "{{ k3s_control_plane_ip }}"
+        node_ip: "{{ k3s_node_tailscale_ip }}"
+        worker_hostname: "{{ inventory_hostname }}"
+        worker_ip: "{{ k3s_node_tailscale_ip }}"
+      notify: Restart K3s Agent
+
+    - name: Check if K3s is installed
+      ansible.builtin.command: k3s --version
+      register: k3s_agent_installed_version
+      failed_when: false
+      changed_when: false
+
+    - name: Download K3s install script for agent
+      ansible.builtin.get_url:
+        url: https://get.k3s.io
+        dest: /tmp/install_k3s_agent.sh
+        mode: "0755"
+
+    - name: Install K3s Agent with specified config
+      ansible.builtin.command:
+        cmd: /bin/sh /tmp/install_k3s_agent.sh
+      when: k3s_agent_installed_version.rc != 0 or k3s_version not in k3s_agent_installed_version.stdout
+      environment:
+        INSTALL_K3S_VERSION: "{{ k3s_version | default('v1.30.2+k3s1') }}"
+        INSTALL_K3S_EXEC: "agent --config /etc/rancher/k3s/config.yaml"

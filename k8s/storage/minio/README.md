@@ -14,7 +14,7 @@ helm repo update
 ## Install Minio
 
 ```bash
-helm install minio minio/minio \
+helm upgrade -i minio minio/minio \
   -n minio \
   -f minio-values.yaml
 ```
@@ -50,9 +50,14 @@ mc alias set kls-s3 https://minio-api.kwadwolabs.cloud <username> <password> --a
 
 ```bash
 # Change root password
-mc admin user add kls newroot
-mc admin user info kls newroot  # copy access/secret
-mc admin policy attach kls consoleAdmin --user=newroot
+mc admin user add kls-s3 newroot
+mc admin user info kls-s3 newroot  # copy access/secret
+# Attach policy
+mc admin policy attach kls-s3 POLICY_NAME --user=USERNAME
+mc admin policy attach kls-s3 consoleAdmin --user=newroot
+# Change root password
+mc admin user add kls-s3 admin NEW_PASSWORD
+mc admin user info kls-s3 admin
 ```
 
 ## Note

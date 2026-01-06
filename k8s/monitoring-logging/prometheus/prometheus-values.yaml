@@ -1,0 +1,60 @@
+# prometheus-values.yaml
+
+# 1. Prometheus Server Configuration
+server:
+  global:
+    scrape_interval: 15s
+    evaluation_interval: 15s
+
+  # Persist data using Longhorn
+  persistentVolume:
+    enabled: true
+    size: 5Gi  # Adjust based on your needs
+    storageClass: "longhorn"
+
+  # Retention Policy (How long to keep metrics)
+  retention: "15d"
+
+  # Resources (Optimized for small/medium clusters)
+  resources:
+    requests:
+      cpu: 500m
+      memory: 512Mi
+    limits:
+      memory: 1Gi
+
+
+# 2. Node Exporter (The Agent)
+# Runs on every node to get CPU/Mem/Disk stats
+nodeExporter:
+  enabled: true
+  tolerations:
+    - operator: "Exists" # Run on Control Plane nodes too
+
+# 3. Kube State Metrics (K8s Object Stats)
+# Required for dashboards showing "Pod Status" or "Deployment Replicas"
+kube-state-metrics:
+  enabled: true
+
+# 4. Disable unnecessary components
+alertmanager:
+  enabled: false
+pushgateway:
+  enabled: false
+
+# 5. Scrape Configs (K3s Specifics)
+# K3s exposes metrics slightly differently than vanilla K8s. 
+# These tweaks ensure we don't get "Connection Refused" errors.
+extraScrapeConfigs: |
+  - job_name: 'k3s-nodes'
+    kubernetes_sd_configs:
+      - role: node
+    relabel_configs:
+      - action: labelmap
+        regex: __meta_kubernetes_node_label_(.+)
+      - target_label: __address__
+        replacement: kubernetes.default.svc:443
+      - source_labels: [__meta_kubernetes_node_name]
+        regex: (.+)
+        target_label: __metrics_path__
+        replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor

@@ -1,0 +1,2631 @@
+nohup: ignoring input
+[2026-01-06 03:14:33] Starting infra_retry script.
+[2026-01-06 03:14:33] Attempting to run command: terraform apply --auto-approve in /home/buffalo/Documents/Project/kubernetes-infra/terraform/kls-infra-02
+[2026-01-06 03:14:44] Command failed with exit code 1.
+[2026-01-06 03:14:44] STDERR:
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: 5c291c0932f7328cc65bc2e2d2a10efc/D4BCE59A647E2D70237E5C695A524878/07ED2950E736F55FB576A923198147DD 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[0],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: 9400a73c52d57d7ed5c765cb149f72ed/25B75015885B8896237E5C695A524879/746B90438EE710E8E928226BC7052DC4 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[1],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+
+[2026-01-06 03:14:44] STDOUT:
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Reading...[0m[0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Read complete after 1s [id=ami-01637463b2cbe7cb6][0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Read complete after 1s [id=projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20251217][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # module.oci_workers.oci_core_instance.vm[0][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-201"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1m  # module.oci_workers.oci_core_instance.vm[1][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-202"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1mPlan:[0m [0m2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  [32m+[0m[0m oci_worker_ips       = [
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+    ]
+[0m[1mmodule.oci_workers.oci_core_instance.vm[1]: Creating...[0m[0m
+[0m[1mmodule.oci_workers.oci_core_instance.vm[0]: Creating...[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mValue for undeclared variable[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe root module does not declare a variable named "gcp_image" but a value
+[33m│[0m [0mwas found in file "terraform.tfvars". If you meant to use this value, add a
+[33m│[0m [0m"variable" block to the configuration.
+[33m│[0m [0m
+[33m│[0m [0mTo silence these warnings, use TF_VAR_... environment variables to provide
+[33m│[0m [0mcertain "global" settings to all configurations in your organization. To
+[33m│[0m [0mreduce the verbosity of these warnings, use the -compact-warnings option.
+[33m╵[0m[0m
+
+[2026-01-06 03:14:44] Task failed. Retrying in 300 seconds...
+[2026-01-06 03:19:44] Attempting to run command: terraform apply --auto-approve in /home/buffalo/Documents/Project/kubernetes-infra/terraform/kls-infra-02
+[2026-01-06 03:19:55] Command failed with exit code 1.
+[2026-01-06 03:19:55] STDERR:
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: 93736b2724225c641b4c019ea5167a12/7A052CC78A9342B1597F5C695A524887/4AC56FCA933044291A7098BC0FE28D6A 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[1],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: 8dd1a7a956d2a9b2135a43ca51579f4f/3DB7A415E05F8BE6597F5C695A5248C7/D6F6CE5A6AC30EDCB9CFAF8593EDF583 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[0],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+
+[2026-01-06 03:19:55] STDOUT:
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Read complete after 1s [id=projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20251217][0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Read complete after 2s [id=ami-01637463b2cbe7cb6][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # module.oci_workers.oci_core_instance.vm[0][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-201"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1m  # module.oci_workers.oci_core_instance.vm[1][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-202"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1mPlan:[0m [0m2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  [32m+[0m[0m oci_worker_ips       = [
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+    ]
+[0m[1mmodule.oci_workers.oci_core_instance.vm[0]: Creating...[0m[0m
+[0m[1mmodule.oci_workers.oci_core_instance.vm[1]: Creating...[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mValue for undeclared variable[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe root module does not declare a variable named "gcp_image" but a value
+[33m│[0m [0mwas found in file "terraform.tfvars". If you meant to use this value, add a
+[33m│[0m [0m"variable" block to the configuration.
+[33m│[0m [0m
+[33m│[0m [0mTo silence these warnings, use TF_VAR_... environment variables to provide
+[33m│[0m [0mcertain "global" settings to all configurations in your organization. To
+[33m│[0m [0mreduce the verbosity of these warnings, use the -compact-warnings option.
+[33m╵[0m[0m
+
+[2026-01-06 03:19:55] Task failed. Retrying in 300 seconds...
+[2026-01-06 03:24:55] Attempting to run command: terraform apply --auto-approve in /home/buffalo/Documents/Project/kubernetes-infra/terraform/kls-infra-02
+[2026-01-06 03:25:04] Command failed with exit code 1.
+[2026-01-06 03:25:04] STDERR:
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: 5a6ba395075835fe63fc2c84a91bf797/7AD316A127A652A98F805C695A52488D/4C3BC7A6067FFD031E2B0677FCEBB11E 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[1],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: 2c0de2f2f045e201904c7aec5a72f845/020C05215FA5F4B38F805C695A52486F/A1E1E225F208D88B5BD69D9483E97669 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[0],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+
+[2026-01-06 03:25:04] STDOUT:
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Read complete after 2s [id=ami-01637463b2cbe7cb6][0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Read complete after 1s [id=projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20251217][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # module.oci_workers.oci_core_instance.vm[0][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-201"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1m  # module.oci_workers.oci_core_instance.vm[1][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-202"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1mPlan:[0m [0m2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  [32m+[0m[0m oci_worker_ips       = [
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+    ]
+[0m[1mmodule.oci_workers.oci_core_instance.vm[1]: Creating...[0m[0m
+[0m[1mmodule.oci_workers.oci_core_instance.vm[0]: Creating...[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mValue for undeclared variable[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe root module does not declare a variable named "gcp_image" but a value
+[33m│[0m [0mwas found in file "terraform.tfvars". If you meant to use this value, add a
+[33m│[0m [0m"variable" block to the configuration.
+[33m│[0m [0m
+[33m│[0m [0mTo silence these warnings, use TF_VAR_... environment variables to provide
+[33m│[0m [0mcertain "global" settings to all configurations in your organization. To
+[33m│[0m [0mreduce the verbosity of these warnings, use the -compact-warnings option.
+[33m╵[0m[0m
+
+[2026-01-06 03:25:04] Task failed. Retrying in 300 seconds...
+[2026-01-06 03:30:04] Attempting to run command: terraform apply --auto-approve in /home/buffalo/Documents/Project/kubernetes-infra/terraform/kls-infra-02
+[2026-01-06 03:30:14] Command failed with exit code 1.
+[2026-01-06 03:30:14] STDERR:
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: 7ab24472d3f9fc3c09543dac30300b4a/303143EBDC23F1D7C5815C695A5248C9/33F81A0520517191E9AB331286380BA8 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[0],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: fbbc320c4b34dc1db543b581c0dc4b9d/C8B057CCD4890E44C5815C695A5248F5/7D89398618928BE6E661A35A5585200C 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[1],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+
+[2026-01-06 03:30:14] STDOUT:
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Reading...[0m[0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Read complete after 1s [id=projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20251217][0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Read complete after 2s [id=ami-01637463b2cbe7cb6][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # module.oci_workers.oci_core_instance.vm[0][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-201"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1m  # module.oci_workers.oci_core_instance.vm[1][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-202"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1mPlan:[0m [0m2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  [32m+[0m[0m oci_worker_ips       = [
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+    ]
+[0m[1mmodule.oci_workers.oci_core_instance.vm[1]: Creating...[0m[0m
+[0m[1mmodule.oci_workers.oci_core_instance.vm[0]: Creating...[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mValue for undeclared variable[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe root module does not declare a variable named "gcp_image" but a value
+[33m│[0m [0mwas found in file "terraform.tfvars". If you meant to use this value, add a
+[33m│[0m [0m"variable" block to the configuration.
+[33m│[0m [0m
+[33m│[0m [0mTo silence these warnings, use TF_VAR_... environment variables to provide
+[33m│[0m [0mcertain "global" settings to all configurations in your organization. To
+[33m│[0m [0mreduce the verbosity of these warnings, use the -compact-warnings option.
+[33m╵[0m[0m
+
+[2026-01-06 03:30:14] Task failed. Retrying in 300 seconds...
+[2026-01-06 03:35:14] Attempting to run command: terraform apply --auto-approve in /home/buffalo/Documents/Project/kubernetes-infra/terraform/kls-infra-02
+[2026-01-06 03:35:26] Command failed with exit code 1.
+[2026-01-06 03:35:26] STDERR:
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: 8e4f0a73ac47aea512944e4452b22bf4/B9C89D1F195E1F54FC825C695A52480B/FD3B8AC13225C3DB40A83B29B6341398 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[1],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: f5624ba4f807c3c4756e0f7fa80e9c77/8A2589760831E6EFFC825C695A5248C7/64C5AA28553F4C7539D9F9C61E868D16 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[0],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+
+[2026-01-06 03:35:26] STDOUT:
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Read complete after 2s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Read complete after 2s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Reading...[0m[0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Read complete after 2s [id=ami-01637463b2cbe7cb6][0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Read complete after 1s [id=projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20251217][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # module.oci_workers.oci_core_instance.vm[0][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-201"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1m  # module.oci_workers.oci_core_instance.vm[1][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-202"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1mPlan:[0m [0m2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  [32m+[0m[0m oci_worker_ips       = [
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+    ]
+[0m[1mmodule.oci_workers.oci_core_instance.vm[1]: Creating...[0m[0m
+[0m[1mmodule.oci_workers.oci_core_instance.vm[0]: Creating...[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mValue for undeclared variable[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe root module does not declare a variable named "gcp_image" but a value
+[33m│[0m [0mwas found in file "terraform.tfvars". If you meant to use this value, add a
+[33m│[0m [0m"variable" block to the configuration.
+[33m│[0m [0m
+[33m│[0m [0mTo silence these warnings, use TF_VAR_... environment variables to provide
+[33m│[0m [0mcertain "global" settings to all configurations in your organization. To
+[33m│[0m [0mreduce the verbosity of these warnings, use the -compact-warnings option.
+[33m╵[0m[0m
+
+[2026-01-06 03:35:26] Task failed. Retrying in 300 seconds...
+[2026-01-06 03:40:26] Attempting to run command: terraform apply --auto-approve in /home/buffalo/Documents/Project/kubernetes-infra/terraform/kls-infra-02
+[2026-01-06 03:40:35] Command failed with exit code 1.
+[2026-01-06 03:40:35] STDERR:
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: c50109e104c02b4a0739d2bfcb5be101/314E9D200C2698FA32845C695A524831/D8EC098F54BFA68A7507F0291947F2CB 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[0],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: deee221b07745cc44aa79e088f642fde/F2D0B5699F398B9E32845C695A5248FC/328A48FD47F7DE5FCA818F5C9931DC7F 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[1],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+
+[2026-01-06 03:40:35] STDOUT:
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Read complete after 1s [id=projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20251217][0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Read complete after 1s [id=ami-01637463b2cbe7cb6][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # module.oci_workers.oci_core_instance.vm[0][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-201"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1m  # module.oci_workers.oci_core_instance.vm[1][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-202"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1mPlan:[0m [0m2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  [32m+[0m[0m oci_worker_ips       = [
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+    ]
+[0m[1mmodule.oci_workers.oci_core_instance.vm[1]: Creating...[0m[0m
+[0m[1mmodule.oci_workers.oci_core_instance.vm[0]: Creating...[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mValue for undeclared variable[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe root module does not declare a variable named "gcp_image" but a value
+[33m│[0m [0mwas found in file "terraform.tfvars". If you meant to use this value, add a
+[33m│[0m [0m"variable" block to the configuration.
+[33m│[0m [0m
+[33m│[0m [0mTo silence these warnings, use TF_VAR_... environment variables to provide
+[33m│[0m [0mcertain "global" settings to all configurations in your organization. To
+[33m│[0m [0mreduce the verbosity of these warnings, use the -compact-warnings option.
+[33m╵[0m[0m
+
+[2026-01-06 03:40:35] Task failed. Retrying in 300 seconds...
+[2026-01-06 03:45:35] Attempting to run command: terraform apply --auto-approve in /home/buffalo/Documents/Project/kubernetes-infra/terraform/kls-infra-02
+[2026-01-06 03:45:45] Command failed with exit code 1.
+[2026-01-06 03:45:45] STDERR:
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: aa958958c36ff235ed02564d71705e37/9B9A1469436AFD0368855C695A524863/86B882230FBFD0FBC6B1B04715D91E1C 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[0],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: 623945d212c74e840f4e76b049c2850f/4BEC14070F9E696168855C695A524813/11DAE71194363D6C541D0B6C15CD9606 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[1],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+
+[2026-01-06 03:45:45] STDOUT:
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Reading...[0m[0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Read complete after 1s [id=ami-01637463b2cbe7cb6][0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Read complete after 1s [id=projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20251217][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # module.oci_workers.oci_core_instance.vm[0][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-201"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1m  # module.oci_workers.oci_core_instance.vm[1][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-202"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1mPlan:[0m [0m2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  [32m+[0m[0m oci_worker_ips       = [
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+    ]
+[0m[1mmodule.oci_workers.oci_core_instance.vm[0]: Creating...[0m[0m
+[0m[1mmodule.oci_workers.oci_core_instance.vm[1]: Creating...[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mValue for undeclared variable[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe root module does not declare a variable named "gcp_image" but a value
+[33m│[0m [0mwas found in file "terraform.tfvars". If you meant to use this value, add a
+[33m│[0m [0m"variable" block to the configuration.
+[33m│[0m [0m
+[33m│[0m [0mTo silence these warnings, use TF_VAR_... environment variables to provide
+[33m│[0m [0mcertain "global" settings to all configurations in your organization. To
+[33m│[0m [0mreduce the verbosity of these warnings, use the -compact-warnings option.
+[33m╵[0m[0m
+
+[2026-01-06 03:45:45] Task failed. Retrying in 300 seconds...
+[2026-01-06 03:50:45] Attempting to run command: terraform apply --auto-approve in /home/buffalo/Documents/Project/kubernetes-infra/terraform/kls-infra-02
+[2026-01-06 03:50:55] Command failed with exit code 1.
+[2026-01-06 03:50:55] STDERR:
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: 20ddb755eaa717ba9d11652c879945ce/E0B654CEC23CE0979E865C695A52481E/BEA147AE4A66D7CB22DD40B0C39B7551 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[0],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: 806b1e551c783554334a301aa9a82080/BEE20E4C3E98B8569D865C695A524873/302325D841C405A085C89D4DD7BB53BD 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[1],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+
+[2026-01-06 03:50:55] STDOUT:
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Reading...[0m[0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Read complete after 0s [id=projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20251217][0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Read complete after 1s [id=ami-01637463b2cbe7cb6][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # module.oci_workers.oci_core_instance.vm[0][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-201"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1m  # module.oci_workers.oci_core_instance.vm[1][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-202"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1mPlan:[0m [0m2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  [32m+[0m[0m oci_worker_ips       = [
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+    ]
+[0m[1mmodule.oci_workers.oci_core_instance.vm[1]: Creating...[0m[0m
+[0m[1mmodule.oci_workers.oci_core_instance.vm[0]: Creating...[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mValue for undeclared variable[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe root module does not declare a variable named "gcp_image" but a value
+[33m│[0m [0mwas found in file "terraform.tfvars". If you meant to use this value, add a
+[33m│[0m [0m"variable" block to the configuration.
+[33m│[0m [0m
+[33m│[0m [0mTo silence these warnings, use TF_VAR_... environment variables to provide
+[33m│[0m [0mcertain "global" settings to all configurations in your organization. To
+[33m│[0m [0mreduce the verbosity of these warnings, use the -compact-warnings option.
+[33m╵[0m[0m
+
+[2026-01-06 03:50:55] Task failed. Retrying in 300 seconds...
+[2026-01-06 03:55:55] Attempting to run command: terraform apply --auto-approve in /home/buffalo/Documents/Project/kubernetes-infra/terraform/kls-infra-02
+[2026-01-06 03:56:04] Command failed with exit code 1.
+[2026-01-06 03:56:04] STDERR:
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: 827711280e1832bc65861edefc1c8df3/4D1EA7216AFBAF96D3875C695A5248D4/E5BFD0803931DCE3A44E545D3F20C837 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[1],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m500-InternalError, Out of host capacity.
+[31m│[0m [0mSuggestion: The service for this resource encountered an error. Please contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.eu-zurich-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 7.29.0, released on 2025-12-16. This provider is 3 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: a843b3ab5ddf1adc3c02aadfcc0e1f0a/4BF2B5A161E9C8A7D3875C695A5248B9/D7AC6E1FA9B1988E8079FCCD3A5BCCD3 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.oci_workers.oci_core_instance.vm[0],
+[31m│[0m [0m  on ../modules/oci-instance/main.tf line 37, in resource "oci_core_instance" "vm":
+[31m│[0m [0m  37: resource "oci_core_instance" "vm" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+
+[2026-01-06 03:56:04] STDOUT:
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Reading...[0m[0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Reading...[0m[0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Reading...[0m[0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Reading...[0m[0m
+[0m[1mmodule.oci_controlplane.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_workers.data.oci_identity_availability_domains.ads: Read complete after 1s [id=IdentityAvailabilityDomainsDataSource-2634143273][0m
+[0m[1mmodule.oci_controlplane.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_amd: Read complete after 1s [id=CoreImagesDataSource-4182059877][0m
+[0m[1mmodule.oci_workers.data.oci_core_images.ubuntu_arm: Read complete after 1s [id=CoreImagesDataSource-1596659991][0m
+[0m[1mmodule.gcp_worker.data.google_compute_image.ubuntu: Read complete after 1s [id=projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20251217][0m
+[0m[1mmodule.aws_worker.data.aws_ami.ubuntu: Read complete after 1s [id=ami-01637463b2cbe7cb6][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # module.oci_workers.oci_core_instance.vm[0][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-201"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1m  # module.oci_workers.oci_core_instance.vm[1][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "vm" {
+      [32m+[0m[0m availability_domain                 = "Okvh:EU-ZURICH-1-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaaqosxqzxlkkoruo6yxntlv2u6653ox7uqc46fhpid6ezj6gi73zzq"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = "oci-kls-worker-202"
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = {
+          [32m+[0m[0m "Role" = "worker"
+        }
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "ssh_authorized_keys" = <<-EOT
+                ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGgVhlH0TFnfQFaCNk5ZHRBYiQgXjS+GiWKUK4iChAdMxHAupZf6kMVTWJZi5tHfsUqYdopwPAmoqpmYc/5AXrkYXyepRHNf/gGSp3Q1BrWH6+jhPBF/2fx65NrUqFTm3muuD3aPvepWA4oobcrT9FJN7HPZQ6N+N32GpM3IY5pbDhlTOkAwR6HLEFXdem8hJ7/GlV5Aw8qiQxhOsqLScN5deJlLsncsQfdSxEFhgrWrNOvAZaItk2q/jzq6I+zQE6WS8pGYu0vRA5hHNXxVdh+PnMavmA2rTzh4g+ATfAqjeA2gYlfQH5Nz9HhzXQGciQDZpUlsjGWWX0OcQ7+1tB buffalo@buffalo-IdeaPad-1
+            EOT
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.A1.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m agent_config (known after apply)
+
+      [32m+[0m[0m availability_config (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.eu-zurich-1.aaaaaaaaptp3u3on7sblkoxaxhcdb25kke42i7u3j3gqgynzhl3672i3fqwa"
+          [32m+[0m[0m vlan_id                = (known after apply)
+
+          [32m+[0m[0m ipv6address_ipv6subnet_cidr_pair_details (known after apply)
+        }
+
+      [32m+[0m[0m instance_options (known after apply)
+
+      [32m+[0m[0m launch_options (known after apply)
+
+      [32m+[0m[0m launch_volume_attachments (known after apply)
+
+      [32m+[0m[0m licensing_configs (known after apply)
+
+      [32m+[0m[0m placement_constraint_details (known after apply)
+
+      [32m+[0m[0m platform_config (known after apply)
+
+      [32m+[0m[0m preemptible_instance_config (known after apply)
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = 12
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 2
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = "100"
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.eu-zurich-1.aaaaaaaaeiej3u3vj6qwpezhuzfvttqizv5hs424weni5dffwryitayitiia"
+          [32m+[0m[0m source_type             = "image"
+
+          [32m+[0m[0m instance_source_image_filter_details (known after apply)
+        }
+    }
+
+[1mPlan:[0m [0m2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  [32m+[0m[0m oci_worker_ips       = [
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+    ]
+[0m[1mmodule.oci_workers.oci_core_instance.vm[0]: Creating...[0m[0m
+[0m[1mmodule.oci_workers.oci_core_instance.vm[1]: Creating...[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mValue for undeclared variable[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe root module does not declare a variable named "gcp_image" but a value
+[33m│[0m [0mwas found in file "terraform.tfvars". If you meant to use this value, add a
+[33m│[0m [0m"variable" block to the configuration.
+[33m│[0m [0m
+[33m│[0m [0mTo silence these warnings, use TF_VAR_... environment variables to provide
+[33m│[0m [0mcertain "global" settings to all configurations in your organization. To
+[33m│[0m [0mreduce the verbosity of these warnings, use the -compact-warnings option.
+[33m╵[0m[0m
+
+[2026-01-06 03:56:04] Task failed. Retrying in 300 seconds...
+[2026-01-06 04:01:04] Time window expired while waiting. Exiting.

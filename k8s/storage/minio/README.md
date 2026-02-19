@@ -90,4 +90,7 @@ mc share download kls-s3/my-bucket/file.txt
 # VERSIONING
 mc version enable kls-s3/my-bucket
 mc ls --versions kls-s3/my-bucket/file.txt
+
+# User-list
+mc admin user ls kls-s3
 ```
